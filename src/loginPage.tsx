@@ -5,6 +5,8 @@ import { signIn, signUp } from "./auth/authService";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ const LoginPage = () => {
       return;
     }
     try {
-      await signUp(email, password);
+      await signUp(email, password, firstName, lastName);
       navigate("/confirm", { state: { email } });
     } catch (error) {
       alert(`Sign up failed: ${error}`);
@@ -73,17 +75,41 @@ const LoginPage = () => {
           />
         </div>
         {isSignUp && (
-          <div>
-            <input
-              className="inputText"
-              id="confirmPassword"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm Password"
-              required
-            />
-          </div>
+          <>
+            <div>
+              <input
+                className="inputText"
+                id="confirmPassword"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm Password"
+                required
+              />
+            </div>
+            <div>
+              <input
+                className="inputText"
+                id="firstName"
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First Name"
+                required
+              />
+            </div>
+            <div>
+              <input
+                className="inputText"
+                id="lastName"
+                type="text"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                placeholder="Last Name"
+                required
+              />
+            </div>
+          </>
         )}
         <button className="bg-red-500" type="submit">
           {isSignUp ? "Sign Up" : "Sign In"}
