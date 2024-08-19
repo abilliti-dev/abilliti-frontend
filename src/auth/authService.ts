@@ -41,7 +41,12 @@ export const signIn = async (username: string, password: string) => {
   }
 };
 
-export const signUp = async (email: string, password: string) => {
+export const signUp = async (
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string
+) => {
   const params = {
     ClientId: config.clientId,
     Username: email,
@@ -50,6 +55,14 @@ export const signUp = async (email: string, password: string) => {
       {
         Name: "email",
         Value: email,
+      },
+      {
+        Name: "given_name",
+        Value: firstName,
+      },
+      {
+        Name: "family_name",
+        Value: lastName,
       },
     ],
   };
