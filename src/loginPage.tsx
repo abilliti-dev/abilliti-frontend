@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signIn, signUp } from "./auth/authService";
-
+import { Button } from "@/components/ui/button";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,7 +47,7 @@ const LoginPage = () => {
 
   return (
     <div className="loginForm">
-      <h1>Welcome</h1>
+      <Button className="bg-red-200 hover:bg-red-600">Welcome</Button>
       <h4>
         {isSignUp ? "Sign up to create an account" : "Sign in to your account"}
       </h4>
