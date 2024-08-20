@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "./auth/authService";
+import { signIn } from "@/auth/authService";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "./components/ui/label";
+import { Label } from "@/components/ui/label";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
