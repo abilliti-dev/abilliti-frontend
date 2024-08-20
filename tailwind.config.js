@@ -22,6 +22,14 @@ module.exports = {
       },
     },
     extend: {
+      colors: {
+        "green-primary": "#47982F",
+        "green-hover": "#408B2A",
+        "green-fn": "#3C8027",
+        "green-bg": "#DDF4E0",
+        "gray-light": "#F2F2F2",
+        "gray-dark": "#797676",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

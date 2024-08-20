@@ -48,8 +48,12 @@ const LoginPage = () => {
 
   return (
     <div className="loginForm">
-      <h1>Welcome</h1>
-      <Button variant={"ghost"}>Welcome</Button>
+      <div className="h-12 w-24 bg-red-600">
+        <img src="/Abilliti.svg" alt="logo" />
+      </div>
+      <Button className="bg-green-primary hover:bg-green-hover active:bg-green-fn">
+        Click me
+      </Button>
       <h4>
         {isSignUp ? "Sign up to create an account" : "Sign in to your account"}
       </h4>
