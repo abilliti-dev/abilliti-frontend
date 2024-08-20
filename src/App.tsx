@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import LoginPage from "./loginPage";
+import LoginPage from "./login";
 import HomePage from "./homePage";
 import ConfirmUserPage from "./confirmUserPage";
-import "./App.css";
 
 const App = () => {
   const isAuthenticated = () => {
