@@ -21,6 +21,14 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    colors: {
+      "green-primary": "#47982F",
+      "green-hover": "#3D8327",
+      "green-fn": "#336D22",
+      "green-bg": "#DDF4E0",
+      "gray-light": "#F2F2F2",
+      "gray-dark": "#797676",
+    },
     extend: {
       keyframes: {
         "accordion-down": {
