@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
           <Button className="w-full mt-8">Sign in</Button>
           <div className="flex items-center justify-center gap-2 mt-4">
             <p>Don't have an account?</p>
-            <a href="/signup" className="text-green-primary underline">
+            <a href="/sign-up" className="text-green-primary underline">
               Sign up
             </a>
           </div>

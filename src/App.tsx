@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "@/screens/login";
 import HomePage from "./homePage";
 import ConfirmUserPage from "./confirmUserPage";
+import SignUpPage from "./screens/signup";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -24,6 +25,7 @@ const App = () => {
         />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/confirm" element={<ConfirmUserPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
         <Route
           path="/home"
           element={
