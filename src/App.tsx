@@ -3,6 +3,7 @@ import LoginPage from "@/screens/login";
 import HomePage from "./homePage";
 import ConfirmUserPage from "./confirmUserPage";
 import SignUpPage from "./screens/signup";
+import ForgotPasswordPage from "./screens/forgot-password";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/confirm" element={<ConfirmUserPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route
           path="/home"
           element={

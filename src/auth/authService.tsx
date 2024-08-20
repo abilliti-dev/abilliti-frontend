@@ -1,8 +1,10 @@
 import {
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
+  InitiateAuthCommandInput,
   SignUpCommand,
   ConfirmSignUpCommand,
+  AuthenticationResultType,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
 
@@ -10,8 +12,13 @@ export const cognitoClient = new CognitoIdentityProviderClient({
   region: config.region,
 });
 
-export const signIn = async (username: string, password: string) => {
-  const params: any = {
+type ISignInResponse = {
+  auth: AuthenticationResultType | undefined;
+  error: string | undefined;
+};
+
+export const signIn = async (username: string, password: string): Promise<ISignInResponse> => {
+  const params: InitiateAuthCommandInput = {
     AuthFlow: "USER_PASSWORD_AUTH",
     ClientId: config.clientId,
     AuthParameters: {
@@ -21,24 +28,20 @@ export const signIn = async (username: string, password: string) => {
   };
   try {
     const command = new InitiateAuthCommand(params);
-    const { AuthenticationResult } = await cognitoClient.send(command);
-    console.log(AuthenticationResult);
+    const response = await cognitoClient.send(command);
+    console.log(response);
+    const AuthenticationResult = response.AuthenticationResult;
     if (AuthenticationResult) {
       sessionStorage.setItem("idToken", AuthenticationResult.IdToken || "");
-      sessionStorage.setItem(
-        "accessToken",
-        AuthenticationResult.AccessToken || ""
-      );
-      sessionStorage.setItem(
-        "refreshToken",
-        AuthenticationResult.RefreshToken || ""
-      );
-      return AuthenticationResult;
+      sessionStorage.setItem("accessToken", AuthenticationResult.AccessToken || "");
+      sessionStorage.setItem("refreshToken", AuthenticationResult.RefreshToken || "");
     }
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error signing in: ", error);
-    throw error;
+    return { auth: undefined, error: error?.message };
   }
+
+  return { auth: AuthenticationResult, error: undefined };
 };
 
 export const signUp = async (
@@ -86,8 +89,10 @@ export const confirmSignUp = async (username: string, code: string) => {
   try {
     const command = new ConfirmSignUpCommand(params);
     await cognitoClient.send(command);
+    console.log("User confirmed successfully");
     return true;
   } catch (error) {
+    console.error("Error confirming sign up: ", error);
     throw error;
   }
 };
