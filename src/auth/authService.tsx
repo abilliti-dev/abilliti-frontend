@@ -5,8 +5,11 @@ import {
   SignUpCommand,
   ConfirmSignUpCommand,
   AuthenticationResultType,
+  SignUpCommandOutput,
+  UsernameExistsException,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
+import { error } from "console";
 
 export const cognitoClient = new CognitoIdentityProviderClient({
   region: config.region,
@@ -44,12 +47,21 @@ export const signIn = async (username: string, password: string): Promise<ISignI
   return { auth: AuthenticationResult, error: undefined };
 };
 
+interface ISignUpResponse {
+  response: SignUpCommandOutput | null;
+  error: string | null;
+}
+
 export const signUp = async (
   email: string,
   password: string,
   firstName: string,
   lastName: string
 ) => {
+  let signUpResult: ISignUpResponse = {
+    response: null,
+    error: null,
+  };
   const params = {
     ClientId: config.clientId,
     Username: email,
@@ -72,11 +84,14 @@ export const signUp = async (
   try {
     const command = new SignUpCommand(params);
     const response = await cognitoClient.send(command);
+    signUpResult = { response: response, error: null };
     console.log("Sign up success: ", response);
-    return response;
+    return signUpResult;
   } catch (error) {
-    console.error("Error signing up: ", error);
-    throw error;
+    if (error instanceof UsernameExistsException) {
+      signUpResult = { response: null, error: "Username already exists" };
+      console.error("Error signing up: ", error);
+    }
   }
 };
 

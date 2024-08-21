@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "@/screens/login";
 import HomePage from "./homePage";
 import ConfirmUserPage from "./confirmUserPage";
-import SignUpPage from "./screens/signup";
+import SignUpPage from "./screens/sign-up";
 import ForgotPasswordPage from "./screens/forgot-password";
 
 const App = () => {
@@ -17,11 +17,7 @@ const App = () => {
         <Route
           path="/"
           element={
-            isAuthenticated() ? (
-              <Navigate replace to="/home" />
-            ) : (
-              <Navigate replace to="/login" />
-            )
+            isAuthenticated() ? <Navigate replace to="/home" /> : <Navigate replace to="/login" />
           }
         />
         <Route path="/login" element={<LoginPage />} />
@@ -30,9 +26,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route
           path="/home"
-          element={
-            isAuthenticated() ? <HomePage /> : <Navigate replace to="/login" />
-          }
+          element={isAuthenticated() ? <HomePage /> : <Navigate replace to="/login" />}
         />
       </Routes>
     </BrowserRouter>
