@@ -28,14 +28,19 @@ export default function ForgotPasswordPage() {
     <form>
       <section className="bg-green-bg h-screen w-full flex items-center justify-center">
         <SlideBox stepAmount={3} currentStep={1}>
-          <h1 className="text-3xl font-semibold">Reset password</h1>
-          <p>Forgot your password? Please enter your email and we'll send you a 6-digit code.</p>
+          <div className="flex flex-col gap-y-2">
+            <h1 className="text-3xl font-semibold">Reset password</h1>
+            <p>Forgot your password? Please enter your email and we'll send you a 6-digit code.</p>
+          </div>
 
-          <div>
-            <Label>Email</Label>
+          <div className="flex flex-col gap-y-2">
+            <Label className="text-base" htmlFor="email">
+              Email
+            </Label>
             <Input {...register("email")} id="email" placeholder="Enter your email" />
           </div>
-          <div className="flex justify-between items-center">
+
+          <div className="flex justify-between items-center mt-4">
             <Button type="button" variant={"secondary"}>
               <Link to={"/login"}>Back to login</Link>
             </Button>
