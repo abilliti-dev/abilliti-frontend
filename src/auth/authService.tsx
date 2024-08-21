@@ -7,21 +7,22 @@ import {
   AuthenticationResultType,
   SignUpCommandOutput,
   UsernameExistsException,
+  NotAuthorizedException,
+  UserNotFoundException,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
-import { error } from "console";
 
 export const cognitoClient = new CognitoIdentityProviderClient({
   region: config.region,
 });
 
-type ISignInResponse = {
+interface ISignInResponse {
   auth: AuthenticationResultType | undefined;
-  error: string | undefined;
-};
+  error: string | null;
+}
 
 export const signIn = async (username: string, password: string): Promise<ISignInResponse> => {
-  const params: InitiateAuthCommandInput = {
+  const signInParams: InitiateAuthCommandInput = {
     AuthFlow: "USER_PASSWORD_AUTH",
     ClientId: config.clientId,
     AuthParameters: {
@@ -29,22 +30,27 @@ export const signIn = async (username: string, password: string): Promise<ISignI
       PASSWORD: password,
     },
   };
+  let AuthenticationResult: AuthenticationResultType | undefined = undefined;
+
   try {
-    const command = new InitiateAuthCommand(params);
+    const command = new InitiateAuthCommand(signInParams);
     const response = await cognitoClient.send(command);
     console.log(response);
-    const AuthenticationResult = response.AuthenticationResult;
+    AuthenticationResult = response.AuthenticationResult;
     if (AuthenticationResult) {
       sessionStorage.setItem("idToken", AuthenticationResult.IdToken || "");
       sessionStorage.setItem("accessToken", AuthenticationResult.AccessToken || "");
       sessionStorage.setItem("refreshToken", AuthenticationResult.RefreshToken || "");
     }
   } catch (error: unknown) {
-    console.error("Error signing in: ", error);
-    return { auth: undefined, error: error?.message };
+    console.log("Error signing in: ", error);
+    if (error instanceof NotAuthorizedException || error instanceof UserNotFoundException) {
+      return { auth: undefined, error: error.message };
+    }
+    return { auth: undefined, error: "An unknown error occurred" };
   }
 
-  return { auth: AuthenticationResult, error: undefined };
+  return { auth: AuthenticationResult, error: null };
 };
 
 interface ISignUpResponse {

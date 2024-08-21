@@ -6,6 +6,8 @@ import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "@/auth/authService";
 import Logo from "@/components/logo";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
 
 export interface SignInData {
   email: string;
@@ -21,28 +23,27 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isSubmitting },
   } = useForm<SignInData>({
     resolver: zodResolver(SignInSchema),
   });
+  const [loginError, setLoginError] = useState<string | null>(null);
 
   const handleSignIn = async ({ email, password }: SignInData) => {
-    try {
-      console.log(email, password);
-      const session = await signIn(email, password);
-      console.log(session);
-      // if (session && typeof session.AccessToken !== "undefined") {
-      //   sessionStorage.setItem("accessToken", session.AccessToken);
-      //   if (sessionStorage.getItem("accessToken")) {
-      //     window.location.href = "/home";
-      //   } else {
-      //     console.error("Session token was not set properly.");
-      //   }
-      // } else {
-      //   console.error("SignIn session or AccessToken is undefined.");
-      // }
-    } catch (error) {
-      alert(`Sign in failed: ${error}`);
+    const { auth: session, error } = await signIn(email, password);
+
+    if (error) {
+      setLoginError(error);
+      return;
+    }
+
+    if (session && typeof session.AccessToken !== "undefined") {
+      sessionStorage.setItem("accessToken", session.AccessToken);
+      if (sessionStorage.getItem("accessToken")) {
+        window.location.href = "/home";
+      } else {
+        console.error("Session token was not set properly.");
+      }
     }
   };
 
@@ -79,14 +80,15 @@ export default function LoginPage() {
                   placeholder="Enter your password"
                   {...register("password", { required: true })}
                 />
+                <span className="text-red-500 text-sm">{loginError}</span>
                 <span className="text-red-500 text-sm">{errors?.password?.message}</span>
                 <a href="/forgot-password" className="text-green-primary underline text-sm w-fit">
                   Forgot password?
                 </a>
               </div>
             </div>
-            <Button type="submit" disabled={!isValid} className="w-full mt-8">
-              Sign in
+            <Button type="submit" disabled={!isValid || isSubmitting} className="w-full mt-8">
+              {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Sign in"}
             </Button>
             <div className="flex items-center justify-center gap-2 mt-4">
               <p>Don't have an account?</p>
