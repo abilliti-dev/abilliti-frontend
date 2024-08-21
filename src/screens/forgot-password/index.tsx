@@ -19,18 +19,20 @@ export default function ForgotPasswordPage() {
     register,
     watch,
     handleSubmit,
-    formState: { isSubmitting, isValid },
+    formState: { errors, isValid },
   } = useForm<ForgotPasswordData>();
 
   const emailValue = watch("email");
 
+  const handleResetPassword = () => {};
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(handleResetPassword)}>
       <section className="bg-green-bg h-screen w-full flex items-center justify-center">
         <SlideBox stepAmount={3} currentStep={1}>
           <div className="flex flex-col gap-y-2">
             <h1 className="text-3xl font-semibold">Reset password</h1>
-            <p>Forgot your password? Please enter your email and we'll send you a 6-digit code.</p>
+            <p>Enter your email and we'll send you a 6-digit code.</p>
           </div>
 
           <div className="flex flex-col gap-y-2">
@@ -38,6 +40,7 @@ export default function ForgotPasswordPage() {
               Email
             </Label>
             <Input {...register("email")} id="email" placeholder="Enter your email" />
+            <span className="text-red-500 text-sm">{errors.email?.message}</span>
           </div>
 
           <div className="flex justify-between items-center mt-4">
