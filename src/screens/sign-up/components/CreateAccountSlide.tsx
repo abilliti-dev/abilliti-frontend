@@ -8,8 +8,11 @@ import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { hasLowerCase, hasNumber, hasSpecialChar, hasUpperCase } from "./utils";
-import { Check, X } from "lucide-react";
+import { Check, Loader2, X } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 
 interface SignUpForm {
@@ -37,13 +40,22 @@ export default function CreateAccountSlide({ setShowCreateAccountSlide }: any) {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<SignUpForm>({
     resolver: zodResolver(SignUpSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
   const [agreed, setAgreed] = useState<boolean>(false);
   const [showRequirements, setShowRequirements] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const password = watch("password");
 
@@ -56,15 +68,24 @@ export default function CreateAccountSlide({ setShowCreateAccountSlide }: any) {
   };
 
   const handleSignUp = async (data: SignUpForm) => {
-    try {
-      await signUp(data.email, data.password, data.firstName, data.lastName);
-      setShowCreateAccountSlide(false);
-      window.location.href = "/home";
-    } catch (error) {
-      if (error instanceof UsernameExistsException) {
-        console.log(true);
-      }
-      alert(`Sign up failed: ${error}`);
+    const response = await signUp(data.email, data.password, data.firstName, data.lastName);
+    console.log(response);
+    if (response.classType === UsernameExistsException) {
+      toast({
+        title: response?.error?.toString(),
+        description: response.description,
+        action: (
+          <ToastAction
+            onClick={() => {
+              window.location.href = "/login";
+              reset();
+            }}
+            altText="Login"
+          >
+            Login
+          </ToastAction>
+        ),
+      });
     }
   };
 
@@ -150,8 +171,8 @@ export default function CreateAccountSlide({ setShowCreateAccountSlide }: any) {
             </Label>
           </div>
           <div className="flex flex-row justify-end">
-            <Button className="px-8" disabled={!agreed} type="submit">
-              Next
+            <Button className="px-8" disabled={!agreed || isSubmitting} type="submit">
+              {isSubmitting ? <Loader2 className="animate-spin" /> : "Next"}
             </Button>
           </div>
           <div className="flex flex-row gap-x-4">
@@ -161,6 +182,7 @@ export default function CreateAccountSlide({ setShowCreateAccountSlide }: any) {
           </div>
         </div>
       </div>
+      <Toaster />
     </form>
   );
 }

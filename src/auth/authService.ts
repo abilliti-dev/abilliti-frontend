@@ -5,9 +5,9 @@ import {
   ConfirmSignUpCommand,
   SignUpCommandOutput,
   UsernameExistsException,
+  CognitoIdentityProviderServiceException,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
-import { error } from "console";
 
 export const cognitoClient = new CognitoIdentityProviderClient({
   region: config.region,
@@ -41,6 +41,8 @@ export const signIn = async (username: string, password: string) => {
 interface ISignUpResponse {
   response: SignUpCommandOutput | null;
   error: string | null;
+  description: string | null;
+  classType: unknown;
 }
 
 export const signUp = async (
@@ -52,6 +54,8 @@ export const signUp = async (
   let signUpResult: ISignUpResponse = {
     response: null,
     error: null,
+    description: null,
+    classType: null,
   };
   const params = {
     ClientId: config.clientId,
@@ -75,15 +79,22 @@ export const signUp = async (
   try {
     const command = new SignUpCommand(params);
     const response = await cognitoClient.send(command);
-    signUpResult = { response: response, error: null };
+    signUpResult = { response: response, error: null, description: null, classType: null };
     console.log("Sign up success: ", response);
     return signUpResult;
   } catch (error) {
     if (error instanceof UsernameExistsException) {
-      signUpResult = { response: null, error: "Username already exists" };
-      console.error("Error signing up: ", error);
+      signUpResult = {
+        response: null,
+        error: "Email already in use",
+        description: "Use a different email address or log in to existing account",
+        classType: UsernameExistsException,
+      };
+      console.warn("Error signing up: ", error);
     }
   }
+
+  return signUpResult;
 };
 
 export const confirmSignUp = async (username: string, code: string) => {
