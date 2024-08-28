@@ -4,10 +4,6 @@ import SignUpCompleteSlide from "./components/SignUpCompleteSlide";
 import CreateAccountSlide from "./components/CreateAccountSlide";
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
   const [showCreateAccountSlide, setShowCreateAccountSlide] = useState<boolean>(true);
   const [showVerifyAccountSlide, setShowVerifyAccountSlide] = useState<boolean>(false);
   const [showSignUpCompleteSlide, setShowSignUpCompleteSlide] = useState<boolean>(false);
@@ -16,10 +12,13 @@ export default function SignUpPage() {
     <section className="bg-green-bg w-full h-screen flex justify-center overflow-scroll fixed">
       <div className="w-full">
         <div className="m-8">
-          <img src="/Abilliti.svg" alt="logo" />
+          <img className="h-12" src="/Abilliti.svg" alt="logo" />
         </div>
         {showCreateAccountSlide && (
-          <CreateAccountSlide setShowCreateAccountSlide={setShowCreateAccountSlide} />
+          <CreateAccountSlide
+            setShowCreateAccountSlide={setShowCreateAccountSlide}
+            setShowVerifyAccountSlide={setShowVerifyAccountSlide}
+          />
         )}
         {showVerifyAccountSlide && <VerifyAccountSlide />}
         {showSignUpCompleteSlide && <SignUpCompleteSlide />}
