@@ -7,7 +7,9 @@ import {
   AuthenticationResultType,
   SignUpCommandOutput,
   UsernameExistsException,
-  NotAuthorizedException,
+  ForgotPasswordCommandInput,
+  ForgotPasswordCommand,
+  CognitoIdentityProviderServiceException,
   UserNotFoundException,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
@@ -44,7 +46,7 @@ export const signIn = async (username: string, password: string): Promise<ISignI
     }
   } catch (error: unknown) {
     console.log("Error signing in: ", error);
-    if (error instanceof NotAuthorizedException || error instanceof UserNotFoundException) {
+    if (error instanceof CognitoIdentityProviderServiceException) {
       return { auth: undefined, error: error.message };
     }
     return { auth: undefined, error: "An unknown error occurred" };
@@ -126,5 +128,30 @@ export const confirmSignUp = async (username: string, code: string) => {
   } catch (error) {
     console.error("Error confirming sign up: ", error);
     throw error;
+  }
+};
+
+interface IResetPasswordResponse {
+  error: string | null;
+}
+
+export const resetPassword = async (email: string): Promise<IResetPasswordResponse> => {
+  const params: ForgotPasswordCommandInput = {
+    ClientId: config.clientId,
+    Username: email,
+  };
+
+  try {
+    const command = new ForgotPasswordCommand(params);
+    await cognitoClient.send(command);
+    return { error: null };
+  } catch (error: unknown) {
+    if (error instanceof UserNotFoundException) {
+      return { error: "Email not found" };
+    }
+    if (error instanceof CognitoIdentityProviderServiceException) {
+      return { error: error.message };
+    }
+    return { error: "An unknown error occurred" };
   }
 };
