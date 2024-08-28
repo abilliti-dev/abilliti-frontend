@@ -36,7 +36,10 @@ const SignUpSchema: ZodType<SignUpForm> = z
     path: ["confirmPassword"],
   });
 
-export default function CreateAccountSlide({ setShowCreateAccountSlide }: any) {
+export default function CreateAccountSlide({
+  setShowCreateAccountSlide,
+  setShowVerifyAccountSlide,
+}: any) {
   const {
     register,
     handleSubmit,
@@ -86,7 +89,11 @@ export default function CreateAccountSlide({ setShowCreateAccountSlide }: any) {
           </ToastAction>
         ),
       });
+      return;
     }
+
+    setShowCreateAccountSlide(false);
+    setShowVerifyAccountSlide(true);
   };
 
   return (
@@ -170,7 +177,17 @@ export default function CreateAccountSlide({ setShowCreateAccountSlide }: any) {
               .
             </Label>
           </div>
-          <div className="flex flex-row justify-end">
+          <div className="flex flex-row justify-between">
+            <Button
+              type="button"
+              className="px-8"
+              onClick={() => {
+                window.location.href = "/login";
+                reset();
+              }}
+            >
+              Back
+            </Button>
             <Button className="px-8" disabled={!agreed || isSubmitting} type="submit">
               {isSubmitting ? <Loader2 className="animate-spin" /> : "Next"}
             </Button>
