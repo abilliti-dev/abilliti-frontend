@@ -49,11 +49,10 @@ export default function LoginPage() {
 
   return (
     <form onSubmit={handleSubmit(handleSignIn)}>
-      <section className="bg-green-bg w-full h-screen flex items-center justify-center overflow-scroll fixed">
-        <div className="w-full flex items-center h-full flex-col gap-4">
-          <Logo className="mt-12 mb-2" />
-
-          <div className="bg-white w-[30%] min-w-[325px] shadow rounded-2xl px-6 py-10">
+      <section className="bg-green-bg w-full h-screen flex gap-y-16 items-center justify-center">
+        <div className="w-full flex items-center h-full pt-[10vh] flex-col gap-4">
+          <Logo className="mb-2" />
+          <div className="bg-white w-[95%] sm:w-[60%] md:w-[50%] min-w-[325px] max-w-[750px] shadow rounded-2xl px-6 py-10">
             <h2 className="text-3xl text-center font-semibold">Welcome back</h2>
             <div className="flex flex-col gap-8 my-4">
               <div className="flex flex-col gap-2">
