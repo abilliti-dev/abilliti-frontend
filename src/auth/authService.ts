@@ -11,6 +11,10 @@ import {
   ForgotPasswordCommand,
   CognitoIdentityProviderServiceException,
   UserNotFoundException,
+  InvalidParameterException,
+  ConfirmForgotPasswordCommandInput,
+  ConfirmForgotPasswordCommand,
+  CodeMismatchException,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
 
@@ -146,6 +150,45 @@ export const resetPassword = async (email: string): Promise<IResetPasswordRespon
     await cognitoClient.send(command);
     return { error: null };
   } catch (error: unknown) {
+    if (error instanceof UserNotFoundException) {
+      return { error: "Email not found" };
+    }
+    if (error instanceof InvalidParameterException) {
+      return {
+        error: "Cannot reset password for the user as there is no verified email.",
+      };
+    }
+    if (error instanceof CognitoIdentityProviderServiceException) {
+      return { error: error.message };
+    }
+    return { error: "An unknown error occurred" };
+  }
+};
+
+interface IVerifyResetPasswordResponse {
+  error: string | null;
+}
+
+export const confirmResetPassword = async (
+  verificationCode: string,
+  email: string,
+  password: string
+): Promise<IVerifyResetPasswordResponse> => {
+  const params: ConfirmForgotPasswordCommandInput = {
+    ClientId: config.clientId,
+    Username: email,
+    ConfirmationCode: verificationCode,
+    Password: password,
+  };
+
+  try {
+    const command = new ConfirmForgotPasswordCommand(params);
+    await cognitoClient.send(command);
+    return { error: null };
+  } catch (error: unknown) {
+    if (error instanceof CodeMismatchException) {
+      return { error: "Invalid verification code" };
+    }
     if (error instanceof UserNotFoundException) {
       return { error: "Email not found" };
     }
