@@ -84,7 +84,7 @@ export default function LoginPage() {
           </div>
         </div>
         <Button type="submit" disabled={!isValid || isSubmitting} className="w-full mt-8">
-          {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Sign in"}
+          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Sign in"}
         </Button>
         <div className="flex items-center justify-center gap-2 mt-4">
           <p>Don't have an account?</p>
