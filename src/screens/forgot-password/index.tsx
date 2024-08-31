@@ -13,9 +13,9 @@ export type TCurrentSlide = {
 
 export default function ForgotPasswordPage() {
   const [currentSlide, setCurrentSlide] = useState<TCurrentSlide>({
-    resetPassword: false,
+    resetPassword: true,
     verifyCode: false,
-    completion: true,
+    completion: false,
   });
   const [email, setEmail] = useState("");
 
