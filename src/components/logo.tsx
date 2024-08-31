@@ -4,8 +4,8 @@ export interface LogoProps {
 
 export default function Logo(props: LogoProps) {
   return (
-    <a {...props} href="/">
-      <img src="/Abilliti.svg" alt="logo" />
+    <a href="/">
+      <img {...props} src="/Abilliti.svg" alt="logo" />
     </a>
   );
 }
