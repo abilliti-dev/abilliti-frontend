@@ -14,6 +14,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import SlideBox from "@/components/slide-box";
 
 interface SignUpForm {
   firstName: string;
@@ -39,6 +40,7 @@ const SignUpSchema: ZodType<SignUpForm> = z
 export default function CreateAccountSlide({
   setShowCreateAccountSlide,
   setShowVerifyAccountSlide,
+  setEmail,
 }: any) {
   const {
     register,
@@ -92,6 +94,7 @@ export default function CreateAccountSlide({
       return;
     }
 
+    setEmail(data.email);
     setShowCreateAccountSlide(false);
     setShowVerifyAccountSlide(true);
   };
@@ -192,11 +195,7 @@ export default function CreateAccountSlide({
               {isSubmitting ? <Loader2 className="animate-spin" /> : "Next"}
             </Button>
           </div>
-          <div className="flex flex-row gap-x-4">
-            <div className="h-3 w-[33%] bg-green-primary rounded" />
-            <div className="h-3 w-[33%] bg-gray-light rounded" />
-            <div className="h-3 w-[33%] bg-gray-light rounded" />
-          </div>
+          <SlideBox currentStep={1} stepAmount={3} />
         </div>
       </div>
       <Toaster />
