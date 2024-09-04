@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Dashboard from "./screens/dashboard";
 
 /*eslint-disable*/
 function parseJwt(token: any) {
@@ -20,22 +21,15 @@ const HomePage = () => {
   const navigate = useNavigate();
   var idToken = parseJwt(sessionStorage.idToken.toString());
   var accessToken = parseJwt(sessionStorage.accessToken.toString());
-  console.log(
-    "Amazon Cognito ID token encoded: " + sessionStorage.idToken.toString()
-  );
+  console.log("Amazon Cognito ID token encoded: " + sessionStorage.idToken.toString());
   console.log("Amazon Cognito ID token decoded: ");
   console.log(idToken);
-  console.log(
-    "Amazon Cognito access token encoded: " +
-      sessionStorage.accessToken.toString()
-  );
+  console.log("Amazon Cognito access token encoded: " + sessionStorage.accessToken.toString());
   console.log("Amazon Cognito access token decoded: ");
   console.log(accessToken);
   console.log("Amazon Cognito refresh token: ");
   console.log(sessionStorage.refreshToken);
-  console.log(
-    "Amazon Cognito example application. Not for use in production applications."
-  );
+  console.log("Amazon Cognito example application. Not for use in production applications.");
   const handleLogout = () => {
     sessionStorage.clear();
     navigate("/login");
@@ -43,11 +37,12 @@ const HomePage = () => {
   /*eslint-enable*/
 
   return (
-    <div>
-      <h1>Hello World</h1>
-      <p>See console log for Amazon Cognito user tokens.</p>
-      <button onClick={handleLogout}>Logout</button>
-    </div>
+    // <div>
+    //   <h1>Hello World</h1>
+    //   <p>See console log for Amazon Cognito user tokens.</p>
+    //   <button onClick={handleLogout}>Logout</button>
+    // </div>
+    <Dashboard />
   );
 };
 
