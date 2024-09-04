@@ -7,8 +7,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { hasLowerCase, hasNumber, hasSpecialChar, hasUpperCase } from "./utils";
-import { Check, Loader2, X } from "lucide-react";
+import { hasLowerCase, hasNumber, hasSpecialChar, hasUpperCase, PasswordCheck } from "./utils";
+import { Loader2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
@@ -197,38 +197,5 @@ export default function CreateAccountSlide({
       </div>
       <Toaster />
     </form>
-  );
-}
-
-function PasswordCheck({ passwordRequirements }: any) {
-  const { hasUpperCase, hasLowerCase, hasNumber, hasSpecialChar, hasMinChars } =
-    passwordRequirements;
-  const hasUpperCaseColor = hasUpperCase ? "text-green-primary" : "text-red-500";
-  const hasLowerCaseColor = hasLowerCase ? "text-green-primary" : "text-red-500";
-  const hasNumberColor = hasNumber ? "text-green-primary" : "text-red-500";
-  const hasSpecialCharColor = hasSpecialChar ? "text-green-primary" : "text-red-500";
-  const hasMinCharsColor = hasMinChars ? "text-green-primary" : "text-red-500";
-
-  return (
-    <div className="flex flex-col">
-      {[
-        { value: "Uppercase", render: hasUpperCase, renderColor: hasUpperCaseColor },
-        { value: "Lowercase", render: hasLowerCase, renderColor: hasLowerCaseColor },
-        { value: "Number", render: hasNumber, renderColor: hasNumberColor },
-        { value: "Special character", render: hasSpecialChar, renderColor: hasSpecialCharColor },
-        { value: "At least 8 characters", render: hasMinChars, renderColor: hasMinCharsColor },
-      ].map((requirement, key) => {
-        return (
-          <div key={key} className="flex flex-row items-center gap-x-1">
-            {requirement.render ? (
-              <Check className="text-green-primary" />
-            ) : (
-              <X className="text-red-500" />
-            )}
-            <p className={`text-sm ${requirement.renderColor}`}>{requirement.value}</p>
-          </div>
-        );
-      })}
-    </div>
   );
 }
