@@ -37,9 +37,11 @@ export default function VerifyAccountSlide({
 
   return (
     <div className="w-full flex items-center h-full flex-col gap-4">
-      <div className="flex flex-col bg-white w-[55%] min-w-[325px] shadow rounded-2xl px-6 py-10 gap-8">
+      <div className="flex flex-col bg-white w-[30%] min-w-[300px] shadow rounded-2xl px-6 py-10 gap-8">
         <h1 className="text-3xl font-semibold">Verify your email</h1>
-        <p>Check {email} for a verification code</p>
+        <p>
+          Check <strong>{email}</strong> for a verification code
+        </p>
         <div className="flex flex-col items-center">
           <OneTimePin pin={pin} setPin={setPin} maxLength={6} />
         </div>

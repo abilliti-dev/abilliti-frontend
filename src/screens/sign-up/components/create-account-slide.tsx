@@ -62,19 +62,16 @@ export default function CreateAccountSlide({
   const [showRequirements, setShowRequirements] = useState<boolean>(false);
   const { toast } = useToast();
 
-  const password = watch("password");
-
   const passwordRequirements = {
-    hasNumber: hasNumber(password),
-    hasSpecialChar: hasSpecialChar(password),
-    hasUpperCase: hasUpperCase(password),
-    hasLowerCase: hasLowerCase(password),
-    hasMinChars: password?.length >= 8,
+    hasNumber: hasNumber(watch("password")),
+    hasSpecialChar: hasSpecialChar(watch("password")),
+    hasUpperCase: hasUpperCase(watch("password")),
+    hasLowerCase: hasLowerCase(watch("password")),
+    hasMinChars: watch("password")?.length >= 8,
   };
 
   const handleSignUp = async (data: SignUpForm) => {
     const response = await signUp(data.email, data.password, data.firstName, data.lastName);
-    console.log(response);
     if (response.classType === UsernameExistsException) {
       toast({
         title: response?.error?.toString(),
