@@ -3,11 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { hasLowerCase, hasNumber, hasSpecialChar, hasUpperCase, PasswordCheck } from "./utils";
 import { Loader2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
@@ -15,6 +14,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import SlideBox from "@/components/slide-box";
+import PasswordCheck from "@/components/auth/password-check";
 
 interface SignUpForm {
   firstName: string;
@@ -37,11 +37,17 @@ const SignUpSchema: ZodType<SignUpForm> = z
     path: ["confirmPassword"],
   });
 
+export interface CreateAccountSlideProps {
+  setShowCreateAccountSlide: Dispatch<SetStateAction<boolean>>;
+  setShowVerifyAccountSlide: Dispatch<SetStateAction<boolean>>;
+  setEmail: Dispatch<SetStateAction<string>>;
+}
+
 export default function CreateAccountSlide({
   setShowCreateAccountSlide,
   setShowVerifyAccountSlide,
   setEmail,
-}: any) {
+}: CreateAccountSlideProps) {
   const {
     register,
     handleSubmit,
@@ -61,14 +67,6 @@ export default function CreateAccountSlide({
   const [agreed, setAgreed] = useState<boolean>(false);
   const [showRequirements, setShowRequirements] = useState<boolean>(false);
   const { toast } = useToast();
-
-  const passwordRequirements = {
-    hasNumber: hasNumber(watch("password")),
-    hasSpecialChar: hasSpecialChar(watch("password")),
-    hasUpperCase: hasUpperCase(watch("password")),
-    hasLowerCase: hasLowerCase(watch("password")),
-    hasMinChars: watch("password")?.length >= 8,
-  };
 
   const handleSignUp = async (data: SignUpForm) => {
     const response = await signUp(data.email, data.password, data.firstName, data.lastName);
@@ -133,7 +131,7 @@ export default function CreateAccountSlide({
                   </Label>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <PasswordCheck passwordRequirements={passwordRequirements} />
+                  <PasswordCheck password={watch("password")} />
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
