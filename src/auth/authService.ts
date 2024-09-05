@@ -11,8 +11,6 @@ import {
   ForgotPasswordCommand,
   CognitoIdentityProviderServiceException,
   UserNotFoundException,
-  CodeMismatchException,
-  ConfirmSignUpCommandOutput,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
 
@@ -116,12 +114,12 @@ export const signUp = async (
   return signUpResult;
 };
 
-interface IConfirmSignUpResponse {
-  response: ConfirmSignUpCommandOutput | null;
-  error: string | null;
-  description: string | null;
-  classType: unknown;
-}
+// interface IConfirmSignUpResponse {
+//   response: ConfirmSignUpCommandOutput | null;
+//   error: string | null;
+//   description: string | null;
+//   classType: unknown;
+// }
 
 export const confirmSignUp = async (username: string, code: string) => {
   const params = {
