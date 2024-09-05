@@ -41,7 +41,6 @@ export const signIn = async (username: string, password: string): Promise<ISignI
   try {
     const command = new InitiateAuthCommand(signInParams);
     const response = await cognitoClient.send(command);
-    console.log(response);
     AuthenticationResult = response.AuthenticationResult;
     if (AuthenticationResult) {
       sessionStorage.setItem("idToken", AuthenticationResult.IdToken || "");
@@ -49,7 +48,6 @@ export const signIn = async (username: string, password: string): Promise<ISignI
       sessionStorage.setItem("refreshToken", AuthenticationResult.RefreshToken || "");
     }
   } catch (error: unknown) {
-    console.log("Error signing in: ", error);
     if (error instanceof CognitoIdentityProviderServiceException) {
       return { auth: undefined, error: error.message };
     }
@@ -78,6 +76,7 @@ export const signUp = async (
     description: null,
     classType: null,
   };
+
   const params = {
     ClientId: config.clientId,
     Username: email,
@@ -100,7 +99,12 @@ export const signUp = async (
   try {
     const command = new SignUpCommand(params);
     const response = await cognitoClient.send(command);
-    signUpResult = { response: response, error: null, description: null, classType: null };
+    signUpResult = {
+      response: response,
+      error: null,
+      description: null,
+      classType: null,
+    };
     console.log("Sign up success: ", response);
     return signUpResult;
   } catch (error) {
@@ -124,6 +128,7 @@ export const confirmSignUp = async (username: string, code: string) => {
     Username: username,
     ConfirmationCode: code,
   };
+
   try {
     const command = new ConfirmSignUpCommand(params);
     await cognitoClient.send(command);
@@ -150,14 +155,12 @@ export const resetPassword = async (email: string): Promise<IResetPasswordRespon
     await cognitoClient.send(command);
     return { error: null };
   } catch (error: unknown) {
-    if (error instanceof UserNotFoundException) {
-      return { error: "Email not found" };
-    }
-    if (error instanceof InvalidParameterException) {
+    if (error instanceof UserNotFoundException) return { error: "Email not found" };
+
+    if (error instanceof InvalidParameterException)
       return {
         error: "Cannot reset password for the user as there is no verified email.",
       };
-    }
     if (error instanceof CognitoIdentityProviderServiceException) {
       return { error: error.message };
     }
@@ -165,15 +168,11 @@ export const resetPassword = async (email: string): Promise<IResetPasswordRespon
   }
 };
 
-interface IVerifyResetPasswordResponse {
-  error: string | null;
-}
-
 export const confirmResetPassword = async (
   verificationCode: string,
   email: string,
   password: string
-): Promise<IVerifyResetPasswordResponse> => {
+): Promise<IResetPasswordResponse> => {
   const params: ConfirmForgotPasswordCommandInput = {
     ClientId: config.clientId,
     Username: email,
