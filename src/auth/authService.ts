@@ -1,8 +1,18 @@
 import {
   CognitoIdentityProviderClient,
   InitiateAuthCommand,
+  InitiateAuthCommandInput,
   SignUpCommand,
   ConfirmSignUpCommand,
+  AuthenticationResultType,
+  SignUpCommandOutput,
+  UsernameExistsException,
+  ForgotPasswordCommandInput,
+  ForgotPasswordCommand,
+  CognitoIdentityProviderServiceException,
+  UserNotFoundException,
+  CodeMismatchException,
+  ConfirmSignUpCommandOutput,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { config } from "./config";
 
@@ -10,8 +20,13 @@ export const cognitoClient = new CognitoIdentityProviderClient({
   region: config.region,
 });
 
-export const signIn = async (username: string, password: string) => {
-  const params: any = {
+interface ISignInResponse {
+  auth: AuthenticationResultType | undefined;
+  error: string | null;
+}
+
+export const signIn = async (username: string, password: string): Promise<ISignInResponse> => {
+  const signInParams: InitiateAuthCommandInput = {
     AuthFlow: "USER_PASSWORD_AUTH",
     ClientId: config.clientId,
     AuthParameters: {
@@ -19,27 +34,35 @@ export const signIn = async (username: string, password: string) => {
       PASSWORD: password,
     },
   };
+  let AuthenticationResult: AuthenticationResultType | undefined = undefined;
+
   try {
-    const command = new InitiateAuthCommand(params);
-    const { AuthenticationResult } = await cognitoClient.send(command);
-    console.log(AuthenticationResult);
+    const command = new InitiateAuthCommand(signInParams);
+    const response = await cognitoClient.send(command);
+    console.log(response);
+    AuthenticationResult = response.AuthenticationResult;
     if (AuthenticationResult) {
       sessionStorage.setItem("idToken", AuthenticationResult.IdToken || "");
-      sessionStorage.setItem(
-        "accessToken",
-        AuthenticationResult.AccessToken || ""
-      );
-      sessionStorage.setItem(
-        "refreshToken",
-        AuthenticationResult.RefreshToken || ""
-      );
-      return AuthenticationResult;
+      sessionStorage.setItem("accessToken", AuthenticationResult.AccessToken || "");
+      sessionStorage.setItem("refreshToken", AuthenticationResult.RefreshToken || "");
     }
-  } catch (error) {
-    console.error("Error signing in: ", error);
-    throw error;
+  } catch (error: unknown) {
+    console.log("Error signing in: ", error);
+    if (error instanceof CognitoIdentityProviderServiceException) {
+      return { auth: undefined, error: error.message };
+    }
+    return { auth: undefined, error: "An unknown error occurred" };
   }
+
+  return { auth: AuthenticationResult, error: null };
 };
+
+interface ISignUpResponse {
+  response: SignUpCommandOutput | null;
+  error: string | null;
+  description: string | null;
+  classType: unknown;
+}
 
 export const signUp = async (
   email: string,
@@ -47,6 +70,12 @@ export const signUp = async (
   firstName: string,
   lastName: string
 ) => {
+  let signUpResult: ISignUpResponse = {
+    response: null,
+    error: null,
+    description: null,
+    classType: null,
+  };
   const params = {
     ClientId: config.clientId,
     Username: email,
@@ -69,13 +98,30 @@ export const signUp = async (
   try {
     const command = new SignUpCommand(params);
     const response = await cognitoClient.send(command);
+    signUpResult = { response: response, error: null, description: null, classType: null };
     console.log("Sign up success: ", response);
-    return response;
+    return signUpResult;
   } catch (error) {
-    console.error("Error signing up: ", error);
-    throw error;
+    if (error instanceof UsernameExistsException) {
+      signUpResult = {
+        response: null,
+        error: "Email already in use",
+        description: "Use a different email address or log in to existing account",
+        classType: UsernameExistsException,
+      };
+      console.warn("Error signing up: ", error);
+    }
   }
+
+  return signUpResult;
 };
+
+interface IConfirmSignUpResponse {
+  response: ConfirmSignUpCommandOutput | null;
+  error: string | null;
+  description: string | null;
+  classType: unknown;
+}
 
 export const confirmSignUp = async (username: string, code: string) => {
   const params = {
@@ -83,11 +129,38 @@ export const confirmSignUp = async (username: string, code: string) => {
     Username: username,
     ConfirmationCode: code,
   };
+
   try {
     const command = new ConfirmSignUpCommand(params);
     await cognitoClient.send(command);
     return true;
   } catch (error) {
+    console.warn("Error signing up", error);
     throw error;
+  }
+};
+
+interface IResetPasswordResponse {
+  error: string | null;
+}
+
+export const resetPassword = async (email: string): Promise<IResetPasswordResponse> => {
+  const params: ForgotPasswordCommandInput = {
+    ClientId: config.clientId,
+    Username: email,
+  };
+
+  try {
+    const command = new ForgotPasswordCommand(params);
+    await cognitoClient.send(command);
+    return { error: null };
+  } catch (error: unknown) {
+    if (error instanceof UserNotFoundException) {
+      return { error: "Email not found" };
+    }
+    if (error instanceof CognitoIdentityProviderServiceException) {
+      return { error: error.message };
+    }
+    return { error: "An unknown error occurred" };
   }
 };
