@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { TCurrentSlide } from "..";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export interface ForgotPasswordData {
   email: string;
@@ -23,26 +24,34 @@ export interface ResetPasswordSlideProps {
   setEmail: Dispatch<SetStateAction<string>>;
 }
 
-export default function ResetPasswordSlide({ setCurrentSlide, setEmail }: ResetPasswordSlideProps) {
+export default function ResetPasswordSlide({
+  setCurrentSlide,
+  setEmail,
+}: ResetPasswordSlideProps) {
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<ForgotPasswordData>();
-
-  const [error, setError] = useState<string | null>(null);
+    setError,
+  } = useForm<ForgotPasswordData>({
+    resolver: zodResolver(ForgotPasswordSchema),
+  });
 
   const emailValue = watch("email");
 
   const handleResetPassword = async (data: ForgotPasswordData) => {
     const resetPasswordResponse = await resetPassword(data.email);
     if (resetPasswordResponse.error) {
-      setError(resetPasswordResponse.error);
+      setError("email", { message: resetPasswordResponse.error });
       return;
     }
     setEmail(data.email);
-    setCurrentSlide((prev) => ({ ...prev, resetPassword: false, verifyCode: true }));
+    setCurrentSlide((prev) => ({
+      ...prev,
+      resetPassword: false,
+      verifyCode: true,
+    }));
   };
 
   return (
@@ -50,7 +59,8 @@ export default function ResetPasswordSlide({ setCurrentSlide, setEmail }: ResetP
       <div className="flex flex-col gap-y-2">
         <h1 className="text-3xl font-semibold">Reset password</h1>
         <p>
-          Enter your email and we'll send you a 6-digit confirmation code to reset your password.
+          Enter your email and we'll send you a 6-digit confirmation code to
+          reset your password.
         </p>
       </div>
 
@@ -58,10 +68,13 @@ export default function ResetPasswordSlide({ setCurrentSlide, setEmail }: ResetP
         <Label className="text-base" htmlFor="email">
           Email
         </Label>
-        <Input {...register("email")} id="email" placeholder="Enter your email" />
+        <Input
+          {...register("email")}
+          id="email"
+          placeholder="Enter your email"
+        />
         <div className="my-2">
           <span className="text-red-500 text-sm">{errors.email?.message}</span>
-          <span className="text-red-500 text-sm">{error}</span>
         </div>
       </div>
 
@@ -74,7 +87,11 @@ export default function ResetPasswordSlide({ setCurrentSlide, setEmail }: ResetP
           type="submit"
           className="w-32"
         >
-          {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Send reset link"}
+          {isSubmitting ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            "Send reset link"
+          )}
         </Button>
       </div>
 
