@@ -96,102 +96,100 @@ export default function CreateAccountSlide({
 
   return (
     <form onSubmit={handleSubmit(handleSignUp)}>
-      <div className="flex items-center flex-col">
-        <div className="bg-white w-[55%] min-w-[325px] shadow rounded-2xl px-6 py-10 gap-10 flex flex-col">
-          <h2 className="text-3xl font-semibold">Create your account</h2>
-          <div className="flex flex-row gap-x-2">
-            <div className="flex flex-col gap-2 w-[50%]">
-              <Label className="text-base" htmlFor="firstName">
-                First name
-              </Label>
-              <Input placeholder="Enter your first name" {...register("firstName")} />
-              <span className="text-red-500 text-sm">{errors?.firstName?.message}</span>
-            </div>
-            <div className="flex flex-col gap-2 w-[50%]">
-              <Label className="text-base" htmlFor="lastName">
-                Last name
-              </Label>
-              <Input placeholder="Enter your last name" {...register("lastName")} />
-              <span className="text-red-500 text-sm">{errors?.lastName?.message}</span>
-            </div>
-          </div>
-          <div className="flex flex-col gap-y-2">
-            <Label className="text-base" htmlFor="email">
-              Email
+      <div className="gap-4 sm:gap-8 flex flex-col">
+        <h2 className="text-3xl font-semibold">Create your account</h2>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-2 sm:w-[50%]">
+            <Label className="text-base" htmlFor="firstName">
+              First name
             </Label>
-            <Input placeholder="Enter your email" {...register("email")} />
-            <span className="text-red-500 text-sm">{errors?.email?.message}</span>
+            <Input placeholder="Enter your first name" {...register("firstName")} />
+            <span className="text-red-500 text-sm">{errors?.firstName?.message}</span>
           </div>
-          <div className="flex flex-col gap-y-2 items-start">
-            <TooltipProvider>
-              <Tooltip open={showRequirements}>
-                <TooltipTrigger asChild>
-                  <Label className="text-base" htmlFor="password">
-                    Password
-                  </Label>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <PasswordCheck password={watch("password")} />
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            <Input
-              placeholder="Enter your password"
-              type="password"
-              {...register("password")}
-              onFocus={() => setShowRequirements(true)}
-              onBlur={() => setShowRequirements(false)}
-            />
-            <span className="text-red-500 text-sm">{errors?.password?.message}</span>
-          </div>
-          <div className="flex flex-col gap-y-2">
-            <div className="flex flex-col gap-y-2">
-              <Label className="text-base" htmlFor="confirmPassword">
-                Confirm password
-              </Label>
-              <Input
-                placeholder="Re-enter your password"
-                type="password"
-                {...register("confirmPassword")}
-              />
-              <span className="text-red-500 text-sm">{errors?.confirmPassword?.message}</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox id="terms" checked={agreed} onClick={() => setAgreed(!agreed)} />
-            <Label
-              htmlFor="terms"
-              className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {"I have read and agree to the "}
-              <a
-                href="/terms"
-                target="_blank"
-                rel="noreferrer noopener"
-                className="text-green-primary underline"
-              >
-                Terms and Conditions
-              </a>
-              .
+          <div className="flex flex-col gap-2 sm:w-[50%]">
+            <Label className="text-base" htmlFor="lastName">
+              Last name
             </Label>
+            <Input placeholder="Enter your last name" {...register("lastName")} />
+            <span className="text-red-500 text-sm">{errors?.lastName?.message}</span>
           </div>
-          <div className="flex flex-row justify-between">
-            <Button
-              type="button"
-              className="px-8"
-              onClick={() => {
-                window.location.href = "/login";
-                reset();
-              }}
-            >
-              Back
-            </Button>
-            <Button className="px-8" disabled={!agreed || isSubmitting} type="submit">
-              {isSubmitting ? <Loader2 className="animate-spin" /> : "Next"}
-            </Button>
-          </div>
-          <SlideBox currentStep={1} stepAmount={3} />
         </div>
+        <div className="flex flex-col gap-y-2">
+          <Label className="text-base" htmlFor="email">
+            Email
+          </Label>
+          <Input placeholder="Enter your email" {...register("email")} />
+          <span className="text-red-500 text-sm">{errors?.email?.message}</span>
+        </div>
+        <div className="flex flex-col gap-y-2 items-start">
+          <TooltipProvider>
+            <Tooltip open={showRequirements}>
+              <TooltipTrigger asChild>
+                <Label className="text-base" htmlFor="password">
+                  Password
+                </Label>
+              </TooltipTrigger>
+              <TooltipContent>
+                <PasswordCheck password={watch("password")} />
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <Input
+            placeholder="Enter your password"
+            type="password"
+            {...register("password")}
+            onFocus={() => setShowRequirements(true)}
+            onBlur={() => setShowRequirements(false)}
+          />
+          <span className="text-red-500 text-sm">{errors?.password?.message}</span>
+        </div>
+        <div className="flex flex-col gap-y-2">
+          <div className="flex flex-col gap-y-2">
+            <Label className="text-base" htmlFor="confirmPassword">
+              Confirm password
+            </Label>
+            <Input
+              placeholder="Re-enter your password"
+              type="password"
+              {...register("confirmPassword")}
+            />
+            <span className="text-red-500 text-sm">{errors?.confirmPassword?.message}</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <Checkbox id="terms" checked={agreed} onClick={() => setAgreed(!agreed)} />
+          <Label
+            htmlFor="terms"
+            className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {"I have read and agree to the "}
+            <a
+              href="/terms"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="text-green-primary underline"
+            >
+              Terms and Conditions
+            </a>
+            .
+          </Label>
+        </div>
+        <div className="flex flex-row justify-between">
+          <Button
+            type="button"
+            className="px-8"
+            onClick={() => {
+              window.location.href = "/login";
+              reset();
+            }}
+          >
+            Back
+          </Button>
+          <Button className="px-8" disabled={!agreed || isSubmitting} type="submit">
+            {isSubmitting ? <Loader2 className="animate-spin" /> : "Next"}
+          </Button>
+        </div>
+        <SlideBox currentStep={1} stepAmount={3} />
       </div>
       <Toaster />
     </form>
