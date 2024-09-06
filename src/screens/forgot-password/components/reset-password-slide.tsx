@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Loader2 } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
@@ -24,10 +24,7 @@ export interface ResetPasswordSlideProps {
   setEmail: Dispatch<SetStateAction<string>>;
 }
 
-export default function ResetPasswordSlide({
-  setCurrentSlide,
-  setEmail,
-}: ResetPasswordSlideProps) {
+export default function ResetPasswordSlide({ setCurrentSlide, setEmail }: ResetPasswordSlideProps) {
   const {
     register,
     watch,
@@ -59,8 +56,7 @@ export default function ResetPasswordSlide({
       <div className="flex flex-col gap-y-2">
         <h1 className="text-3xl font-semibold">Reset password</h1>
         <p>
-          Enter your email and we'll send you a 6-digit confirmation code to
-          reset your password.
+          Enter your email and we'll send you a 6-digit confirmation code to reset your password.
         </p>
       </div>
 
@@ -68,11 +64,7 @@ export default function ResetPasswordSlide({
         <Label className="text-base" htmlFor="email">
           Email
         </Label>
-        <Input
-          {...register("email")}
-          id="email"
-          placeholder="Enter your email"
-        />
+        <Input {...register("email")} id="email" placeholder="Enter your email" />
         <div className="my-2">
           <span className="text-red-500 text-sm">{errors.email?.message}</span>
         </div>
@@ -87,11 +79,7 @@ export default function ResetPasswordSlide({
           type="submit"
           className="w-32"
         >
-          {isSubmitting ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            "Send reset link"
-          )}
+          {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Send reset link"}
         </Button>
       </div>
 
