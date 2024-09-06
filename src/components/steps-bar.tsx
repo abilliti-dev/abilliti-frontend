@@ -1,11 +1,11 @@
-export interface SlideBoxProps {
+export interface StepsBarsProps {
   stepAmount: number;
   currentStep: number;
 }
 
-export default function SlideBox({ stepAmount, currentStep }: SlideBoxProps) {
+export default function StepsBar({ stepAmount, currentStep }: StepsBarsProps) {
   return (
-    <div className="flex flex-row gap-x-4">
+    <div className="flex flex-row gap-x-1 md:gap-x-4">
       {Array(stepAmount)
         .fill(0)
         .map((_, index) => (

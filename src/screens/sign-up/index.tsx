@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import VerifyAccountSlide from "./components/verify-account-slide";
 import SignUpCompleteSlide from "./components/sign-up-complete-slide";
 import CreateAccountSlide from "./components/create-account-slide";
-import Logo from "@/components/logo";
 import Confetti from "react-confetti";
+import AuthLayout from "@/layouts/auth-layout";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState<string>("");
@@ -32,7 +32,7 @@ export default function SignUpPage() {
   }, []);
 
   return (
-    <section className="bg-green-bg w-full h-screen flex justify-center overflow-hidden">
+    <AuthLayout>
       {showSignUpCompleteSlide && (
         <Confetti
           width={windowSize.width}
@@ -41,25 +41,22 @@ export default function SignUpPage() {
           numberOfPieces={300}
         />
       )}
-      <div className="w-full">
-        <Logo className="m-8 h-12" />
-        {showCreateAccountSlide && (
-          <CreateAccountSlide
-            setShowCreateAccountSlide={setShowCreateAccountSlide}
-            setShowVerifyAccountSlide={setShowVerifyAccountSlide}
-            setEmail={setEmail}
-          />
-        )}
-        {showVerifyAccountSlide && (
-          <VerifyAccountSlide
-            email={email}
-            setShowCreateAccountSlide={setShowCreateAccountSlide}
-            setShowVerifyAccountSlide={setShowVerifyAccountSlide}
-            setShowSignUpCompleteSlide={setShowSignUpCompleteSlide}
-          />
-        )}
-        {showSignUpCompleteSlide && <SignUpCompleteSlide />}
-      </div>
-    </section>
+      {showCreateAccountSlide && (
+        <CreateAccountSlide
+          setShowCreateAccountSlide={setShowCreateAccountSlide}
+          setShowVerifyAccountSlide={setShowVerifyAccountSlide}
+          setEmail={setEmail}
+        />
+      )}
+      {showVerifyAccountSlide && (
+        <VerifyAccountSlide
+          email={email}
+          setShowCreateAccountSlide={setShowCreateAccountSlide}
+          setShowVerifyAccountSlide={setShowVerifyAccountSlide}
+          setShowSignUpCompleteSlide={setShowSignUpCompleteSlide}
+        />
+      )}
+      {showSignUpCompleteSlide && <SignUpCompleteSlide />}
+    </AuthLayout>
   );
 }
