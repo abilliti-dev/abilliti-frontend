@@ -1,6 +1,6 @@
 import { confirmSignUp } from "@/auth/authService";
 import OneTimePin from "@/components/one-time-pin";
-import SlideBox from "@/components/slide-box";
+import StepsBar from "@/components/steps-bar";
 import { Button } from "@/components/ui/button";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
@@ -70,7 +70,7 @@ export default function VerifyAccountSlide({
           {isSubmitting ? <Loader2 className="animate-spin" /> : "Verify"}
         </Button>
       </div>
-      <SlideBox currentStep={2} stepAmount={3} />
+      <StepsBar currentStep={2} stepAmount={3} />
 
       <Toaster />
     </div>

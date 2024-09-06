@@ -13,8 +13,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
-import SlideBox from "@/components/slide-box";
 import PasswordCheck from "@/components/auth/password-check";
+import StepsBar from "@/components/steps-bar";
 
 interface SignUpForm {
   firstName: string;
@@ -189,7 +189,7 @@ export default function CreateAccountSlide({
             {isSubmitting ? <Loader2 className="animate-spin" /> : "Next"}
           </Button>
         </div>
-        <SlideBox currentStep={1} stepAmount={3} />
+        <StepsBar currentStep={1} stepAmount={3} />
       </div>
       <Toaster />
     </form>

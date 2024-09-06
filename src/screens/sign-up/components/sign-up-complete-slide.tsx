@@ -1,4 +1,4 @@
-import SlideBox from "@/components/slide-box";
+import StepsBar from "@/components/steps-bar";
 import { Button } from "@/components/ui/button";
 
 export default function SignUpCompleteSlide() {
@@ -17,7 +17,7 @@ export default function SignUpCompleteSlide() {
         </Button>
       </div>
       <div className="pt-8">
-        <SlideBox currentStep={3} stepAmount={3} />
+        <StepsBar currentStep={3} stepAmount={3} />
       </div>
     </div>
   );
