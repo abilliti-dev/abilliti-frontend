@@ -1,4 +1,9 @@
-import { hasLowerCase, hasNumber, hasSpecialChar, hasUpperCase } from "@/lib/auth-utils";
+import {
+  hasLowerCase,
+  hasNumber,
+  hasSpecialChar,
+  hasUpperCase,
+} from "@/components/auth/auth-utils";
 import { Check, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
