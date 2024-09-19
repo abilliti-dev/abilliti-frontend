@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@radix-ui/react-label";
 import { Loader2 } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { z, ZodType } from "zod";
 import { TCurrentSlide } from "..";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export interface ForgotPasswordData {
   email: string;
@@ -29,20 +30,25 @@ export default function ResetPasswordSlide({ setCurrentSlide, setEmail }: ResetP
     watch,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<ForgotPasswordData>();
-
-  const [error, setError] = useState<string | null>(null);
+    setError,
+  } = useForm<ForgotPasswordData>({
+    resolver: zodResolver(ForgotPasswordSchema),
+  });
 
   const emailValue = watch("email");
 
   const handleResetPassword = async (data: ForgotPasswordData) => {
     const resetPasswordResponse = await resetPassword(data.email);
     if (resetPasswordResponse.error) {
-      setError(resetPasswordResponse.error);
+      setError("email", { message: resetPasswordResponse.error });
       return;
     }
     setEmail(data.email);
-    setCurrentSlide((prev) => ({ ...prev, resetPassword: false, verifyCode: true }));
+    setCurrentSlide((prev) => ({
+      ...prev,
+      resetPassword: false,
+      verifyCode: true,
+    }));
   };
 
   return (
@@ -61,7 +67,6 @@ export default function ResetPasswordSlide({ setCurrentSlide, setEmail }: ResetP
         <Input {...register("email")} id="email" placeholder="Enter your email" />
         <div className="my-2">
           <span className="text-red-500 text-sm">{errors.email?.message}</span>
-          <span className="text-red-500 text-sm">{error}</span>
         </div>
       </div>
 

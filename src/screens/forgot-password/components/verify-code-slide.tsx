@@ -111,8 +111,7 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
     setCurrentSlide((prev) => ({
       ...prev,
       verifyCode: false,
-      resetPassword: false,
-      success: true,
+      completion: true,
     }));
   };
 
