@@ -1,13 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "@/auth/authService";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import AuthLayout from "@/layouts/auth-layout";
+import PasswordInput from "@/components/auth/password-input";
 
 export interface SignInData {
   email: string;
@@ -23,6 +24,7 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignInData>({
     resolver: zodResolver(SignInSchema),
@@ -70,12 +72,15 @@ export default function LoginPage() {
             <Label className="text-base" htmlFor="password">
               Password
             </Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              {...register("password", { required: true })}
+
+            <Controller
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <PasswordInput id="password" placeholder="Enter your password" {...field} />
+              )}
             />
+
             <span className="text-red-500 text-sm">{loginError}</span>
             <span className="text-red-500 text-sm">{errors?.password?.message}</span>
             <a href="/forgot-password" className="text-green-primary underline text-sm w-fit">
