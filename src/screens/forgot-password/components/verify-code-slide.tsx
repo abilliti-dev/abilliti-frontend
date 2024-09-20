@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TCurrentSlide } from "..";
@@ -50,6 +51,7 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
     watch,
     control,
     register,
+    trigger,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<VerifyCodeFormData>({
@@ -59,15 +61,21 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
     },
   });
 
-  const password = watch("newPassword", "");
+  const newPassword = watch("newPassword");
+  const confirmNewPassword = watch("confirmNewPassword");
 
   useEffect(() => {
     if (newCodeRefresher === COUNTDOWN_TIME) {
       clearInterval(refreshInterval);
       setNewCodeRefresher(0);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newCodeRefresher]);
+
+  useEffect(() => {
+    if (newPassword && confirmNewPassword) {
+      trigger("confirmNewPassword");
+    }
+  }, [newPassword, confirmNewPassword]);
 
   const handleBackClick = () => {
     setCurrentSlide((prev) => ({ ...prev, verifyCode: false, resetPassword: true }));
@@ -173,7 +181,7 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
                 </Label>
               </TooltipTrigger>
               <TooltipContent>
-                <PasswordCheck {...{ password }} />
+                <PasswordCheck password={newPassword} />
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -194,7 +202,10 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
           <Input
             id="confirm-new-password"
             type="password"
-            {...register("confirmNewPassword")}
+            {...register("confirmNewPassword", {
+              required: "Confirm password is required",
+              validate: (value) => value === newPassword || "Passwords do not match",
+            })}
             placeholder="Re-enter your new password"
           />
           <span className="text-red-500 text-sm">{errors.confirmNewPassword?.message}</span>

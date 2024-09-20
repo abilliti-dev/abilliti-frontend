@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -53,6 +53,7 @@ export default function CreateAccountSlide({
     handleSubmit,
     reset,
     watch,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<SignUpForm>({
     resolver: zodResolver(SignUpSchema),
@@ -67,6 +68,16 @@ export default function CreateAccountSlide({
   const [agreed, setAgreed] = useState<boolean>(false);
   const [showRequirements, setShowRequirements] = useState<boolean>(false);
   const { toast } = useToast();
+
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+  useEffect(() => {
+    if (password && confirmPassword) {
+      trigger("confirmPassword");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [password, confirmPassword]);
 
   const handleSignUp = async (data: SignUpForm) => {
     const response = await signUp(data.email, data.password, data.firstName, data.lastName);
@@ -151,7 +162,10 @@ export default function CreateAccountSlide({
             <Input
               placeholder="Re-enter your password"
               type="password"
-              {...register("confirmPassword")}
+              {...register("confirmPassword", {
+                required: true,
+                validate: (value) => value === watch("password"),
+              })}
             />
             <span className="text-red-500 text-sm">{errors?.confirmPassword?.message}</span>
           </div>
