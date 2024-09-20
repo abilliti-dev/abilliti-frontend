@@ -15,6 +15,7 @@ import { ToastAction } from "@/components/ui/toast";
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import PasswordCheck from "@/components/auth/password-check";
 import StepsBar from "@/components/steps-bar";
+import PasswordInput from "@/components/auth/password-input";
 
 interface SignUpForm {
   firstName: string;
@@ -121,7 +122,7 @@ export default function CreateAccountSlide({
           <Input placeholder="Enter your email" {...register("email")} />
           <span className="text-red-500 text-sm">{errors?.email?.message}</span>
         </div>
-        <div className="flex flex-col gap-y-2 items-start">
+        <div className="flex flex-col gap-y-2">
           <TooltipProvider>
             <Tooltip open={showRequirements}>
               <TooltipTrigger asChild>
@@ -134,9 +135,8 @@ export default function CreateAccountSlide({
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <Input
+          <PasswordInput
             placeholder="Enter your password"
-            type="password"
             {...register("password")}
             onFocus={() => setShowRequirements(true)}
             onBlur={() => setShowRequirements(false)}
@@ -148,11 +148,7 @@ export default function CreateAccountSlide({
             <Label className="text-base" htmlFor="confirmPassword">
               Confirm password
             </Label>
-            <Input
-              placeholder="Re-enter your password"
-              type="password"
-              {...register("confirmPassword")}
-            />
+            <PasswordInput placeholder="Re-enter your password" {...register("confirmPassword")} />
             <span className="text-red-500 text-sm">{errors?.confirmPassword?.message}</span>
           </div>
         </div>

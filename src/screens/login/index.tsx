@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "@/auth/authService";
@@ -24,7 +24,6 @@ export default function LoginPage() {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignInData>({
     resolver: zodResolver(SignInSchema),
@@ -73,12 +72,10 @@ export default function LoginPage() {
               Password
             </Label>
 
-            <Controller
-              control={control}
-              name="password"
-              render={({ field }) => (
-                <PasswordInput id="password" placeholder="Enter your password" {...field} />
-              )}
+            <PasswordInput
+              id="password"
+              placeholder="Enter your password"
+              {...register("password", { required: true })}
             />
 
             <span className="text-red-500 text-sm">{loginError}</span>
