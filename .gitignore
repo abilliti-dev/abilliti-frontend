@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+# this file is for faster builds, not needed to be shared
+*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*

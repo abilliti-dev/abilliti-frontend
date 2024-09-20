@@ -5,7 +5,6 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { formatCountdownTime } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
-import { Input } from "@/components/ui/input";
 
 import { Controller, useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
@@ -15,6 +14,7 @@ import { confirmResetPassword, resetPassword } from "@/auth/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import StepsBars from "@/components/steps-bar";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import PasswordInput from "@/components/auth/password-input";
 
 export interface VerifyCodeSlideProps {
   email: string;
@@ -164,7 +164,7 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-2 items-start">
+        <div className="flex flex-col gap-y-2">
           <TooltipProvider>
             <Tooltip open={showRequirements}>
               <TooltipTrigger asChild>
@@ -178,10 +178,9 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
             </Tooltip>
           </TooltipProvider>
 
-          <Input
+          <PasswordInput
             id="new-password"
             placeholder="Enter your new password"
-            type="password"
             {...register("newPassword")}
             onFocus={() => setShowRequirements(true)}
             onBlur={() => setShowRequirements(false)}
@@ -191,9 +190,8 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
           <Label className="text-base" htmlFor="confirm-new-password">
             Confirm new password
           </Label>
-          <Input
+          <PasswordInput
             id="confirm-new-password"
-            type="password"
             {...register("confirmNewPassword")}
             placeholder="Re-enter your new password"
           />
