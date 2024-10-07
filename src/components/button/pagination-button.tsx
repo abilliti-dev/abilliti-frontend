@@ -4,6 +4,8 @@ import { Button } from "../ui/button";
 interface PaginationButtonProps {
   onClickPrevious: () => void;
   onClickNext: () => void;
+  disablePrevious?: boolean;
+  disableNext?: boolean;
 }
 
 export default function PaginationButton(props: PaginationButtonProps) {
@@ -15,6 +17,7 @@ export default function PaginationButton(props: PaginationButtonProps) {
           variant={"ghost"}
           onClick={props.onClickPrevious}
           className="rounded-r-none"
+          disabled={props.disablePrevious}
         >
           <ChevronLeftIcon strokeWidth={1.5} />
         </Button>
@@ -25,6 +28,7 @@ export default function PaginationButton(props: PaginationButtonProps) {
           variant={"ghost"}
           onClick={props.onClickNext}
           className="rounded-l-none"
+          disabled={props.disableNext}
         >
           <ChevronRightIcon strokeWidth={1.5} />
         </Button>
