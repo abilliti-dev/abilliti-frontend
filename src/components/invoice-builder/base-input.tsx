@@ -30,7 +30,7 @@ export default function BaseInput(props: BaseInputProps) {
         placeholder={props.placeholder}
         className={cn(
           props.Icon && "pl-12",
-          "h-16 pt-6 rounded-xl focus-visible:ring-green-secondary focus-visible:ring-[3px]"
+          "h-16 pt-6 rounded-xl focus-visible:ring-green-secondary focus-visible:ring-[3px] placeholder:text-neutral-400"
         )}
       />
     </div>
