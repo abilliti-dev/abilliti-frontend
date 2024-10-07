@@ -1,10 +1,9 @@
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Input } from "../ui/input";
 
-interface BaseInputProps {
+export interface BaseInputProps {
   label: string;
-  placeholder: string;
+  children?: React.ReactNode;
   Icon?: LucideIcon;
 }
 
@@ -26,13 +25,7 @@ export default function BaseInput(props: BaseInputProps) {
       >
         {props.label}
       </label>
-      <Input
-        placeholder={props.placeholder}
-        className={cn(
-          props.Icon && "pl-12",
-          "h-16 pt-6 rounded-xl focus-visible:ring-green-secondary focus-visible:ring-[3px] placeholder:text-neutral-400"
-        )}
-      />
+      <div>{props.children}</div>
     </div>
   );
 }
