@@ -2,12 +2,7 @@ import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import BaseInput, { BaseInputProps } from "./base-input";
 
-export interface TextInputProps extends BaseInputProps {
-  placeholder?: string;
-  hideBorder?: boolean;
-}
-
-export default function TextInput(props: TextInputProps) {
+export default function TextInput(props: BaseInputProps) {
   return (
     <BaseInput label={props.label} Icon={props.Icon}>
       <Input

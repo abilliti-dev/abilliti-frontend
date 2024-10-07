@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 export interface BaseInputProps {
   label?: string;
   children?: React.ReactNode;
+  placeholder?: string;
+  hideBorder?: boolean;
   Icon?: LucideIcon;
 }
 
