@@ -2,7 +2,7 @@ import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface BaseInputProps {
-  label: string;
+  label?: string;
   children?: React.ReactNode;
   Icon?: LucideIcon;
 }
@@ -20,10 +20,10 @@ export default function BaseInput(props: BaseInputProps) {
       <label
         className={cn(
           props.Icon ? "pl-12" : "pl-3",
-          "text-neutral-500 uppercase text-sm font-semibold absolute pointer-events-none top-2.5"
+          "text-neutral-500 uppercase text-xs font-semibold absolute pointer-events-none top-3"
         )}
       >
-        {props.label}
+        {props.label ?? "Prompt"}
       </label>
       <div>{props.children}</div>
     </div>
