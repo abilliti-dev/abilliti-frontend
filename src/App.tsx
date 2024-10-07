@@ -4,6 +4,7 @@ import HomePage from "./homePage";
 import ConfirmUserPage from "./confirmUserPage";
 import SignUpPage from "./screens/sign-up";
 import ForgotPasswordPage from "./screens/forgot-password";
+import InvoiceBuilderPage from "./screens/invoice-builder";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -28,6 +29,7 @@ const App = () => {
           path="/home"
           element={isAuthenticated() ? <HomePage /> : <Navigate replace to="/login" />}
         />
+        <Route path="/invoice-builder" element={<InvoiceBuilderPage />} />
       </Routes>
     </BrowserRouter>
   );
