@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
-import { Input } from "../../ui/input";
-import BaseInput, { BaseInputProps } from "../base-input";
+import { Input } from "../ui/input";
+import BaseInput, { BaseInputProps } from "./base-input";
 
 export interface TextInputProps extends BaseInputProps {
   placeholder: string;
