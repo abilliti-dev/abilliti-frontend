@@ -2,14 +2,14 @@ import { LucideIcon } from "lucide-react";
 import { Button, ButtonProps } from "../ui/button";
 import { ClassNameValue } from "tailwind-merge";
 
-interface IconButtonProps extends ButtonProps {
+interface IconWithTextButtonProps extends ButtonProps {
   Icon: LucideIcon;
   iconSize?: number;
   iconStrokeWidth?: number;
   iconClassName?: ClassNameValue;
 }
 
-export default function IconButton(props: IconButtonProps) {
+export default function IconWithTextButton(props: IconWithTextButtonProps) {
   return (
     <Button {...props}>
       <div className="flex space-x-1.5 place-items-center">
