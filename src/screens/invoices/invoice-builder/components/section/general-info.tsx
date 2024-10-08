@@ -1,16 +1,18 @@
-import InputGroup2x2 from "@/components/input/group/input-group-2x2";
+import CompanyInfoInputGroup from "@/components/input/common/company-info-input-group";
 import SectionContainer from "./section-container";
-import TextInput from "@/components/input/text-input";
+import AddressInputGroup from "@/components/input/common/address-input-group";
+import ClientInfoInputGroup from "@/components/input/common/client-info-input-group";
 
 export default function GeneralInfo() {
   return (
     <SectionContainer>
-      <InputGroup2x2
-        Input1={(props) => <TextInput {...props} label="Test" />}
-        Input2={TextInput}
-        Input3={TextInput}
-        Input4={TextInput}
-      />
+      <div className="space-y-2">
+        <CompanyInfoInputGroup />
+        <AddressInputGroup />
+
+        <ClientInfoInputGroup />
+        <AddressInputGroup />
+      </div>
     </SectionContainer>
   );
 }
