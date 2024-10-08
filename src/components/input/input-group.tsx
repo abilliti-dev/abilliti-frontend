@@ -31,7 +31,7 @@ export default function InputGroup(props: InputGroupProps) {
       {props.row2Inputs && props.row2Inputs.length > 0 && (
         <div className="grid grid-flow-col divide-x">
           {props.row2Inputs.map((Input, i) => {
-            const isAlone = props.row1Inputs.length === 1;
+            const isAlone = props.row2Inputs && props.row2Inputs.length === 1;
             const isFirst = i === 0;
             const isLast = props.row2Inputs && i === props.row2Inputs.length - 1;
             const rounding = isAlone
