@@ -15,7 +15,7 @@ export default function SenderInfoInputGroup() {
             Icon={BriefcaseIcon}
           />
         ),
-        (props) => <ImageInput {...props} />,
+        (props) => <ImageInput {...props} label="Upload Logo" />,
       ]}
       row2Inputs={[
         (props) => (
