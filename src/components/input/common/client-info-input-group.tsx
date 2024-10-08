@@ -2,7 +2,7 @@ import { MailIcon, PhoneIcon, UserIcon } from "lucide-react";
 import InputGroup from "../input-group";
 import TextInput from "../text-input";
 
-export default function RecipientInfoInputGroup() {
+export default function ClientInfoInputGroup() {
   return (
     <InputGroup
       row1Inputs={[

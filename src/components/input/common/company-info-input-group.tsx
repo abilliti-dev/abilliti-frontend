@@ -3,7 +3,7 @@ import InputGroup from "../input-group";
 import TextInput from "../text-input";
 import ImageInput from "../image-input";
 
-export default function SenderInfoInputGroup() {
+export default function CompanyInfoInputGroup() {
   return (
     <InputGroup
       row1Inputs={[
