@@ -8,7 +8,7 @@ interface InputGroupProps {
 export default function InputGroup(props: InputGroupProps) {
   return (
     <div className="grid grid-flow-row divide-y rounded-xl border">
-      <div className="grid grid-flow-col divide-x">
+      <div className="grid grid-flow-col auto-cols-fr divide-x">
         {props.row1Inputs.map((Input, i) => {
           const isSingleRow = props.row2Inputs === undefined || props.row2Inputs.length === 0;
           const isAlone = props.row1Inputs.length === 1;
@@ -29,7 +29,7 @@ export default function InputGroup(props: InputGroupProps) {
         })}
       </div>
       {props.row2Inputs && props.row2Inputs.length > 0 && (
-        <div className="grid grid-flow-col divide-x">
+        <div className="grid grid-flow-col auto-cols-fr divide-x">
           {props.row2Inputs.map((Input, i) => {
             const isAlone = props.row2Inputs && props.row2Inputs.length === 1;
             const isFirst = i === 0;
