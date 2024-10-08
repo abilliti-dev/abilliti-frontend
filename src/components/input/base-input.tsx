@@ -25,7 +25,7 @@ export default function BaseInput(props: BaseInputProps) {
     <div className="relative">
       {props.Icon && (
         <props.Icon
-          className="text-neutral-500 absolute top-4 left-3.5 pointer-events-none"
+          className="text-neutral-400 absolute top-4 left-3.5 pointer-events-none"
           strokeWidth={1.5}
           size={24}
         />
