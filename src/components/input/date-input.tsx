@@ -12,7 +12,7 @@ export default function DateInput(props: BaseInputProps) {
   const [date, setDate] = useState<Date>();
 
   return (
-    <BaseInput label={props.label} Icon={CalendarIcon}>
+    <BaseInput label={props.label ?? "Date"} Icon={CalendarIcon}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
