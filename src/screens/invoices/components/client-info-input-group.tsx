@@ -1,6 +1,6 @@
 import { MailIcon, PhoneIcon, UserIcon } from "lucide-react";
-import InputGroup from "../input-group";
-import TextInput from "../text-input";
+import InputGroup from "../../../components/input/input-group";
+import TextInput from "../../../components/input/text-input";
 
 export default function ClientInfoInputGroup() {
   return (

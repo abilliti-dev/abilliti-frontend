@@ -1,7 +1,7 @@
 import { BriefcaseIcon, MailIcon, PhoneIcon } from "lucide-react";
-import InputGroup from "../input-group";
-import TextInput from "../text-input";
-import ImageInput from "../image-input";
+import InputGroup from "../../../components/input/input-group";
+import TextInput from "../../../components/input/text-input";
+import ImageInput from "../../../components/input/image-input";
 
 export default function CompanyInfoInputGroup() {
   return (

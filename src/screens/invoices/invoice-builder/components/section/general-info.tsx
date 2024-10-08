@@ -1,7 +1,7 @@
-import CompanyInfoInputGroup from "@/components/input/common/company-info-input-group";
+import AddressInputGroup from "@/screens/invoices/components/address-input-group";
 import SectionContainer from "./section-container";
-import AddressInputGroup from "@/components/input/common/address-input-group";
-import ClientInfoInputGroup from "@/components/input/common/client-info-input-group";
+import CompanyInfoInputGroup from "@/screens/invoices/components/company-info-input-group";
+import ClientInfoInputGroup from "@/screens/invoices/components/client-info-input-group";
 
 export default function GeneralInfo() {
   return (
