@@ -16,7 +16,8 @@ export interface BaseInputProps {
     | "rounded-tl-xl"
     | "rounded-tr-xl"
     | "rounded-br-xl"
-    | "rounded-bl-xl";
+    | "rounded-bl-xl"
+    | "rounded-none";
 }
 
 export default function BaseInput(props: BaseInputProps) {
