@@ -10,7 +10,8 @@ export default function TextInput(props: BaseInputProps) {
         className={cn(
           props.Icon && "pl-12",
           props.hideBorder && "border-none",
-          "h-16 pt-6 rounded-xl focus-visible:ring-green-secondary focus-visible:ring-[3px] placeholder:text-neutral-400 text-sm"
+          props.rounding ?? "rounded-xl",
+          "h-16 pt-6 focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-sm"
         )}
       />
     </BaseInput>

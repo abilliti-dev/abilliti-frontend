@@ -7,6 +7,16 @@ export interface BaseInputProps {
   placeholder?: string;
   hideBorder?: boolean;
   Icon?: LucideIcon;
+  rounding?:
+    | "rounded-xl"
+    | "rounded-l-xl"
+    | "rounded-t-xl"
+    | "rounded-r-xl"
+    | "rounded-b-xl"
+    | "rounded-tl-xl"
+    | "rounded-tr-xl"
+    | "rounded-br-xl"
+    | "rounded-bl-xl";
 }
 
 export default function BaseInput(props: BaseInputProps) {
