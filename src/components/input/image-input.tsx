@@ -9,7 +9,7 @@ export default function ImageInput(props: BaseInputProps) {
     <BaseInput label={props.label ?? "Upload"} Icon={ImageUpIcon}>
       <Input
         className={cn(props.hideBorder && "border-none", props.rounding ?? "rounded-xl", "hidden")}
-        type="image"
+        type="file"
       />
       <text className="text-xs absolute bottom-3.5 left-12 pointer-events-none text-neutral-600">
         {props.placeholder ?? ".jpg, .jpeg, .png"}
