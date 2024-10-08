@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button } from "@/components/ui/button";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { TCurrentSlide } from "..";
@@ -5,7 +6,6 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { formatCountdownTime } from "@/lib/utils";
 import { Label } from "@radix-ui/react-label";
-import { Input } from "@/components/ui/input";
 
 import { Controller, useForm } from "react-hook-form";
 import { z, ZodType } from "zod";
@@ -15,6 +15,7 @@ import { confirmResetPassword, resetPassword } from "@/auth/authService";
 import { zodResolver } from "@hookform/resolvers/zod";
 import StepsBars from "@/components/steps-bar";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import PasswordInput from "@/components/auth/password-input";
 
 export interface VerifyCodeSlideProps {
   email: string;
@@ -50,6 +51,7 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
     watch,
     control,
     register,
+    trigger,
     formState: { errors, isSubmitting },
     handleSubmit,
   } = useForm<VerifyCodeFormData>({
@@ -59,15 +61,21 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
     },
   });
 
-  const password = watch("newPassword", "");
+  const newPassword = watch("newPassword");
+  const confirmNewPassword = watch("confirmNewPassword");
 
   useEffect(() => {
     if (newCodeRefresher === COUNTDOWN_TIME) {
       clearInterval(refreshInterval);
       setNewCodeRefresher(0);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newCodeRefresher]);
+
+  useEffect(() => {
+    if (newPassword && confirmNewPassword) {
+      trigger("confirmNewPassword");
+    }
+  }, [newPassword, confirmNewPassword]);
 
   const handleBackClick = () => {
     setCurrentSlide((prev) => ({ ...prev, verifyCode: false, resetPassword: true }));
@@ -164,7 +172,7 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-2 items-start">
+        <div className="flex flex-col gap-y-2">
           <TooltipProvider>
             <Tooltip open={showRequirements}>
               <TooltipTrigger asChild>
@@ -173,15 +181,14 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
                 </Label>
               </TooltipTrigger>
               <TooltipContent>
-                <PasswordCheck {...{ password }} />
+                <PasswordCheck password={newPassword} />
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          <Input
+          <PasswordInput
             id="new-password"
             placeholder="Enter your new password"
-            type="password"
             {...register("newPassword")}
             onFocus={() => setShowRequirements(true)}
             onBlur={() => setShowRequirements(false)}
@@ -191,10 +198,12 @@ export default function VerifyCodeSlide({ email, setCurrentSlide }: VerifyCodeSl
           <Label className="text-base" htmlFor="confirm-new-password">
             Confirm new password
           </Label>
-          <Input
+          <PasswordInput
             id="confirm-new-password"
-            type="password"
-            {...register("confirmNewPassword")}
+            {...register("confirmNewPassword", {
+              required: "Confirm password is required",
+              validate: (value) => value === newPassword || "Passwords do not match",
+            })}
             placeholder="Re-enter your new password"
           />
           <span className="text-red-500 text-sm">{errors.confirmNewPassword?.message}</span>

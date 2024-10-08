@@ -8,6 +8,7 @@ import { signIn } from "@/auth/authService";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import AuthLayout from "@/layouts/auth-layout";
+import PasswordInput from "@/components/auth/password-input";
 
 export interface SignInData {
   email: string;
@@ -70,12 +71,13 @@ export default function LoginPage() {
             <Label className="text-base" htmlFor="password">
               Password
             </Label>
-            <Input
+
+            <PasswordInput
               id="password"
-              type="password"
               placeholder="Enter your password"
               {...register("password", { required: true })}
             />
+
             <span className="text-red-500 text-sm">{loginError}</span>
             <span className="text-red-500 text-sm">{errors?.password?.message}</span>
             <a href="/forgot-password" className="text-green-primary underline text-sm w-fit">
