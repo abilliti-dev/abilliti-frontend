@@ -8,7 +8,7 @@ interface SectionContainerProps {
 
 export default function SectionContainer(props: SectionContainerProps) {
   return (
-    <div className="rounded-xl border bg-white w-full h-full max-w-[553px] max-h-[716px] flex flex-col justify-between">
+    <div className="rounded-xl border bg-white w-full h-full max-h-[716px] flex flex-col justify-between">
       {/* content */}
       <div className="p-3">{props.children}</div>
 
