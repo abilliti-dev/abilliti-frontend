@@ -11,16 +11,24 @@ export default function ImageInput(props: BaseInputProps) {
         className={cn(props.hideBorder && "border-none", props.rounding ?? "rounded-xl", "hidden")}
         type="file"
       />
-      <text className="text-xs absolute bottom-3.5 left-12 pointer-events-none text-neutral-600">
-        {props.placeholder ?? ".jpg, .jpeg, .png"}
-      </text>
-      <Button
-        className="absolute right-2 top-2.5 z-10 shadow-sm shadow-neutral-300 font-medium text-xs px-4 text-neutral-600"
-        variant={"outline"}
-        size={"sm"}
+      <div
+        className={cn(
+          props.hideBorder ? "border-none" : "border",
+          props.rounding ?? "rounded-xl",
+          "flex justify-end border h-14 place-items-center px-3"
+        )}
       >
-        Browse
-      </Button>
+        <text className="text-xs absolute bottom-3.5 left-12 pointer-events-none text-neutral-600">
+          {props.placeholder ?? ".jpg, .jpeg, .png"}
+        </text>
+        <Button
+          className="z-10 shadow-sm shadow-neutral-300 font-medium text-xs px-4 text-neutral-600"
+          variant={"outline"}
+          size={"sm"}
+        >
+          Browse
+        </Button>
+      </div>
     </BaseInput>
   );
 }
