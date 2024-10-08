@@ -21,7 +21,7 @@ export default function DateInput(props: BaseInputProps) {
               "pl-12",
               props.hideBorder && "border-none",
               props.rounding ?? "rounded-xl",
-              "h-14 pt-6 focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-xs w-full"
+              "h-12 pt-6 focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-xs w-full"
             )}
           >
             <text
