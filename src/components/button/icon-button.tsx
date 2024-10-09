@@ -18,7 +18,7 @@ export default function IconButton(props: IconButtonProps) {
           strokeWidth={props.iconStrokeWidth ?? 1.5}
           className={props.iconClassName as string}
         />
-        <div>{props.children}</div>
+        {props.children}
       </div>
     </Button>
   );
