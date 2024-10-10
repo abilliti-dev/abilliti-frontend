@@ -1,5 +1,6 @@
 // import { useNavigate } from "react-router-dom";
-import Dashboard from "./screens/dashboard";
+import DashboardContextProvider from "@/contexts/dashboard-context";
+import Dashboard from "@/screens/dashboard";
 
 /*eslint-disable*/
 function parseJwt(token: any) {
@@ -21,6 +22,7 @@ const HomePage = () => {
   // const navigate = useNavigate();
   var idToken = parseJwt(sessionStorage.idToken.toString());
   var accessToken = parseJwt(sessionStorage.accessToken.toString());
+  console.log(parseJwt(sessionStorage.idToken.toString()));
   console.log("Amazon Cognito ID token encoded: " + sessionStorage.idToken.toString());
   console.log("Amazon Cognito ID token decoded: ");
   console.log(idToken);
@@ -42,7 +44,9 @@ const HomePage = () => {
     //   <p>See console log for Amazon Cognito user tokens.</p>
     //   <button onClick={handleLogout}>Logout</button>
     // </div>
-    <Dashboard />
+    <DashboardContextProvider>
+      <Dashboard />
+    </DashboardContextProvider>
   );
 };
 
