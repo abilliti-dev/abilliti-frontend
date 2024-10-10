@@ -19,23 +19,25 @@ export default function SideMenuAccordion(props: SideMenuAccordionProps) {
     <Accordion
       type="single"
       collapsible
-      className="shadow-none drop-shadow-none border-none"
-      onClick={handleOnClick}
+      className="shadow-none drop-shadow-none border-none space-y-2"
     >
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
+        setIsMenuOpen={props.setIsMenuOpen}
         value="home"
         icon={PiggyBank}
         title="Finances"
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
+        setIsMenuOpen={props.setIsMenuOpen}
         value="invoices"
         icon={ReceiptText}
         title="Invoices"
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
+        setIsMenuOpen={props.setIsMenuOpen}
         value="jobs"
         icon={Hammer}
         title="Jobs"

@@ -17,7 +17,7 @@ export default function SideMenu() {
       <div className="h-full flex flex-col">
         <div className="relative">
           <Button
-            className="absolute right-0 bottom-0 translate-x-1/2 translate-y-1/2 rounded-full p-1 bg-white text-slate-400 shadow-[-4px_0px_5px_-3px_rgba(0,0,0,0.2)]"
+            className="absolute right-0 bottom-0 translate-x-1/2 translate-y-1/2 rounded-full p-1 bg-neutral-50 text-slate-400 shadow-[-4px_0px_5px_-3px_rgba(0,0,0,0.2)]"
             size="icon"
             variant="ghost"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -28,9 +28,11 @@ export default function SideMenu() {
               <CircleChevronRight strokeWidth={1.5} />
             )}
           </Button>
-          <div className="pr-6 pl-4">
+          <div className="flex flex-col items-center justify-center">
             <Logo variant={isMenuOpen ? "default" : "sm"} className="py-5 h-[70px]" />
-            <Separator className="bg-slate-300" />
+            <div className="px-4 w-full">
+              <Separator className="bg-slate-300" />
+            </div>
           </div>
         </div>
 

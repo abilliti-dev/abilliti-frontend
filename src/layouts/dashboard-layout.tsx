@@ -15,7 +15,7 @@ export interface DashboardLayoutProps {
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
   return (
-    <main className="h-screen w-full flex bg-slate-100">
+    <main className="h-screen w-full flex bg-neutral-50">
       <SideMenu />
 
       <div className="flex-1">
