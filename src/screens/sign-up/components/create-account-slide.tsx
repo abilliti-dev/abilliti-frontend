@@ -133,7 +133,7 @@ export default function CreateAccountSlide({
           <Input placeholder="Enter your email" {...register("email")} />
           <span className="text-red-500 text-sm">{errors?.email?.message}</span>
         </div>
-        <div className="flex flex-col gap-y-2">
+        <div className="flex flex-col gap-y-2 items-start">
           <TooltipProvider>
             <Tooltip open={showRequirements}>
               <TooltipTrigger asChild>
@@ -146,12 +146,15 @@ export default function CreateAccountSlide({
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          <PasswordInput
-            placeholder="Enter your password"
-            {...register("password")}
-            onFocus={() => setShowRequirements(true)}
-            onBlur={() => setShowRequirements(false)}
-          />
+          <div className="w-full">
+            <PasswordInput
+              className="w-full"
+              placeholder="Enter your password"
+              {...register("password")}
+              onFocus={() => setShowRequirements(true)}
+              onBlur={() => setShowRequirements(false)}
+            />
+          </div>
           <span className="text-red-500 text-sm">{errors?.password?.message}</span>
         </div>
         <div className="flex flex-col gap-y-2">
