@@ -7,13 +7,10 @@ import { Button } from "../ui/button";
 export default function ImageInput(props: BaseInputProps) {
   return (
     <BaseInput label={props.label ?? "Upload"} Icon={ImageUpIcon}>
-      <Input
-        className={cn(props.hideBorder && "border-none", props.rounding ?? "rounded-xl", "hidden")}
-        type="file"
-      />
+      <Input className="hidden" type="file" />
       <div
         className={cn(
-          props.hideBorder ? "border-none" : "border",
+          props.hideBorder ? "border-none" : "border-neutral-300",
           props.rounding ?? "rounded-xl",
           "flex justify-end border h-full place-items-center px-3"
         )}

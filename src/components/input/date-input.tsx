@@ -16,7 +16,7 @@ export default function DateInput(props: BaseInputProps) {
         <PopoverTrigger asChild>
           <Button
             className={cn(
-              props.hideBorder && "border-none",
+              props.hideBorder ? "border-none" : "border-neutral-300",
               props.rounding ?? "rounded-xl",
               "pl-12 h-full text-xs w-full relative hover:bg-opacity-0"
             )}

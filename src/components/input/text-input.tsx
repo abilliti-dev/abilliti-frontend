@@ -9,7 +9,7 @@ export default function TextInput(props: BaseInputProps) {
         placeholder={props.placeholder ?? "Type here"}
         className={cn(
           props.Icon && "pl-12",
-          props.hideBorder && "border-none",
+          props.hideBorder ? "border-none" : "border-neutral-300",
           props.rounding ?? "rounded-xl",
           "pt-6 h-full focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-xs"
         )}
