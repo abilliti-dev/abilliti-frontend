@@ -20,6 +20,7 @@ export interface BaseInputProps {
     | "rounded-none";
 }
 
+// Wrapper component to regulate all input types to the passed props
 export default function BaseInput(props: BaseInputProps) {
   return (
     <div className="relative">
