@@ -38,7 +38,7 @@ export default function BaseInput(props: BaseInputProps) {
       >
         {props.label ?? "Prompt"}
       </label>
-      <div>{props.children}</div>
+      <div className="h-12">{props.children}</div>
     </div>
   );
 }

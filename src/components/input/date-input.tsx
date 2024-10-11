@@ -18,7 +18,7 @@ export default function DateInput(props: BaseInputProps) {
             className={cn(
               props.hideBorder && "border-none",
               props.rounding ?? "rounded-xl",
-              "pl-12 h-12 text-xs w-full relative hover:bg-opacity-0"
+              "pl-12 h-full text-xs w-full relative hover:bg-opacity-0"
             )}
             variant={"ghost"}
           >
