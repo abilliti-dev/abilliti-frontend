@@ -51,56 +51,58 @@ export default function ItemTable() {
       </div>
 
       {/* table content */}
-      <div className="relative border border-neutral-300 rounded-xl overflow-clip">
-        <table className="w-full">
-          <tbody className="divide-y divide-neutral-300">
-            {items.map((_item, i) => (
-              <tr className="flex justify-between w-full divide-x divide-neutral-300 overflow-clip">
-                <td className="w-[44%] relative">
-                  <Input
-                    placeholder="Enter an item description"
-                    className="border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12"
-                  />
-                  <Button
-                    className="z-10 shadow-sm shadow-neutral-300 absolute right-2 top-2 h-8 w-8 text-neutral-400 hover:text-neutral-500"
-                    variant={"outline"}
-                    size={"icon"}
-                    disabled={items.length === 1}
-                    onClick={removeItem(i)}
-                  >
-                    <XIcon size={20} />
-                  </Button>
-                </td>
-                <td className="w-[22%]">
-                  <Input
-                    type="number"
-                    placeholder="$0.00"
-                    className="text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  />
-                </td>
-                <td className="w-[12%]">
-                  <Input
-                    type="number"
-                    defaultValue={1}
-                    className="text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                  />
-                </td>
-                <td className="w-[22%] bg-neutral-200/60 overflow-hidden">
-                  <span className="flex justify-center place-items-center h-full text-neutral-500">
-                    $0.00
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-          <button
-            className="w-full flex space-x-1.5 justify-center place-items-center h-12 border-t border-neutral-300 text-neutral-600 hover:bg-neutral-50 text-sm font-medium duration-100 transition-colors"
-            onClick={addItem}
-          >
-            <PlusIcon strokeWidth={1.5} />
-            <span>New item</span>
-          </button>
-        </table>
+      <div>
+        <div className="relative border border-neutral-300 rounded-t-xl overflow-clip max-h-[22.5rem] overflow-y-scroll">
+          <table className="w-full">
+            <tbody className="divide-y divide-neutral-300">
+              {items.map((_item, i) => (
+                <tr className="flex justify-between w-full divide-x divide-neutral-300 overflow-clip">
+                  <td className="w-[44%] relative">
+                    <Input
+                      placeholder="Enter an item description"
+                      className="border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12"
+                    />
+                    <Button
+                      className="z-10 shadow-sm shadow-neutral-300 absolute right-2 top-2 h-8 w-8 text-neutral-400 hover:text-neutral-500"
+                      variant={"outline"}
+                      size={"icon"}
+                      disabled={items.length === 1}
+                      onClick={removeItem(i)}
+                    >
+                      <XIcon size={20} />
+                    </Button>
+                  </td>
+                  <td className="w-[22%]">
+                    <Input
+                      type="number"
+                      placeholder="$0.00"
+                      className="text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    />
+                  </td>
+                  <td className="w-[12%]">
+                    <Input
+                      type="number"
+                      defaultValue={1}
+                      className="text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    />
+                  </td>
+                  <td className="w-[22%] bg-neutral-200/60 overflow-hidden">
+                    <span className="flex justify-center place-items-center h-full text-neutral-500">
+                      $0.00
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <button
+          className="w-full flex space-x-1.5 justify-center place-items-center h-12 border-t-0 border border-neutral-300 text-neutral-600 hover:bg-neutral-50 text-sm font-medium duration-100 transition-colors rounded-b-xl"
+          onClick={addItem}
+        >
+          <PlusIcon strokeWidth={1.5} />
+          <span>New item</span>
+        </button>
       </div>
     </div>
   );
