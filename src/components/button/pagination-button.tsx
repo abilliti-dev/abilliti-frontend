@@ -16,7 +16,7 @@ export default function PaginationButton(props: PaginationButtonProps) {
           size={"sm"}
           variant={"ghost"}
           onClick={props.onClickPrevious}
-          className="rounded-r-none text-neutral-600"
+          className="rounded-r-none text-neutral-600 disabled:text-neutral-400"
           disabled={props.disablePrevious}
         >
           <ChevronLeftIcon strokeWidth={1.5} />
@@ -27,7 +27,7 @@ export default function PaginationButton(props: PaginationButtonProps) {
           size={"sm"}
           variant={"ghost"}
           onClick={props.onClickNext}
-          className="rounded-l-none text-neutral-600"
+          className="rounded-l-none text-neutral-600 disabled:text-neutral-400"
           disabled={props.disableNext}
         >
           <ChevronRightIcon strokeWidth={1.5} />
