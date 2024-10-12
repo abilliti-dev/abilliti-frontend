@@ -19,7 +19,7 @@ export default function DescriptionInput(props: DescriptionInputProps) {
   const [input, setInput] = useState("");
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full h-full">
       {props.Icon ? <props.Icon {...iconProps} /> : <TextIcon {...iconProps} />}
       <label className="ml-10 text-neutral-500 uppercase text-xs font-semibold absolute pointer-events-none top-1 px-2 py-1 rounded-full backdrop-blur-md">
         {props.label ?? "Description"}
@@ -28,7 +28,7 @@ export default function DescriptionInput(props: DescriptionInputProps) {
         onChange={(ev) => setInput(ev.target.value)}
         maxLength={maxCharacterLength}
         placeholder={props.placeholder ?? "Type here"}
-        className="rounded-xl pl-12 pt-6 focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-xs min-h-24 resize-none border-neutral-300"
+        className="rounded-xl pl-12 pt-6 focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-xs min-h-24 resize-none border-neutral-300 h-full"
       />
       <div className="px-2 py-1 rounded-full backdrop-blur-md absolute bottom-2 right-2 flex justify-center place-items-center pointer-events-none">
         <text className="text-xs text-neutral-500">{`${input.length}/${maxCharacterLength}`}</text>
