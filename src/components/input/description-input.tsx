@@ -6,6 +6,7 @@ interface DescriptionInputProps {
   placeholder?: string;
   label?: string;
   Icon?: LucideIcon;
+  maxCharacterLength?: number;
 }
 
 export default function DescriptionInput(props: DescriptionInputProps) {
@@ -14,11 +15,11 @@ export default function DescriptionInput(props: DescriptionInputProps) {
     strokeWidth: 1.5,
     size: 24,
   };
-  const maxCharacterLength = 100;
+  const maxCharacterLength = props.maxCharacterLength ?? 100;
   const [input, setInput] = useState("");
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       {props.Icon ? <props.Icon {...iconProps} /> : <TextIcon {...iconProps} />}
       <label className="ml-10 text-neutral-500 uppercase text-xs font-semibold absolute pointer-events-none top-1 px-2 py-1 rounded-full backdrop-blur-md">
         {props.label ?? "Description"}
