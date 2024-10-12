@@ -13,7 +13,7 @@ export default function InvoiceBuilderPage() {
         <InvoicePreview />
       </div>
       <div className="col-span-1 p-10 flex justify-start place-items-start">
-        <div>
+        <div className="w-full">
           <Stepper
             labels={Object.values(sections).map((x) => x.label)}
             step={step}
