@@ -1,4 +1,5 @@
 import { INVOICE_STATUS } from "@/enums";
+import { columns } from "@/screens/invoices/utils";
 
 export type Invoice = {
   id: string;
@@ -9,13 +10,6 @@ export type Invoice = {
   status: INVOICE_STATUS;
 };
 
-export const filteringFieldsArray = [
-  "Invoice ID",
-  "job",
-  "Client",
-  "Created Date",
-  "Due Date",
-  "Status",
-] as const;
+export const filteringFieldsArray = columns.map((item) => item.header);
 
 export type FilteringFields = (typeof filteringFieldsArray)[number];

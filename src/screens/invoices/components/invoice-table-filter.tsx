@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { FilteringFields, filteringFieldsArray, Invoice } from "@/types";
 import { useEffect } from "react";
+import { filteringFieldsMap } from "../utils";
 
 interface InvoiceTableFilterProps {
   table: any;
@@ -31,7 +32,9 @@ export default function InvoiceTableFilter({
     if (filterValue) {
       setFilteredItems(
         data.filter((item) =>
-          item[filteringField as keyof Invoice].toLowerCase().includes(filterValue)
+          item[filteringFieldsMap.get(filteringField) as keyof Invoice]
+            .toLowerCase()
+            .includes(filterValue.toLowerCase())
         )
       );
     } else {

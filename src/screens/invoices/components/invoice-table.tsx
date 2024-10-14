@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/table";
 
 import { useState } from "react";
-import { FilteringFields, filteringFieldsArray, Invoice } from "@/types";
+import { FilteringFields, Invoice } from "@/types";
 import InvoiceTableFilter from "./invoice-table-filter";
 
 interface DataTableProps<TData, TValue> {

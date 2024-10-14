@@ -27,3 +27,7 @@ export const columns: ColumnDef<Invoice>[] = [
     header: "Status",
   },
 ];
+
+export const filteringFieldsMap = new Map(
+  columns.map((item: any) => [item.header, item.accessorKey])
+);

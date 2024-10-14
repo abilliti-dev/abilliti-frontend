@@ -6,20 +6,20 @@ export default function Invoices() {
   // Replace this with the hook to get the data
   const data = [
     {
-      client: "John Doe",
-      createdDate: "9/11/01",
-      dueDate: "4/20/69",
-      id: "ID-694201738",
+      client: "Marcos Villanueva",
+      createdDate: "1/2/3",
+      dueDate: "3/4/5",
+      id: "ID-123456789",
       job: "Window washing",
       status: INVOICE_STATUS.CREATED,
     },
     {
-      client: "John Doe",
-      createdDate: "9/11/01",
-      dueDate: "4/20/69",
-      id: "ID-694201738",
+      client: "Emunch Pecson",
+      createdDate: "5/6/7",
+      dueDate: "7/8/9",
+      id: "ID-987654321",
       job: "This is fifty characters.This is fifty characters.",
-      status: INVOICE_STATUS.CREATED,
+      status: INVOICE_STATUS.DRAFT,
     },
   ];
 
