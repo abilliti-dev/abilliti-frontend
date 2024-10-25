@@ -1,27 +1,12 @@
 // import { useNavigate } from "react-router-dom";
 import DashboardContextProvider from "@/contexts/dashboard-context";
 import Dashboard from "@/screens/dashboard";
-
-/*eslint-disable*/
-function parseJwt(token: any) {
-  var base64Url = token.split(".")[1];
-  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
-    window
-      .atob(base64)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
-  return JSON.parse(jsonPayload);
-}
+import { parseJwt } from "@/lib/utils";
 
 const HomePage = () => {
   // const navigate = useNavigate();
-  var idToken = parseJwt(sessionStorage.idToken.toString());
-  var accessToken = parseJwt(sessionStorage.accessToken.toString());
+  const idToken = parseJwt(sessionStorage.idToken);
+  const accessToken = parseJwt(sessionStorage.accessToken);
   console.log(parseJwt(sessionStorage.idToken.toString()));
   console.log("Amazon Cognito ID token encoded: " + sessionStorage.idToken.toString());
   console.log("Amazon Cognito ID token decoded: ");
@@ -36,14 +21,8 @@ const HomePage = () => {
   //   sessionStorage.clear();
   //   navigate("/login");
   // };
-  /*eslint-enable*/
 
   return (
-    // <div>
-    //   <h1>Hello World</h1>
-    //   <p>See console log for Amazon Cognito user tokens.</p>
-    //   <button onClick={handleLogout}>Logout</button>
-    // </div>
     <DashboardContextProvider>
       <Dashboard />
     </DashboardContextProvider>

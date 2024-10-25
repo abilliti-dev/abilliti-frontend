@@ -2,6 +2,7 @@ import IconButton from "@/components/button/icon-button";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
+import { parseJwt } from "@/lib/utils";
 import SideMenu from "@/screens/dashboard/components/side-menu";
 import { BellIcon } from "lucide-react";
 
@@ -10,6 +11,24 @@ export interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
+  const getUserInitials = (jwt: unknown) => {
+    if (jwt === null || typeof jwt !== "object") {
+      return "A";
+    }
+
+    let initials = "";
+    if ("given_name" in jwt && "family_name" in jwt) {
+      if (typeof jwt.given_name === "string") {
+        initials += jwt.given_name.charAt(0);
+      }
+      if (typeof jwt.family_name === "string") {
+        initials += jwt.family_name.charAt(0);
+      }
+    }
+
+    return initials.length > 0 ? initials : "A";
+  };
+
   return (
     <main className="h-screen w-full flex bg-neutral-50">
       <SideMenu />
@@ -22,8 +41,9 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
           <div className="flex items-center gap-x-4">
             <IconButton variant="outline" Icon={BellIcon} />
             <Avatar>
-              {/* TODO: Change with user initials */}
-              <AvatarFallback className="bg-green-bg">US</AvatarFallback>
+              <AvatarFallback className="bg-green-bg">
+                {getUserInitials(parseJwt(sessionStorage.idToken))}
+              </AvatarFallback>
             </Avatar>
           </div>
         </nav>
