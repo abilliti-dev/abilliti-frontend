@@ -27,7 +27,11 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
   return (
     <>
       {props.isMenuOpen ? (
-        <AccordionItem value={props.value} className="border-none">
+        <AccordionItem
+          value={props.value}
+          className="border-none"
+          data-state={currentPage === props.value ? "open" : "closed"}
+        >
           <AccordionTrigger
             className={`${
               props.isMenuOpen ? "" : "[&>svg]:hidden"
@@ -40,7 +44,10 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
             </div>
           </AccordionTrigger>
           {props.isMenuOpen && (
-            <AccordionContent className="px-4">
+            <AccordionContent
+              className="px-4"
+              data-state={currentPage === props.value ? "open" : "closed"}
+            >
               <ul className="list-disc pt-1">
                 <Button variant="link" size="sm">
                   <li className="text-neutral-500">Submenu 1</li>

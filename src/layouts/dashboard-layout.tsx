@@ -1,13 +1,9 @@
 import IconButton from "@/components/button/icon-button";
-import Logo from "@/components/logo";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import SideMenu from "@/screens/dashboard/components/side-menu";
-import SideMenuAccordion from "@/screens/dashboard/components/side-menu-accordion";
-import { BellIcon, CircleChevronLeft, Info, Settings } from "lucide-react";
-import { useState } from "react";
+import { BellIcon } from "lucide-react";
 
 export interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -17,6 +13,7 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
   return (
     <main className="h-screen w-full flex bg-neutral-50">
       <SideMenu />
+      <Separator className="bg-slate-300 absolute top-[71px]" />
 
       <div className="flex-1">
         <nav className="flex items-center justify-between p-4 h-[72px]">
@@ -30,10 +27,6 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
             </Avatar>
           </div>
         </nav>
-
-        <div className="px-4 pl-6">
-          <Separator className="bg-slate-300" />
-        </div>
         {props.children}
       </div>
     </main>
