@@ -18,13 +18,6 @@ export interface SideMenuAccordionItemProps {
 export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps) {
   const { currentPage, setCurrentPage } = useDashboardContext();
 
-  const handleOnClick = () => {
-    if (!props.isMenuOpen) {
-      props.setIsMenuOpen(true);
-    }
-    setCurrentPage(props.value);
-  };
-
   return (
     <>
       {props.isMenuOpen ? (
@@ -33,7 +26,7 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
             className={`${
               !props.submenu ? "[&>svg]:hidden" : ""
             } [&[data-state=open]]:bg-gradient-to-r from-green-primary via-green-primary to-gradient-light-green [&[data-state=open]]:text-white px-4 rounded-lg py-2`}
-            onClick={handleOnClick}
+            onClick={() => setCurrentPage(props.value)}
           >
             <div className="flex items-center gap-x-3">
               <props.Icon size={20} strokeWidth={1.5} />
@@ -70,7 +63,7 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
           className={`${
             currentPage.split("-")[0] === props.value ? "bg-gradient-to-r text-white" : "text-black"
           } from-green-primary via-green-primary to-gradient-light-green p-2 w-full`}
-          onClick={handleOnClick}
+          onClick={() => setCurrentPage(props.value)}
         >
           <props.Icon size={24} strokeWidth={1.5} />
         </Button>
