@@ -2,15 +2,16 @@ import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/
 import { Button } from "@/components/ui/button";
 import { TMenuPages } from "@/contexts/dashboard-context";
 import useDashboardContext from "@/hooks/use-dashboard-context";
+import { TMenuPagesMapToTitle } from "@/lib/constants";
 import { LucideIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 export interface SideMenuAccordionItemProps {
   value: TMenuPages;
   title: string;
-  icon: LucideIcon;
+  Icon: LucideIcon;
   isMenuOpen: boolean;
-  hideSubmenu?: boolean;
+  submenu?: TMenuPages[];
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -27,29 +28,38 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
   return (
     <>
       {props.isMenuOpen ? (
-        <AccordionItem value={props.value} className="border-none" onClick={handleOnClick}>
+        <AccordionItem value={props.value} className="border-none">
           <AccordionTrigger
             className={`${
-              props.hideSubmenu ? "[&>svg]:hidden" : ""
+              !props.submenu ? "[&>svg]:hidden" : ""
             } [&[data-state=open]]:bg-gradient-to-r from-green-primary via-green-primary to-gradient-light-green [&[data-state=open]]:text-white px-4 rounded-lg py-2`}
+            onClick={handleOnClick}
           >
-            <div className="flex items-center gap-x-3 [data-state=open]:bg-blue-200">
-              <props.icon size={20} strokeWidth={1.5} />
+            <div className="flex items-center gap-x-3">
+              <props.Icon size={20} strokeWidth={1.5} />
               {props.isMenuOpen && <p>{props.title}</p>}
             </div>
           </AccordionTrigger>
-          {!props.hideSubmenu && props.isMenuOpen && (
-            <AccordionContent className="px-4">
+          {props.isMenuOpen && props.submenu && (
+            <AccordionContent className="px-4 pb-0">
               <ul className="list-disc pt-1">
-                <Button variant="link" size="sm">
-                  <li className="text-neutral-500">Home</li>
-                </Button>
-                <Button variant="link" size="sm">
-                  <li>Submenu 1</li>
-                </Button>
-                <Button variant="link" size="sm">
-                  <li>Submenu 1</li>
-                </Button>
+                {props.submenu.map((item, index) => (
+                  <Button
+                    variant="link"
+                    size="sm"
+                    key={index}
+                    className="block"
+                    onClick={() => setCurrentPage(item)}
+                  >
+                    <li
+                      className={
+                        currentPage === item ? "text-green-primary underline" : "text-neutral-500"
+                      }
+                    >
+                      {TMenuPagesMapToTitle.get(item)}
+                    </li>
+                  </Button>
+                ))}
               </ul>
             </AccordionContent>
           )}
@@ -58,11 +68,11 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
         <Button
           variant="secondary"
           className={`${
-            currentPage === props.value ? " bg-gradient-to-r text-white" : "text-black"
-          } from-green-primary via-green-primary to-gradient-light-green  p-2 w-full`}
+            currentPage.split("-")[0] === props.value ? "bg-gradient-to-r text-white" : "text-black"
+          } from-green-primary via-green-primary to-gradient-light-green p-2 w-full`}
           onClick={handleOnClick}
         >
-          <props.icon size={24} strokeWidth={1.5} />
+          <props.Icon size={24} strokeWidth={1.5} />
         </Button>
       )}
     </>

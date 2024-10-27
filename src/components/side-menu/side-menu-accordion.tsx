@@ -18,35 +18,35 @@ export default function SideMenuAccordion(props: SideMenuAccordionProps) {
       type="single"
       collapsible
       className="shadow-none drop-shadow-none border-none space-y-2"
-      value={currentPage}
+      value={currentPage.split("-")[0]}
     >
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
         setIsMenuOpen={props.setIsMenuOpen}
         value="home"
-        icon={Home}
+        Icon={Home}
         title="Home"
-        hideSubmenu
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
         setIsMenuOpen={props.setIsMenuOpen}
         value="finances"
-        icon={PiggyBank}
+        Icon={PiggyBank}
         title="Finances"
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
         setIsMenuOpen={props.setIsMenuOpen}
         value="invoices"
-        icon={ReceiptText}
+        Icon={ReceiptText}
         title="Invoices"
+        submenu={["invoices-invoice-builder"]}
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
         setIsMenuOpen={props.setIsMenuOpen}
         value="jobs"
-        icon={Hammer}
+        Icon={Hammer}
         title="Jobs"
       />
       <Separator className="bg-slate-300" />
@@ -54,17 +54,15 @@ export default function SideMenuAccordion(props: SideMenuAccordionProps) {
         isMenuOpen={props.isMenuOpen}
         setIsMenuOpen={props.setIsMenuOpen}
         value="settings"
-        icon={Settings}
+        Icon={Settings}
         title="Settings"
-        hideSubmenu
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
         setIsMenuOpen={props.setIsMenuOpen}
         value="help"
-        icon={Info}
+        Icon={Info}
         title="Help"
-        hideSubmenu
       />
     </Accordion>
   );

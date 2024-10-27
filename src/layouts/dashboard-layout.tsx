@@ -6,6 +6,7 @@ import { parseJwt } from "@/lib/utils";
 import SideMenu from "@/components/side-menu/side-menu";
 import { BellIcon } from "lucide-react";
 import useDashboardContext from "@/hooks/use-dashboard-context";
+import { TMenuPagesMapToTitle } from "@/lib/constants";
 
 export interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -39,12 +40,7 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
 
       <div className="flex-1">
         <nav className="flex items-center justify-between p-4 h-[72px]">
-          <h1 className="text-2xl font-semibold ml-4">
-            {currentPage
-              .split("-")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-              .join(" ")}
-          </h1>
+          <h1 className="text-2xl font-semibold ml-4">{TMenuPagesMapToTitle.get(currentPage)}</h1>
           <div className="flex items-center gap-x-4">
             <IconButton variant="outline" Icon={BellIcon} />
             <Avatar>

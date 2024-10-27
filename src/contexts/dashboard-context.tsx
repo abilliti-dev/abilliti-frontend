@@ -1,6 +1,13 @@
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 
-export type TMenuPages = "home" | "finances" | "invoices" | "jobs" | "settings" | "help";
+export type TMenuPages =
+  | "home"
+  | "finances"
+  | "invoices"
+  | "invoices-invoice-builder"
+  | "jobs"
+  | "settings"
+  | "help";
 
 export interface IDashboardContext {
   currentPage: TMenuPages;
