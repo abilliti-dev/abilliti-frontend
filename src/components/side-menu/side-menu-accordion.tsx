@@ -3,6 +3,7 @@ import SideMenuAccordionItem from "@/components/side-menu/side-menu-accordion-it
 import { Hammer, Home, Info, PiggyBank, ReceiptText, Settings } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Separator } from "@/components/ui/separator";
+import useDashboardContext from "@/hooks/use-dashboard-context";
 
 export interface SideMenuAccordionProps {
   isMenuOpen: boolean;
@@ -10,11 +11,14 @@ export interface SideMenuAccordionProps {
 }
 
 export default function SideMenuAccordion(props: SideMenuAccordionProps) {
+  const { currentPage } = useDashboardContext();
+
   return (
     <Accordion
       type="single"
       collapsible
       className="shadow-none drop-shadow-none border-none space-y-2"
+      value={currentPage}
     >
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
