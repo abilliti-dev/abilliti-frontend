@@ -10,6 +10,7 @@ export interface SideMenuAccordionItemProps {
   title: string;
   icon: LucideIcon;
   isMenuOpen: boolean;
+  hideSubmenu?: boolean;
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 }
 
@@ -20,7 +21,6 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
     if (!props.isMenuOpen) {
       props.setIsMenuOpen(true);
     }
-
     setCurrentPage(props.value);
   };
 
@@ -31,26 +31,26 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
           value={props.value}
           className="border-none"
           data-state={currentPage === props.value ? "open" : "closed"}
+          onClick={handleOnClick}
         >
           <AccordionTrigger
             className={`${
-              props.isMenuOpen ? "" : "[&>svg]:hidden"
+              props.hideSubmenu ? "[&>svg]:hidden" : ""
             } [&[data-state=open]]:bg-gradient-to-r from-green-primary via-green-primary to-gradient-light-green [&[data-state=open]]:text-white px-4 rounded-lg py-2`}
-            onClick={handleOnClick}
           >
             <div className="flex items-center gap-x-3 [data-state=open]:bg-blue-200">
               <props.icon size={20} strokeWidth={1.5} />
               {props.isMenuOpen && <p>{props.title}</p>}
             </div>
           </AccordionTrigger>
-          {props.isMenuOpen && (
+          {!props.hideSubmenu && props.isMenuOpen && (
             <AccordionContent
               className="px-4"
               data-state={currentPage === props.value ? "open" : "closed"}
             >
               <ul className="list-disc pt-1">
                 <Button variant="link" size="sm">
-                  <li className="text-neutral-500">Submenu 1</li>
+                  <li className="text-neutral-500">Home</li>
                 </Button>
                 <Button variant="link" size="sm">
                   <li>Submenu 1</li>

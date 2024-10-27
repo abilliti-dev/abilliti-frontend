@@ -1,8 +1,7 @@
 import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
-import SideMenuAccordion from "@/screens/dashboard/components/side-menu-accordion";
+import SideMenuAccordion from "@/components/side-menu/side-menu-accordion";
 import { useState } from "react";
 
 export default function SideMenu() {
@@ -38,7 +37,6 @@ export default function SideMenu() {
 
         <div className="flex flex-col flex-1 px-4 py-6 gap-y-2">
           <SideMenuAccordion {...{ isMenuOpen, setIsMenuOpen }} />
-          <Separator className="bg-slate-300" />
         </div>
       </div>
     </div>

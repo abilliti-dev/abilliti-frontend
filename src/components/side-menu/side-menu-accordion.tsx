@@ -1,7 +1,8 @@
 import { Accordion } from "@/components/ui/accordion";
-import SideMenuAccordionItem from "./side-menu-accordion-item";
-import { Hammer, PiggyBank, ReceiptText } from "lucide-react";
+import SideMenuAccordionItem from "@/components/side-menu/side-menu-accordion-item";
+import { Hammer, Home, Info, PiggyBank, ReceiptText, Settings } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
+import { Separator } from "@/components/ui/separator";
 
 export interface SideMenuAccordionProps {
   isMenuOpen: boolean;
@@ -9,12 +10,6 @@ export interface SideMenuAccordionProps {
 }
 
 export default function SideMenuAccordion(props: SideMenuAccordionProps) {
-  const handleOnClick = () => {
-    if (!props.isMenuOpen) {
-      props.setIsMenuOpen(true);
-    }
-  };
-
   return (
     <Accordion
       type="single"
@@ -25,6 +20,14 @@ export default function SideMenuAccordion(props: SideMenuAccordionProps) {
         isMenuOpen={props.isMenuOpen}
         setIsMenuOpen={props.setIsMenuOpen}
         value="home"
+        icon={Home}
+        title="Home"
+        hideSubmenu
+      />
+      <SideMenuAccordionItem
+        isMenuOpen={props.isMenuOpen}
+        setIsMenuOpen={props.setIsMenuOpen}
+        value="finances"
         icon={PiggyBank}
         title="Finances"
       />
@@ -41,6 +44,23 @@ export default function SideMenuAccordion(props: SideMenuAccordionProps) {
         value="jobs"
         icon={Hammer}
         title="Jobs"
+      />
+      <Separator className="bg-slate-300" />
+      <SideMenuAccordionItem
+        isMenuOpen={props.isMenuOpen}
+        setIsMenuOpen={props.setIsMenuOpen}
+        value="settings"
+        icon={Settings}
+        title="Settings"
+        hideSubmenu
+      />
+      <SideMenuAccordionItem
+        isMenuOpen={props.isMenuOpen}
+        setIsMenuOpen={props.setIsMenuOpen}
+        value="help"
+        icon={Info}
+        title="Help"
+        hideSubmenu
       />
     </Accordion>
   );
