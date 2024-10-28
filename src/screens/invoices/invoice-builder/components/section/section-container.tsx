@@ -1,5 +1,5 @@
 import PaginationButton from "@/components/button/pagination-button";
-import IconButton from "@/components/button/icon-button";
+import IconWithTextButton from "@/components/button/icon-with-text-button";
 import { ArchiveIcon } from "lucide-react";
 
 interface SectionContainerProps {
@@ -16,9 +16,9 @@ export default function SectionContainer(props: SectionContainerProps) {
       <div>
         <hr />
         <div className="flex justify-between px-3 py-2">
-          <IconButton Icon={ArchiveIcon} variant={"outline"} className="font-normal">
+          <IconWithTextButton Icon={ArchiveIcon} variant={"outline"} className="font-normal">
             Save as draft
-          </IconButton>
+          </IconWithTextButton>
           <PaginationButton onClickPrevious={() => {}} onClickNext={() => {}} />
         </div>
       </div>

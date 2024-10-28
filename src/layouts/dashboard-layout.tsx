@@ -1,5 +1,3 @@
-import IconButton from "@/components/button/icon-button";
-
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { parseJwt } from "@/lib/utils";
@@ -7,6 +5,7 @@ import SideMenu from "@/components/side-menu/side-menu";
 import { BellIcon } from "lucide-react";
 import useDashboardContext from "@/hooks/use-dashboard-context";
 import { TMenuPagesMapToTitle } from "@/lib/constants";
+import { Button } from "@/components/ui/button";
 
 export interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -42,7 +41,9 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
         <nav className="flex items-center justify-between p-4 h-[72px]">
           <h1 className="text-2xl font-semibold ml-4">{TMenuPagesMapToTitle.get(currentPage)}</h1>
           <div className="flex items-center gap-x-4">
-            <IconButton variant="outline" Icon={BellIcon} />
+            <Button size="icon" variant="outline">
+              <BellIcon />
+            </Button>
             <Avatar>
               <AvatarFallback className="bg-green-bg">
                 {getUserInitials(parseJwt(sessionStorage.idToken))}
