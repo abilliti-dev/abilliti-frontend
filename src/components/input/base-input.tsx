@@ -17,7 +17,7 @@ export interface BaseInputProps {
     | "rounded-tr-xl"
     | "rounded-br-xl"
     | "rounded-bl-xl"
-    | "rounded-none";
+    | "rounded-sm";
 }
 
 // Wrapper component to regulate all input types to the passed props

@@ -24,7 +24,7 @@ export default function InputGroup(props: InputGroupProps) {
             ? "rounded-tl-xl"
             : isLast
             ? "rounded-tr-xl"
-            : "rounded-none";
+            : "rounded-sm";
           return <Input rounding={rounding} hideBorder />;
         })}
       </div>
@@ -40,7 +40,7 @@ export default function InputGroup(props: InputGroupProps) {
               ? "rounded-bl-xl"
               : isLast
               ? "rounded-br-xl"
-              : "rounded-none";
+              : "rounded-sm";
             return <Input rounding={rounding} hideBorder />;
           })}
         </div>
