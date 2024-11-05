@@ -7,6 +7,7 @@ interface DescriptionInputProps {
   label?: string;
   Icon?: LucideIcon;
   maxCharacterLength?: number;
+  onInputChange?: (input: string) => void;
 }
 
 export default function DescriptionInput(props: DescriptionInputProps) {
@@ -18,6 +19,11 @@ export default function DescriptionInput(props: DescriptionInputProps) {
   const maxCharacterLength = props.maxCharacterLength ?? 100;
   const [input, setInput] = useState("");
 
+  const handleInputChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(ev.target.value);
+    if (props.onInputChange) props.onInputChange(ev.target.value);
+  };
+
   return (
     <div className="relative w-full h-full">
       {props.Icon ? <props.Icon {...iconProps} /> : <TextIcon {...iconProps} />}
@@ -25,7 +31,7 @@ export default function DescriptionInput(props: DescriptionInputProps) {
         {props.label ?? "Description"}
       </label>
       <Textarea
-        onChange={(ev) => setInput(ev.target.value)}
+        onChange={handleInputChange}
         maxLength={maxCharacterLength}
         placeholder={props.placeholder ?? "Type here"}
         className="rounded-xl pl-12 pt-6 focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-xs min-h-24 resize-none border-neutral-300 h-full"

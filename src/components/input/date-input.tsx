@@ -7,8 +7,17 @@ import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "../ui/button";
 
-export default function DateInput(props: BaseInputProps) {
+interface DateInputProps extends BaseInputProps {
+  onSelect?: (date: Date | undefined) => void;
+}
+
+export default function DateInput(props: DateInputProps) {
   const [date, setDate] = useState<Date>();
+
+  const handleSelect = (date?: Date) => {
+    setDate(date);
+    if (props.onSelect) props.onSelect(date);
+  };
 
   return (
     <BaseInput label={props.label ?? "Date"} Icon={CalendarDaysIcon}>
@@ -39,7 +48,7 @@ export default function DateInput(props: BaseInputProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          <Calendar mode="single" selected={date} onSelect={setDate} initialFocus />
+          <Calendar mode="single" selected={date} onSelect={handleSelect} initialFocus />
         </PopoverContent>
       </Popover>
     </BaseInput>

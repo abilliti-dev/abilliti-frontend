@@ -5,8 +5,8 @@ import { ImageUpIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { useRef, useState } from "react";
 
-export interface ImageInputProps extends BaseInputProps {
-  handleFileChange?: (file: File | null) => void;
+interface ImageInputProps extends BaseInputProps {
+  onFileChange?: (file: File | null) => void;
 }
 
 export default function ImageInput(props: ImageInputProps) {
@@ -20,13 +20,13 @@ export default function ImageInput(props: ImageInputProps) {
   const handleFileChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const file = ev.target.files?.[0];
     setImageFile(file ?? null);
-    if (props.handleFileChange) props.handleFileChange(file ?? null);
+    if (props.onFileChange) props.onFileChange(file ?? null);
   };
 
   const truncateFilename = (filename: string) => {
     const maxLength = 16;
     if (filename.length <= maxLength) return filename;
-    const extension = filename.split(".").pop(); // Get file extension
+    const extension = filename.split(".").pop();
     const truncatedName = `${filename.slice(0, maxLength / 2)}...${filename.slice(
       -(maxLength / 2 - (extension?.length || 0))
     )}`;
