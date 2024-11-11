@@ -7,7 +7,7 @@ interface DescriptionInputProps {
   label?: string;
   Icon?: LucideIcon;
   maxCharacterLength?: number;
-  onInputChange?: (input: string) => void;
+  onChange?: (input: string) => void;
 }
 
 export default function DescriptionInput(props: DescriptionInputProps) {
@@ -19,9 +19,9 @@ export default function DescriptionInput(props: DescriptionInputProps) {
   const maxCharacterLength = props.maxCharacterLength ?? 100;
   const [input, setInput] = useState("");
 
-  const handleInputChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(ev.target.value);
-    if (props.onInputChange) props.onInputChange(ev.target.value);
+    if (props.onChange) props.onChange(ev.target.value);
   };
 
   return (
@@ -31,13 +31,13 @@ export default function DescriptionInput(props: DescriptionInputProps) {
         {props.label ?? "Description"}
       </label>
       <Textarea
-        onChange={handleInputChange}
+        onChange={handleChange}
         maxLength={maxCharacterLength}
         placeholder={props.placeholder ?? "Type here"}
         className="rounded-xl pl-12 pt-6 focus-visible:ring-[2.5px] focus-visible:ring-green-secondary focus-visible:ring-offset-0 focus-visible:ring-inset placeholder:text-neutral-400 text-xs min-h-24 resize-none border-neutral-300 h-full"
       />
       <div className="px-2 py-1 rounded-full backdrop-blur-md absolute bottom-2 right-2 flex justify-center place-items-center pointer-events-none">
-        <text className="text-xs text-neutral-500">{`${input.length}/${maxCharacterLength}`}</text>
+        <span className="text-xs text-neutral-500">{`${input.length}/${maxCharacterLength}`}</span>
       </div>
     </div>
   );

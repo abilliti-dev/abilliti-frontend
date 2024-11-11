@@ -25,7 +25,7 @@ export default function InputGroup(props: InputGroupProps) {
             : isLast
             ? "rounded-tr-xl"
             : "rounded-sm";
-          return <Input rounding={rounding} hideBorder />;
+          return <Input rounding={rounding} key={i} hideBorder />;
         })}
       </div>
       {props.row2Inputs && props.row2Inputs.length > 0 && (
@@ -41,7 +41,7 @@ export default function InputGroup(props: InputGroupProps) {
               : isLast
               ? "rounded-br-xl"
               : "rounded-sm";
-            return <Input rounding={rounding} hideBorder />;
+            return <Input rounding={rounding} key={i} hideBorder />;
           })}
         </div>
       )}

@@ -8,7 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "../ui/button";
 
 interface DateInputProps extends BaseInputProps {
-  onSelect?: (date: Date | undefined) => void;
+  onChange?: (date: Date | undefined) => void;
 }
 
 export default function DateInput(props: DateInputProps) {
@@ -16,7 +16,7 @@ export default function DateInput(props: DateInputProps) {
 
   const handleSelect = (date?: Date) => {
     setDate(date);
-    if (props.onSelect) props.onSelect(date);
+    if (props.onChange) props.onChange(date);
   };
 
   return (
@@ -31,14 +31,14 @@ export default function DateInput(props: DateInputProps) {
             )}
             variant={"ghost"}
           >
-            <text
+            <span
               className={cn(
                 date ? "text-neutral-800" : "text-neutral-400",
                 "absolute left-12 bottom-1.5 text-xs"
               )}
             >
               {date ? format(date, "PPP") : props.placeholder ?? "Select a date"}
-            </text>
+            </span>
 
             <ChevronDownIcon
               className="absolute right-3 bottom-3 text-neutral-500 pointer-events-none"

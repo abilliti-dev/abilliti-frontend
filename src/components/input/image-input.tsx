@@ -3,24 +3,31 @@ import { Input } from "../ui/input";
 import BaseInput, { BaseInputProps } from "./base-input";
 import { ImageUpIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import { useRef, useState } from "react";
+import { forwardRef, useRef, useState, useImperativeHandle } from "react";
 
 interface ImageInputProps extends BaseInputProps {
-  onFileChange?: (file: File | null) => void;
+  onChange?: (file: File | null) => void;
 }
 
-export default function ImageInput(props: ImageInputProps) {
+interface CustomHTMLInputElement extends HTMLInputElement {
+  click: () => void;
+}
+
+const ImageInput = forwardRef<CustomHTMLInputElement, ImageInputProps>((props, ref) => {
   const [imageFile, setImageFile] = useState<File | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
+  // converts the received parent ref into this custom ref
+  useImperativeHandle(ref, () => inputRef.current!);
+
   const handleBrowseClick = () => {
-    if (inputRef.current) inputRef.current.click();
+    inputRef.current?.click();
   };
 
   const handleFileChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const file = ev.target.files?.[0];
     setImageFile(file ?? null);
-    if (props.onFileChange) props.onFileChange(file ?? null);
+    if (props.onChange) props.onChange(file ?? null);
   };
 
   const truncateFilename = (filename: string) => {
@@ -36,9 +43,9 @@ export default function ImageInput(props: ImageInputProps) {
   return (
     <BaseInput label={props.label ?? "Image Upload"} Icon={props.Icon ?? ImageUpIcon}>
       <Input
+        ref={inputRef}
         className="hidden"
         type="file"
-        ref={inputRef}
         accept=".jpg, .jpeg, .png"
         onChange={handleFileChange}
       />
@@ -49,9 +56,9 @@ export default function ImageInput(props: ImageInputProps) {
           "flex justify-end border h-full place-items-center px-3"
         )}
       >
-        <text className="text-xs absolute bottom-2 left-12 pointer-events-none text-neutral-600">
+        <span className="text-xs absolute bottom-2 left-12 pointer-events-none text-neutral-600">
           {imageFile ? truncateFilename(imageFile.name) : props.placeholder ?? ".jpg, .jpeg, .png"}
-        </text>
+        </span>
         <Button
           className="z-10 shadow-sm shadow-neutral-300 font-medium text-xs px-4 text-neutral-600"
           variant={"outline"}
@@ -63,4 +70,7 @@ export default function ImageInput(props: ImageInputProps) {
       </div>
     </BaseInput>
   );
-}
+});
+
+ImageInput.displayName = "ImageInput";
+export default ImageInput;

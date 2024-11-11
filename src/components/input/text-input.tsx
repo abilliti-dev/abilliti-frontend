@@ -1,19 +1,21 @@
+import { forwardRef } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import BaseInput, { BaseInputProps } from "./base-input";
 
 interface TextInputProps extends BaseInputProps {
-  onInputChange?: (input: string) => void;
+  onChange?: (ev: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function TextInput(props: TextInputProps) {
+const TextInput = forwardRef<HTMLInputElement, TextInputProps>((props, ref) => {
   const handleInputChange = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (props.onInputChange) props.onInputChange(ev.target.value);
+    if (props.onChange) props.onChange(ev);
   };
 
   return (
     <BaseInput label={props.label} Icon={props.Icon}>
       <Input
+        ref={ref}
         onChange={handleInputChange}
         placeholder={props.placeholder ?? "Type here"}
         className={cn(
@@ -25,4 +27,8 @@ export default function TextInput(props: TextInputProps) {
       />
     </BaseInput>
   );
-}
+});
+
+// necessary for forwardRef
+TextInput.displayName = "TextInput";
+export default TextInput;
