@@ -3,19 +3,20 @@ import BaseInput, { BaseInputProps } from "./base-input";
 import { format } from "date-fns";
 import { CalendarDaysIcon, ChevronDownIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { useState } from "react";
+// import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "../ui/button";
 
 interface DateInputProps extends BaseInputProps {
+  value?: Date;
   onChange?: (date: Date | undefined) => void;
 }
 
 export default function DateInput(props: DateInputProps) {
-  const [date, setDate] = useState<Date>();
+  // const [date, setDate] = useState<Date>();
 
   const handleSelect = (date?: Date) => {
-    setDate(date);
+    // setDate(date);
     if (props.onChange) props.onChange(date);
   };
 
@@ -33,11 +34,11 @@ export default function DateInput(props: DateInputProps) {
           >
             <span
               className={cn(
-                date ? "text-neutral-800" : "text-neutral-400",
+                props.value ? "text-neutral-800" : "text-neutral-400",
                 "absolute left-12 bottom-1.5 text-xs"
               )}
             >
-              {date ? format(date, "PPP") : props.placeholder ?? "Select a date"}
+              {props.value ? format(props.value, "PPP") : props.placeholder ?? "Select a date"}
             </span>
 
             <ChevronDownIcon
@@ -48,7 +49,7 @@ export default function DateInput(props: DateInputProps) {
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0">
-          <Calendar mode="single" selected={date} onSelect={handleSelect} initialFocus />
+          <Calendar mode="single" onSelect={handleSelect} initialFocus />
         </PopoverContent>
       </Popover>
     </BaseInput>

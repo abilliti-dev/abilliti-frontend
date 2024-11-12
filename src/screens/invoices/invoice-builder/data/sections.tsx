@@ -4,25 +4,10 @@ import Confirmation from "../components/section/confirmation";
 import GeneralInfo from "../components/section/general-info";
 import ItemsAndCosts from "../components/section/items-and-costs";
 
-export const sections = {
-  1: {
-    section: <GeneralInfo />,
-    label: "General",
-  },
-  2: {
-    section: <CompanyInfo />,
-    label: "Company",
-  },
-  3: {
-    section: <ClientInfo />,
-    label: "Client",
-  },
-  4: {
-    section: <ItemsAndCosts />,
-    label: "Items and costs",
-  },
-  5: {
-    section: <Confirmation />,
-    label: "Confirmation",
-  },
-};
+export const sections = [
+  { component: () => <GeneralInfo />, label: "General" },
+  { component: () => <CompanyInfo />, label: "Company" },
+  { component: () => <ClientInfo />, label: "Client" },
+  { component: () => <ItemsAndCosts />, label: "Items and costs" },
+  { component: () => <Confirmation />, label: "Confirmation" },
+];

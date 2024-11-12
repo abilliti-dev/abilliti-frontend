@@ -15,5 +15,5 @@ export const imageSchema = z.custom<File>(
 
     return true;
   },
-  { message: "File must be an image and less than 5MB." }
+  { message: "File must be an image and less than 5MB" }
 );

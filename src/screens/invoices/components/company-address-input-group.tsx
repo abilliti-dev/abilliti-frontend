@@ -3,12 +3,13 @@ import InputGroup from "../../../components/input/input-group";
 import TextInput from "../../../components/input/text-input";
 import { Control, Controller } from "react-hook-form";
 import { CompanyInfoFormFields } from "@/types/schema/company-info-schema";
+import { memo } from "react";
 
 export interface CompanyAddressInputGroupProps {
   control?: Control<CompanyInfoFormFields>;
 }
 
-export default function CompanyAddressInputGroup(props: CompanyAddressInputGroupProps) {
+const CompanyAddressInputGroup = memo((props: CompanyAddressInputGroupProps) => {
   const keyName = "address";
 
   return (
@@ -79,4 +80,7 @@ export default function CompanyAddressInputGroup(props: CompanyAddressInputGroup
       ]}
     />
   );
-}
+});
+
+CompanyAddressInputGroup.displayName = "CompanyAddressInputGroup";
+export default CompanyAddressInputGroup;

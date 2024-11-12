@@ -1,3 +1,4 @@
+import InputError from "@/components/input/error/InputError";
 import ClientAddressInputGroup from "@/screens/invoices/components/client-address-input-group";
 import ClientInfoInputGroup from "@/screens/invoices/components/client-info-input-group";
 import { ClientInfoFormFields, clientInfoSchema } from "@/types/schema/client-info-schema";
@@ -6,18 +7,41 @@ import { useForm } from "react-hook-form";
 
 export default function ClientInfo() {
   const {
-    // handleSubmit,
+    handleSubmit,
     control,
-    // formState: { errors },
+    formState: { errors },
   } = useForm<ClientInfoFormFields>({
     resolver: zodResolver(clientInfoSchema),
   });
 
   return (
-    <div className="space-y-1.5">
-      {/* <label className="text-sm text-neutral-500 font-medium">Client information</label> */}
-      <ClientInfoInputGroup control={control} />
-      <ClientAddressInputGroup control={control} />
-    </div>
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
+      <div className="space-y-2.5">
+        <div className="space-y-1.5">
+          <label className="text-sm text-neutral-500 font-medium">Client details</label>
+          <ClientInfoInputGroup control={control} />
+          <InputError
+            fieldErrors={[
+              { name: "Client name", error: errors.name },
+              { name: "Email", error: errors.email },
+              { name: "Phone", error: errors.phone },
+            ]}
+          />
+        </div>
+        <div className="space-y-1.5">
+          <label className="text-sm text-neutral-500 font-medium">Client address</label>
+          <ClientAddressInputGroup control={control} />
+          <InputError
+            fieldErrors={[
+              { name: "Street", error: errors.address?.street },
+              { name: "City", error: errors.address?.city },
+              { name: "State", error: errors.address?.state },
+              { name: "Zip code", error: errors.address?.zipCode },
+            ]}
+          />
+        </div>
+      </div>
+      <button type="submit">[temp button]</button>
+    </form>
   );
 }

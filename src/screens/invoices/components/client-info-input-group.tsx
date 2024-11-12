@@ -3,12 +3,13 @@ import InputGroup from "../../../components/input/input-group";
 import TextInput from "../../../components/input/text-input";
 import { Control, Controller } from "react-hook-form";
 import { ClientInfoFormFields } from "@/types/schema/client-info-schema";
+import { memo } from "react";
 
 export interface CompanyInfoControlProps {
   control?: Control<ClientInfoFormFields>;
 }
 
-export default function ClientInfoInputGroup(props: CompanyInfoControlProps) {
+const ClientInfoInputGroup = memo((props: CompanyInfoControlProps) => {
   return (
     <InputGroup
       row1Inputs={[
@@ -62,4 +63,7 @@ export default function ClientInfoInputGroup(props: CompanyInfoControlProps) {
       ]}
     />
   );
-}
+});
+
+ClientInfoInputGroup.displayName = "ClientInfoInputGroup";
+export default ClientInfoInputGroup;
