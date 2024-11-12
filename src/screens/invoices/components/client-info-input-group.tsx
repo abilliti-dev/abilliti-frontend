@@ -1,18 +1,20 @@
 import { MailIcon, PhoneIcon, UserIcon } from "lucide-react";
 import InputGroup from "../../../components/input/input-group";
 import TextInput from "../../../components/input/text-input";
-import { InvoiceFormControlProps } from "@/types/invoice-form-control-props";
-import { Controller } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
+import { ClientInfoFormFields } from "@/types/schema/client-info-schema";
 
-export default function ClientInfoInputGroup(props: InvoiceFormControlProps) {
-  const keyName = "client.info";
+export interface CompanyInfoControlProps {
+  control?: Control<ClientInfoFormFields>;
+}
 
+export default function ClientInfoInputGroup(props: CompanyInfoControlProps) {
   return (
     <InputGroup
       row1Inputs={[
         (inputProps) => (
           <Controller
-            name={`${keyName}.name`}
+            name="name"
             control={props.control}
             render={({ field }) => (
               <TextInput
@@ -29,7 +31,7 @@ export default function ClientInfoInputGroup(props: InvoiceFormControlProps) {
       row2Inputs={[
         (inputProps) => (
           <Controller
-            name={`${keyName}.email`}
+            name="email"
             control={props.control}
             render={({ field }) => (
               <TextInput
@@ -44,7 +46,7 @@ export default function ClientInfoInputGroup(props: InvoiceFormControlProps) {
         ),
         (inputProps) => (
           <Controller
-            name={`${keyName}.phone`}
+            name="phone"
             control={props.control}
             render={({ field }) => (
               <TextInput

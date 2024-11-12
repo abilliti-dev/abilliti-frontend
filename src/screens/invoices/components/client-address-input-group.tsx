@@ -1,20 +1,22 @@
 import { Building2Icon, BuildingIcon, HashIcon, MapPinIcon } from "lucide-react";
 import InputGroup from "../../../components/input/input-group";
 import TextInput from "../../../components/input/text-input";
-import { Controller } from "react-hook-form";
-import { InvoiceFormControlProps } from "@/types/invoice-form-control-props";
+import { Control, Controller } from "react-hook-form";
+import { ClientInfoFormFields } from "@/types/schema/client-info-schema";
 
-interface AddressInputGroupProps extends InvoiceFormControlProps {
-  keyName: "company.address" | "client.address";
+export interface ClientAddressInputGroupProps {
+  control?: Control<ClientInfoFormFields>;
 }
 
-export default function AddressInputGroup(props: AddressInputGroupProps) {
+export default function ClientAddressInputGroup(props: ClientAddressInputGroupProps) {
+  const keyName = "address";
+
   return (
     <InputGroup
       row1Inputs={[
         (inputProps) => (
           <Controller
-            name={`${props.keyName}.street`}
+            name={`${keyName}.street`}
             control={props.control}
             render={({ field }) => (
               <TextInput
@@ -31,7 +33,7 @@ export default function AddressInputGroup(props: AddressInputGroupProps) {
       row2Inputs={[
         (inputProps) => (
           <Controller
-            name={`${props.keyName}.city`}
+            name={`${keyName}.city`}
             control={props.control}
             render={({ field }) => (
               <TextInput
@@ -46,7 +48,7 @@ export default function AddressInputGroup(props: AddressInputGroupProps) {
         ),
         (inputProps) => (
           <Controller
-            name={`${props.keyName}.state`}
+            name={`${keyName}.state`}
             control={props.control}
             render={({ field }) => (
               <TextInput
@@ -61,7 +63,7 @@ export default function AddressInputGroup(props: AddressInputGroupProps) {
         ),
         (inputProps) => (
           <Controller
-            name={`${props.keyName}.zipCode`}
+            name={`${keyName}.zipCode`}
             control={props.control}
             render={({ field }) => (
               <TextInput

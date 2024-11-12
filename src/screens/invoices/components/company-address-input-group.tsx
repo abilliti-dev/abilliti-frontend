@@ -1,68 +1,77 @@
-import { BriefcaseIcon, MailIcon, PhoneIcon } from "lucide-react";
+import { Building2Icon, BuildingIcon, HashIcon, MapPinIcon } from "lucide-react";
 import InputGroup from "../../../components/input/input-group";
 import TextInput from "../../../components/input/text-input";
-import ImageInput from "../../../components/input/image-input";
 import { Control, Controller } from "react-hook-form";
 import { CompanyInfoFormFields } from "@/types/schema/company-info-schema";
 
-export interface CompanyInfoControlProps {
+export interface CompanyAddressInputGroupProps {
   control?: Control<CompanyInfoFormFields>;
 }
 
-export default function CompanyInfoInputGroup(props: CompanyInfoControlProps) {
+export default function CompanyAddressInputGroup(props: CompanyAddressInputGroupProps) {
+  const keyName = "address";
+
   return (
     <InputGroup
       row1Inputs={[
         (inputProps) => (
           <Controller
-            name="name"
+            name={`${keyName}.street`}
             control={props.control}
             render={({ field }) => (
               <TextInput
                 {...field}
                 {...inputProps}
-                label="Company name"
-                placeholder="Enter your company name"
-                Icon={BriefcaseIcon}
+                label="Street"
+                placeholder="Enter an address"
+                Icon={MapPinIcon}
               />
             )}
-          />
-        ),
-        (inputProps) => (
-          <Controller
-            name="image"
-            control={props.control}
-            render={({ field }) => <ImageInput {...field} {...inputProps} label="Upload Logo" />}
           />
         ),
       ]}
       row2Inputs={[
         (inputProps) => (
           <Controller
-            name="email"
+            name={`${keyName}.city`}
             control={props.control}
             render={({ field }) => (
               <TextInput
                 {...field}
                 {...inputProps}
-                label="Email"
-                placeholder="janedoe@gmail.com"
-                Icon={MailIcon}
+                label="City"
+                placeholder="Enter a city"
+                Icon={BuildingIcon}
               />
             )}
           />
         ),
         (inputProps) => (
           <Controller
-            name="phone"
+            name={`${keyName}.state`}
             control={props.control}
             render={({ field }) => (
               <TextInput
                 {...field}
                 {...inputProps}
-                label="Phone number"
-                placeholder="(000) 000-0000"
-                Icon={PhoneIcon}
+                label="State"
+                placeholder="Enter a state"
+                Icon={Building2Icon}
+              />
+            )}
+          />
+        ),
+        (inputProps) => (
+          <Controller
+            name={`${keyName}.zipCode`}
+            control={props.control}
+            render={({ field }) => (
+              <TextInput
+                {...field}
+                {...inputProps}
+                label="Zip code"
+                placeholder="00000"
+                Icon={HashIcon}
               />
             )}
           />

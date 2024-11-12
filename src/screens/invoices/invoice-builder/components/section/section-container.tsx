@@ -12,7 +12,7 @@ interface SectionContainerProps {
 
 export default function SectionContainer(props: SectionContainerProps) {
   return (
-    <div className="rounded-xl border bg-white w-full h-full max-h-[716px] min-w-[553px] flex flex-col justify-between">
+    <div className="rounded-xl border bg-white w-full h-full min-w-[553px] flex flex-col justify-between">
       {/* content */}
       <div className="p-3">{props.children}</div>
 

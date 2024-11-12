@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export type AddressFormFields = z.infer<typeof addressSchema>;
+
 export const addressSchema = z.object({
   street: z.string().min(1).max(100),
   city: z.string().min(1).max(60),
