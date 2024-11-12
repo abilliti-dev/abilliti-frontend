@@ -10,7 +10,7 @@ export const generalInvoiceInfoSchema = z.object({
       due: z.date({ message: "Required" }),
     })
     .refine((data) => data.issue <= data.due, {
-      message: "Due date must be later the than issue date",
+      message: "Due date must be later than the issue date",
       path: ["due"], // "point error to "due"
     }),
 });

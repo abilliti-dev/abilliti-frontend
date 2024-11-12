@@ -12,7 +12,7 @@ interface InputErrorProps {
 export default function InputError(props: InputErrorProps) {
   return props.fieldErrors.filter((err) => !!err && !!err.error).length > 0 ? (
     <div className="pb-1.5">
-      <div className="p-2 bg-red-200 text-red-700 rounded-lg font-medium">
+      <div className="p-2 bg-red-100 text-red-700 rounded-lg font-medium border-2 border-red-200">
         {props.fieldErrors.map((err: InputErrorType, i: number) => {
           if (err && err.error)
             return (
