@@ -2,40 +2,26 @@ import { NumericFormat } from "react-number-format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { itemsSchema } from "@/types/schema/items-and-costs-schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { BoxIcon, CircleDollarSignIcon, EqualIcon, HashIcon, PlusIcon, XIcon } from "lucide-react";
-import { Controller, useFieldArray, useForm } from "react-hook-form";
-import TableInputError from "@/components/input/error/TableInputError";
+import { Control, Controller, FieldErrors, useFieldArray, UseFormWatch } from "react-hook-form";
+import { ItemsAndCostsFormFields } from "@/types/schema/items-and-costs-schema";
 
-export default function ItemTable() {
-  const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(itemsSchema),
-    mode: "onChange",
-    defaultValues: {
-      items: [{ description: "", unitCost: "0", quantity: "1" }],
-    },
-  });
+interface ItemTableProps {
+  control: Control<ItemsAndCostsFormFields>;
+  watch: UseFormWatch<ItemsAndCostsFormFields>;
+  errors: FieldErrors<ItemsAndCostsFormFields>;
+}
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "items",
-    // rules: { required: "Required" },
-  });
+export default function ItemTable(props: ItemTableProps) {
+  const { fields, append, remove } = useFieldArray({ control: props.control, name: "items" });
+  const items = props.watch("items");
 
-  const items = watch("items");
-
-  const calculateAmount = (unitCost: string, quantity: string) => {
+  const calculateAmount = (unitCost: string, quantity: number) => {
     // remove non-numeric char
     const numericUnitCost = parseFloat(unitCost.replace(/[^0-9.-]+/g, ""));
 
     if (isNaN(numericUnitCost)) return 0;
-    return numericUnitCost * Number(quantity);
+    return numericUnitCost * quantity;
   };
 
   return (
@@ -61,18 +47,7 @@ export default function ItemTable() {
       </div>
 
       {/* table content */}
-      <form
-        onSubmit={handleSubmit(
-          (data) => {
-            console.log("Form submitted:", data);
-          },
-          (error) => {
-            console.log("Validation errors:", error);
-            console.log(fields);
-            console.log(errors);
-          }
-        )}
-      >
+      <div>
         <div className="relative border border-neutral-300 rounded-t-xl overflow-clip max-h-[22.5rem] overflow-y-scroll">
           <table className="w-full">
             <tbody className="divide-y divide-neutral-300">
@@ -84,7 +59,7 @@ export default function ItemTable() {
                   <td className="w-[44%] relative">
                     <Controller
                       name={`items.${i}.description`}
-                      control={control}
+                      control={props.control}
                       render={({ field }) => (
                         <Input
                           {...field}
@@ -92,7 +67,7 @@ export default function ItemTable() {
                           // className="border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12"
                           className={cn(
                             "border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12",
-                            !!errors.items?.[i]?.description &&
+                            !!props.errors.items?.[i]?.description &&
                               "ring ring-inset ring-red-300 focus-visible:ring-red-300 focus-visible:ring",
                             i === 0 ? "rounded-tl-xl" : "rounded-none"
                           )}
@@ -113,7 +88,7 @@ export default function ItemTable() {
                   <td className="w-[22%]">
                     <Controller
                       name={`items.${i}.unitCost`}
-                      control={control}
+                      control={props.control}
                       render={({ field: { ref, ...rest } }) => (
                         <NumericFormat
                           getInputRef={ref}
@@ -126,7 +101,7 @@ export default function ItemTable() {
                           fixedDecimalScale={true}
                           allowNegative={false}
                           className={`text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
-                            !!errors.items?.[i]?.unitCost &&
+                            !!props.errors.items?.[i]?.unitCost &&
                             "ring ring-inset ring-red-300 focus-visible:ring-red-300 focus-visible:ring"
                           }`}
                         />
@@ -136,14 +111,14 @@ export default function ItemTable() {
                   <td className="w-[12%]">
                     <Controller
                       name={`items.${i}.quantity`}
-                      control={control}
+                      control={props.control}
                       render={({ field }) => (
                         <Input
                           {...field}
                           type="number"
                           placeholder="1"
                           className={`text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
-                            !!errors.items?.[i]?.quantity &&
+                            !!props.errors.items?.[i]?.quantity &&
                             "ring ring-inset ring-red-300 focus-visible:ring-red-300 focus-visible:ring"
                           }`}
                         />
@@ -167,21 +142,14 @@ export default function ItemTable() {
             append({
               description: "",
               unitCost: "0",
-              quantity: "1",
+              quantity: 1,
             })
           }
         >
           <PlusIcon strokeWidth={1.5} />
           <span>New item</span>
         </button>
-
-        <button type="submit">[temp submit]</button>
-      </form>
-
-      <TableInputError
-        items={errors.items as []}
-        fields={["description", "unitCost", "quantity"]}
-      />
+      </div>
     </div>
   );
 }

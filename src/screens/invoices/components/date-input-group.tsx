@@ -1,9 +1,13 @@
 import DateInput from "@/components/input/date-input";
 import InputGroup from "@/components/input/input-group";
-import { ControlProps } from "@/types/invoice-form-control-props";
-import { Controller } from "react-hook-form";
+import { GeneralInvoiceInfoFormFields } from "@/types/schema/general-invoice-info-schema";
+import { Control, Controller } from "react-hook-form";
 
-export default function DateInputGroup(props: ControlProps) {
+interface DateInputGroupProps {
+  control: Control<GeneralInvoiceInfoFormFields>;
+}
+
+export default function DateInputGroup(props: DateInputGroupProps) {
   const keyName = "date";
 
   return (

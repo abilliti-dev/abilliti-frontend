@@ -17,13 +17,13 @@ export default function TableInputError(props: TableInputErrorProps) {
               {props.fields.map((field: string, j: number) => {
                 if (item[`${props.fields[j]}`])
                   return (
-                    <p key={j} className="flex space-x-1.5 place-items-center pl-1">
+                    <div key={j} className="flex space-x-1.5 place-items-center pl-1">
                       <div className="h-1 w-1 rounded-full bg-red-700" />
                       <span className="text-xs uppercase font-bold">{field}:</span>
                       <span className="text-sm font-medium">
                         {item[`${props.fields[j]}`].message}
                       </span>
-                    </p>
+                    </div>
                   );
               })}
             </div>
