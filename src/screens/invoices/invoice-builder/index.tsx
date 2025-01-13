@@ -1,5 +1,5 @@
 import { useState } from "react";
-import InvoicePreview from "./components/invoice-preview";
+// import InvoicePreview from "./components/invoice-preview";
 import SectionContainer from "./components/section/section-container";
 import Stepper from "./components/stepper";
 import { sections } from "./data/sections";
@@ -9,14 +9,20 @@ import { cn } from "@/lib/utils";
 
 export default function InvoiceBuilderPage() {
   const [step, setStep] = useState<number>(1);
+  const invoiceData = {
+    general: {},
+    company: {},
+    client: {},
+    itemsAndCosts: {},
+  };
 
   return (
     <DashboardContextProvider>
       <DashboardLayout>
         <div className="grid grid-cols-2">
-          <div className="col-span-1 p-10 flex justify-end place-items-start">
+          {/* <div className="col-span-1 p-10 flex justify-end place-items-start">
             <InvoicePreview />
-          </div>
+          </div> */}
           <div className="col-span-1 p-10 flex justify-start place-items-start">
             <div className="w-full">
               <Stepper labels={sections.map((sec) => sec.label)} step={step} setStep={setStep} />

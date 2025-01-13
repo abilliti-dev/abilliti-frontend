@@ -1,31 +1,41 @@
+import { NumericFormat } from "react-number-format";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { itemsSchema } from "@/types/schema/items-and-costs-schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { BoxIcon, CircleDollarSignIcon, EqualIcon, HashIcon, PlusIcon, XIcon } from "lucide-react";
-import { useState } from "react";
-
-export interface Item {
-  description: string;
-  unitCost: number;
-  quantity: number;
-  amount: number;
-}
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import TableInputError from "@/components/input/error/TableInputError";
 
 export default function ItemTable() {
-  const [items, setItems] = useState<Item[]>([
-    {
-      description: "",
-      unitCost: 0,
-      quantity: 1,
-      amount: 0,
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(itemsSchema),
+    mode: "onChange",
+    defaultValues: {
+      items: [{ description: "", unitCost: "0", quantity: "1" }],
     },
-  ]);
+  });
 
-  const addItem = () => {
-    setItems([...items, { description: "", unitCost: 0, quantity: 1, amount: 0 }]);
-  };
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "items",
+    // rules: { required: "Required" },
+  });
 
-  const removeItem = (index: number) => () => {
-    setItems(items.filter((_, i) => i !== index));
+  const items = watch("items");
+
+  const calculateAmount = (unitCost: string, quantity: string) => {
+    // remove non-numeric char
+    const numericUnitCost = parseFloat(unitCost.replace(/[^0-9.-]+/g, ""));
+
+    if (isNaN(numericUnitCost)) return 0;
+    return numericUnitCost * Number(quantity);
   };
 
   return (
@@ -51,44 +61,98 @@ export default function ItemTable() {
       </div>
 
       {/* table content */}
-      <div>
+      <form
+        onSubmit={handleSubmit(
+          (data) => {
+            console.log("Form submitted:", data);
+          },
+          (error) => {
+            console.log("Validation errors:", error);
+            console.log(fields);
+            console.log(errors);
+          }
+        )}
+      >
         <div className="relative border border-neutral-300 rounded-t-xl overflow-clip max-h-[22.5rem] overflow-y-scroll">
           <table className="w-full">
             <tbody className="divide-y divide-neutral-300">
-              {items.map((_item, i) => (
-                <tr className="flex justify-between w-full divide-x divide-neutral-300 overflow-clip">
+              {fields.map((fd, i) => (
+                <tr
+                  key={fd.id}
+                  className="flex justify-between w-full divide-x divide-neutral-300 overflow-clip"
+                >
                   <td className="w-[44%] relative">
-                    <Input
-                      placeholder="Enter an item description"
-                      className="border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12"
+                    <Controller
+                      name={`items.${i}.description`}
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          placeholder="Enter an item description"
+                          // className="border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12"
+                          className={cn(
+                            "border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12",
+                            !!errors.items?.[i]?.description &&
+                              "ring ring-inset ring-red-300 focus-visible:ring-red-300 focus-visible:ring",
+                            i === 0 ? "rounded-tl-xl" : "rounded-none"
+                          )}
+                        />
+                      )}
                     />
                     <Button
+                      type="button"
                       className="z-10 shadow-sm shadow-neutral-300 absolute right-2 top-2 h-8 w-8 text-neutral-400 hover:text-neutral-500"
                       variant={"outline"}
                       size={"icon"}
-                      disabled={items.length === 1}
-                      onClick={removeItem(i)}
+                      disabled={fields.length === 1}
+                      onClick={() => remove(i)}
                     >
                       <XIcon size={20} />
                     </Button>
                   </td>
                   <td className="w-[22%]">
-                    <Input
-                      type="number"
-                      placeholder="$0.00"
-                      className="text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    <Controller
+                      name={`items.${i}.unitCost`}
+                      control={control}
+                      render={({ field: { ref, ...rest } }) => (
+                        <NumericFormat
+                          getInputRef={ref}
+                          {...rest}
+                          placeholder="$0.00"
+                          prefix="$"
+                          customInput={Input}
+                          thousandSeparator={true}
+                          decimalScale={2}
+                          fixedDecimalScale={true}
+                          allowNegative={false}
+                          className={`text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                            !!errors.items?.[i]?.unitCost &&
+                            "ring ring-inset ring-red-300 focus-visible:ring-red-300 focus-visible:ring"
+                          }`}
+                        />
+                      )}
                     />
                   </td>
                   <td className="w-[12%]">
-                    <Input
-                      type="number"
-                      defaultValue={1}
-                      className="text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                    <Controller
+                      name={`items.${i}.quantity`}
+                      control={control}
+                      render={({ field }) => (
+                        <Input
+                          {...field}
+                          type="number"
+                          placeholder="1"
+                          className={`text-center border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${
+                            !!errors.items?.[i]?.quantity &&
+                            "ring ring-inset ring-red-300 focus-visible:ring-red-300 focus-visible:ring"
+                          }`}
+                        />
+                      )}
                     />
                   </td>
                   <td className="w-[22%] bg-neutral-200/60 overflow-hidden">
                     <span className="flex justify-center place-items-center h-full text-neutral-500">
-                      $0.00
+                      {`$${calculateAmount(items[i].unitCost, items[i].quantity).toFixed(2)}`}
                     </span>
                   </td>
                 </tr>
@@ -97,13 +161,27 @@ export default function ItemTable() {
           </table>
         </div>
         <button
+          type="button"
           className="w-full flex space-x-1.5 justify-center place-items-center h-12 border-t-0 border border-neutral-300 text-neutral-600 hover:bg-neutral-50 text-sm font-medium duration-100 transition-colors rounded-b-xl"
-          onClick={addItem}
+          onClick={() =>
+            append({
+              description: "",
+              unitCost: "0",
+              quantity: "1",
+            })
+          }
         >
           <PlusIcon strokeWidth={1.5} />
           <span>New item</span>
         </button>
-      </div>
+
+        <button type="submit">[temp submit]</button>
+      </form>
+
+      <TableInputError
+        items={errors.items as []}
+        fields={["description", "unitCost", "quantity"]}
+      />
     </div>
   );
 }

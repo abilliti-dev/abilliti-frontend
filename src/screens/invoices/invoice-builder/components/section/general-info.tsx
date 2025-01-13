@@ -7,6 +7,7 @@ import {
   generalInvoiceInfoSchema,
 } from "@/types/schema/general-invoice-info-schema";
 import InputError from "@/components/input/error/InputError";
+// import { ErrorMessage } from "@hookform/error-message";
 
 export default function GeneralInfo() {
   const {
@@ -15,19 +16,15 @@ export default function GeneralInfo() {
     formState: { errors },
   } = useForm<GeneralInvoiceInfoFormFields>({
     resolver: zodResolver(generalInvoiceInfoSchema),
-    // defaultValues: {
-    //   date: {
-    //     issue: new Date(),
-    //   },
-    // },
+    defaultValues: {
+      date: {
+        issue: new Date(),
+      },
+    },
   });
 
-  const submit = (data: unknown) => {
-    console.log(data);
-  };
-
   return (
-    <form onSubmit={handleSubmit(submit)}>
+    <form onSubmit={handleSubmit((data) => console.log(data))}>
       <div className="space-y-1.5">
         <Controller
           name="description"
@@ -41,6 +38,11 @@ export default function GeneralInfo() {
           )}
         />
         <InputError fieldErrors={[{ name: "Job details", error: errors.description }]} />
+        {/* <ErrorMessage
+          errors={errors}
+          name="description"
+          render={({ message }) => <p>{message}</p>}
+        /> */}
         <DateInputGroup control={control} />
         <InputError
           fieldErrors={[
