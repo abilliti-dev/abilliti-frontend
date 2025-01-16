@@ -11,8 +11,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
+import InvoiceFormSection, { InvoiceFormSectionProps } from "../invoice-form-section";
 
-export default function ItemsAndCosts() {
+export default function ItemsAndCosts(props: InvoiceFormSectionProps) {
   const {
     handleSubmit,
     control,
@@ -29,15 +30,8 @@ export default function ItemsAndCosts() {
     },
   });
 
-  // const { formState: { errors } } = useForm<ItemsFields>({ resolver: zodResolver(itemsSchema) });
-
   return (
-    <form
-      onSubmit={handleSubmit(
-        (data) => console.log("form submitted:", data),
-        (error) => console.log("errors:", error)
-      )}
-    >
+    <InvoiceFormSection {...props} handleSubmit={handleSubmit}>
       <div className="space-y-8">
         <div className="space-y-2">
           <ItemTable control={control} watch={watch} errors={errors} />
@@ -135,8 +129,6 @@ export default function ItemsAndCosts() {
           ]}
         />
       </div>
-
-      <button type="submit">[temp submit]</button>
-    </form>
+    </InvoiceFormSection>
   );
 }

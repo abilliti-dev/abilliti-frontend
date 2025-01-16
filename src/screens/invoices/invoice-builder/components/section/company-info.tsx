@@ -4,8 +4,9 @@ import CompanyInfoInputGroup from "@/screens/invoices/components/company-info-in
 import { CompanyInfoFormFields, companyInfoSchema } from "@/types/schema/company-info-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import InvoiceFormSection, { InvoiceFormSectionProps } from "../invoice-form-section";
 
-export default function CompanyInfo() {
+export default function CompanyInfo(props: InvoiceFormSectionProps) {
   const {
     handleSubmit,
     control,
@@ -18,7 +19,7 @@ export default function CompanyInfo() {
   // const name = watch("name");
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <InvoiceFormSection {...props} handleSubmit={handleSubmit}>
       <div className="space-y-2.5">
         <div className="space-y-1.5">
           <label className="text-sm text-neutral-500 font-medium">Company details</label>
@@ -45,7 +46,6 @@ export default function CompanyInfo() {
           />
         </div>
       </div>
-      <button type="submit">[temp button]</button>
-    </form>
+    </InvoiceFormSection>
   );
 }

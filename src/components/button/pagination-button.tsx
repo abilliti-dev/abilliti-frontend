@@ -2,8 +2,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
 interface PaginationButtonProps {
-  onClickPrevious: () => void;
-  onClickNext: () => void;
+  onClickPrevious?: () => void;
+  onClickNext?: () => void;
   disablePrevious?: boolean;
   disableNext?: boolean;
 }
@@ -13,6 +13,7 @@ export default function PaginationButton(props: PaginationButtonProps) {
     <div className="border rounded-md flex place-items-center divide-x h-fit">
       <div>
         <Button
+          type="button"
           size={"sm"}
           variant={"ghost"}
           onClick={props.onClickPrevious}
@@ -24,6 +25,7 @@ export default function PaginationButton(props: PaginationButtonProps) {
       </div>
       <div>
         <Button
+          type="button"
           size={"sm"}
           variant={"ghost"}
           onClick={props.onClickNext}

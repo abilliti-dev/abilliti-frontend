@@ -4,8 +4,9 @@ import ClientInfoInputGroup from "@/screens/invoices/components/client-info-inpu
 import { ClientInfoFormFields, clientInfoSchema } from "@/types/schema/client-info-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import InvoiceFormSection, { InvoiceFormSectionProps } from "../invoice-form-section";
 
-export default function ClientInfo() {
+export default function ClientInfo(props: InvoiceFormSectionProps) {
   const {
     handleSubmit,
     control,
@@ -15,7 +16,7 @@ export default function ClientInfo() {
   });
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <InvoiceFormSection {...props} handleSubmit={handleSubmit}>
       <div className="space-y-2.5">
         <div className="space-y-1.5">
           <label className="text-sm text-neutral-500 font-medium">Client details</label>
@@ -41,7 +42,6 @@ export default function ClientInfo() {
           />
         </div>
       </div>
-      <button type="submit">[temp button]</button>
-    </form>
+    </InvoiceFormSection>
   );
 }

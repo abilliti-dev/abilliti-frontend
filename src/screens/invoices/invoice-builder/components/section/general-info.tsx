@@ -1,30 +1,26 @@
 import { Controller, useForm } from "react-hook-form";
 import DateInputGroup from "@/screens/invoices/components/date-input-group";
 import DescriptionInput from "@/components/input/description-input";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   GeneralInvoiceInfoFormFields,
   generalInvoiceInfoSchema,
 } from "@/types/schema/general-invoice-info-schema";
 import InputError from "@/components/input/error/InputError";
-// import { ErrorMessage } from "@hookform/error-message";
+import { zodResolver } from "@hookform/resolvers/zod";
+import InvoiceFormSection, { InvoiceFormSectionProps } from "../invoice-form-section";
 
-export default function GeneralInfo() {
+export default function GeneralInfo(props: InvoiceFormSectionProps) {
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<GeneralInvoiceInfoFormFields>({
     resolver: zodResolver(generalInvoiceInfoSchema),
-    defaultValues: {
-      date: {
-        issue: new Date(),
-      },
-    },
+    defaultValues: { date: { issue: new Date() } },
   });
 
   return (
-    <form onSubmit={handleSubmit((data) => console.log(data))}>
+    <InvoiceFormSection {...props} handleSubmit={handleSubmit}>
       <div className="space-y-1.5">
         <Controller
           name="description"
@@ -38,11 +34,6 @@ export default function GeneralInfo() {
           )}
         />
         <InputError fieldErrors={[{ name: "Job details", error: errors.description }]} />
-        {/* <ErrorMessage
-          errors={errors}
-          name="description"
-          render={({ message }) => <p>{message}</p>}
-        /> */}
         <DateInputGroup control={control} />
         <InputError
           fieldErrors={[
@@ -51,7 +42,6 @@ export default function GeneralInfo() {
           ]}
         />
       </div>
-      <button type="submit">[temp submit]</button>
-    </form>
+    </InvoiceFormSection>
   );
 }

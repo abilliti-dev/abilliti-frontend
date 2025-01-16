@@ -1,21 +1,30 @@
 import { useState } from "react";
-// import InvoicePreview from "./components/invoice-preview";
-import SectionContainer from "./components/section/section-container";
+// import SectionContainer from "./components/section/section-container";
 import Stepper from "./components/stepper";
 import { sections } from "./data/sections";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import DashboardContextProvider from "@/contexts/dashboard-context";
+import { defaultInvoiceForm, InvoiceForm } from "@/types/invoice-form";
 import { cn } from "@/lib/utils";
 
 export default function InvoiceBuilderPage() {
   const [step, setStep] = useState<number>(1);
-  const invoiceData = {
-    general: {},
-    company: {},
-    client: {},
-    itemsAndCosts: {},
-  };
+  const [invoiceForm, setInvoiceForm] = useState<InvoiceForm>(defaultInvoiceForm);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const saveData = (formData: any) => {
+    if (step === 1) {
+      setInvoiceForm((prevForm) => (prevForm["general"] = formData));
+    } else if (step === 2) {
+      setInvoiceForm((prevForm) => (prevForm["company"] = formData));
+    } else if (step === 3) {
+      setInvoiceForm((prevForm) => (prevForm["client"] = formData));
+    } else if (step === 4) {
+      setInvoiceForm((prevForm) => (prevForm["itemsAndCosts"] = formData));
+    }
+
+    console.log("invoice form:", invoiceForm);
+  };
   return (
     <DashboardContextProvider>
       <DashboardLayout>
@@ -25,17 +34,24 @@ export default function InvoiceBuilderPage() {
           </div> */}
           <div className="col-span-1 p-10 flex justify-start place-items-start">
             <div className="w-full">
-              <Stepper labels={sections.map((sec) => sec.label)} step={step} setStep={setStep} />
-              <SectionContainer setStep={setStep} step={step} stepAmount={sections.length}>
-                {/* {sections[step as keyof typeof sections].section} */}
-                {sections.map((section, i: number) => {
-                  return (
-                    <div key={i} className={cn(step !== i + 1 && "hidden")}>
-                      <section.component />
-                    </div>
-                  );
-                })}
-              </SectionContainer>
+              <div className="pb-4">
+                <Stepper labels={sections.map((sec) => sec.label)} step={step} setStep={setStep} />
+              </div>
+              {/* <SectionContainer setStep={setStep} step={step} stepAmount={sections.length}> */}
+              {/* {sections[step as keyof typeof sections].section} */}
+              {sections.map((section, i: number) => {
+                return (
+                  <div key={i} className={cn(step !== i + 1 && "hidden")}>
+                    <section.component
+                      saveData={saveData}
+                      setStep={setStep}
+                      step={step}
+                      stepAmount={sections.length}
+                    />
+                  </div>
+                );
+              })}
+              {/* </SectionContainer> */}
             </div>
           </div>
         </div>

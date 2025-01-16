@@ -1,7 +1,8 @@
 import IconWithTextButton from "@/components/button/icon-with-text-button";
 import { CheckIcon, ExternalLinkIcon, PlusCircleIcon } from "lucide-react";
+import { InvoiceFormSectionProps } from "../invoice-form-section";
 
-export default function Confirmation() {
+export default function Confirmation(props: InvoiceFormSectionProps) {
   return (
     <div className="bg-green-400/50 rounded-xl space-y-8 relative">
       <div className="bg-white w-20 h-20 rounded-full absolute top-0 transform -translate-y-1/2 mx-auto inset-0 flex justify-center place-items-center">

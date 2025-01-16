@@ -4,6 +4,7 @@ import { GeneralInvoiceInfoFormFields } from "@/types/schema/general-invoice-inf
 import { Control, Controller } from "react-hook-form";
 
 interface DateInputGroupProps {
+  // control: Control<GeneralInvoiceInfoFormFields>;
   control: Control<GeneralInvoiceInfoFormFields>;
 }
 
