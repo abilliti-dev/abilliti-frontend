@@ -58,13 +58,13 @@ export default function InvoiceTableFilter({
             variant="secondary"
             className="flex h-10 rounded-l-none border border-slate-200 border-l-0 bg-white px-3 py-2 text-sm focus-visible:ring-0"
           >
-            {filteringField}
+            {String(filteringField)}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           {filteringFieldsArray.map((item: FilteringFields, key) => (
             <DropdownMenuItem key={key} onClick={() => setFilteringField(item)}>
-              {item}
+              {String(item)}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
