@@ -69,7 +69,7 @@ export function InvoiceTable<TData, TValue>({ columns, data }: DataTableProps<TD
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className="capitalize">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>

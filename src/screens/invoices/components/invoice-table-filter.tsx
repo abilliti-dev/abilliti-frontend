@@ -3,12 +3,22 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { FilteringFields, filteringFieldsArray, Invoice } from "@/types";
+import {
+  excludeFromFilteringFieldsArray,
+  FilteringFields,
+  filteringFieldsArray,
+  Invoice,
+} from "@/types";
 import { useEffect } from "react";
-import { filteringFieldsMap } from "../utils";
+import { filteringFieldsMap } from "@/screens/invoices/utils";
+import { INVOICE_STATUS } from "@/enums";
 
 interface InvoiceTableFilterProps {
   table: any;
@@ -42,31 +52,57 @@ export default function InvoiceTableFilter({
     }
   }, [filterValue]);
 
+  useEffect(() => {
+    if (filteringField && filteringField !== "Status") {
+      setFilterValue("");
+    }
+  }, [filteringField]);
+
+  const handleStatusFilter = (e: any) => {
+    setFilteringField("Status");
+    setFilterValue(e.target.innerText);
+  };
+
   return (
     <div className="flex items-center py-4">
       <Input
         placeholder="Filter invoices..."
-        // value={(table.getColumn(filteringField)?.getFilterValue() as string) ?? ""}
         value={filterValue}
-        // onChange={(event) => table.getColumn(filteringField)?.setFilterValue(event.target.value)}
         onChange={(event) => setFilterValue(event.target.value)}
-        className="max-w-sm rounded-r-none focus-visible:ring-0"
+        className="max-w-sm rounded-r-none focus-visible:ring-[0]"
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="secondary"
-            className="flex h-10 rounded-l-none border border-slate-200 border-l-0 bg-white px-3 py-2 text-sm focus-visible:ring-0"
+            className="flex h-10 rounded-l-none border border-slate-200 border-l-0 bg-white px-3 py-2 text-sm focus-visible:ring-[0]"
           >
             {String(filteringField)}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          {filteringFieldsArray.map((item: FilteringFields, key) => (
-            <DropdownMenuItem key={key} onClick={() => setFilteringField(item)}>
-              {String(item)}
-            </DropdownMenuItem>
-          ))}
+          {filteringFieldsArray
+            .filter((field: any) => !excludeFromFilteringFieldsArray.includes(field))
+            .map((item: FilteringFields, key) => (
+              <DropdownMenuItem key={key} onClick={() => setFilteringField(item)}>
+                {String(item)}
+              </DropdownMenuItem>
+            ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              {Object.values(INVOICE_STATUS).map((status, key) => (
+                <DropdownMenuItem
+                  key={key}
+                  className="capitalize"
+                  onClick={(event) => handleStatusFilter(event)}
+                >
+                  {status}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
