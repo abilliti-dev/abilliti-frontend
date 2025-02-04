@@ -19,6 +19,7 @@ import {
 import { useEffect } from "react";
 import { filteringFieldsMap } from "@/screens/invoices/utils";
 import { INVOICE_STATUS } from "@/enums";
+import { Calendar } from "@/components/ui/calendar";
 
 interface InvoiceTableFilterProps {
   table: any;
@@ -27,6 +28,8 @@ interface InvoiceTableFilterProps {
   filterValue: string;
   setFilterValue: any;
   setFilteredItems: any;
+  date: Date | undefined;
+  setDate: any;
   data: Invoice[];
 }
 
@@ -36,6 +39,8 @@ export default function InvoiceTableFilter({
   filterValue,
   setFilterValue,
   setFilteredItems,
+  date,
+  setDate,
   data,
 }: InvoiceTableFilterProps) {
   useEffect(() => {
@@ -88,6 +93,30 @@ export default function InvoiceTableFilter({
                 {String(item)}
               </DropdownMenuItem>
             ))}
+          <DropdownMenuSeparator />
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Created date</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                disabled={(date) => date > new Date()}
+                className="rounded-md border-none"
+              />
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Due date</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                className="rounded-md border-none"
+              />
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>

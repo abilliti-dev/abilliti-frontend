@@ -12,6 +12,6 @@ export type Invoice = {
 
 export const filteringFieldsArray = columns.map((item) => item.header);
 
-export const excludeFromFilteringFieldsArray = ["Status"];
+export const excludeFromFilteringFieldsArray = ["Status", "Created date", "Due date"];
 
 export type FilteringFields = (typeof filteringFieldsArray)[number];
