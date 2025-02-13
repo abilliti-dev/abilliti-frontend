@@ -30,6 +30,7 @@ export default function GeneralInfo(props: InvoiceFormSectionProps) {
               {...field}
               label="Job details"
               placeholder="Enter short job description"
+              error={!!errors.description}
             />
           )}
         />
