@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 
 interface StepperProps {
   labels: string[];

@@ -5,11 +5,13 @@ import { cn } from "@/lib/utils";
 import { BoxIcon, CircleDollarSignIcon, EqualIcon, HashIcon, PlusIcon, XIcon } from "lucide-react";
 import { Control, Controller, FieldErrors, useFieldArray, UseFormWatch } from "react-hook-form";
 import { ItemsAndCostsFormFields } from "@/types/schema/items-and-costs-schema";
+import { Dispatch, SetStateAction, useEffect } from "react";
 
 interface ItemTableProps {
   control: Control<ItemsAndCostsFormFields>;
   watch: UseFormWatch<ItemsAndCostsFormFields>;
   errors: FieldErrors<ItemsAndCostsFormFields>;
+  setSubtotal: Dispatch<SetStateAction<number>>;
 }
 
 export default function ItemTable(props: ItemTableProps) {
@@ -23,6 +25,22 @@ export default function ItemTable(props: ItemTableProps) {
     if (isNaN(numericUnitCost)) return 0;
     return numericUnitCost * quantity;
   };
+
+  useEffect(() => {
+    let subtotal = 0;
+
+    for (const item of items) {
+      let numericUnitCost = 0;
+      if (item.unitCost) {
+        numericUnitCost =
+          item.unitCost[0] === "$" ? parseFloat(item.unitCost.slice(1)) : parseFloat(item.unitCost);
+      }
+      subtotal += numericUnitCost * item.quantity;
+    }
+
+    props.setSubtotal(subtotal);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(items)]);
 
   return (
     <div className="space-y-1.5">
@@ -96,7 +114,6 @@ export default function ItemTable(props: ItemTableProps) {
                           placeholder="$0.00"
                           prefix="$"
                           customInput={Input}
-                          thousandSeparator={true}
                           decimalScale={2}
                           fixedDecimalScale={true}
                           allowNegative={false}
