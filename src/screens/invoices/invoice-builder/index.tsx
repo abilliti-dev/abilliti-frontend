@@ -1,11 +1,10 @@
 import { useState } from "react";
-// import SectionContainer from "./components/section/section-container";
-import Stepper from "./components/stepper";
 import { sections } from "./data/sections";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import DashboardContextProvider from "@/contexts/dashboard-context";
 import { defaultInvoiceForm, InvoiceForm } from "@/types/invoice-form";
 import { cn } from "@/lib/utils";
+import InvoicePreview from "./components/invoice-preview";
 
 export default function InvoiceBuilderPage() {
   const [step, setStep] = useState<number>(1);
@@ -29,30 +28,22 @@ export default function InvoiceBuilderPage() {
     <DashboardContextProvider>
       <DashboardLayout>
         <div className="grid grid-cols-2">
-          {/* <div className="col-span-1 p-10 flex justify-end place-items-start">
+          <div className="col-span-1 p-10 flex justify-end place-items-start">
             <InvoicePreview />
-          </div> */}
+          </div>
           <div className="col-span-1 p-10 flex justify-start place-items-start">
-            <div className="w-full">
-              <div className="pb-4">
-                <Stepper labels={sections.map((sec) => sec.label)} step={step} setStep={setStep} />
-              </div>
-              {/* <SectionContainer setStep={setStep} step={step} stepAmount={sections.length}> */}
-              {/* {sections[step as keyof typeof sections].section} */}
-              {sections.map((section, i: number) => {
-                return (
-                  <div key={i} className={cn(step !== i + 1 && "hidden")}>
-                    <section.component
-                      saveData={saveData}
-                      setStep={setStep}
-                      step={step}
-                      stepAmount={sections.length}
-                    />
-                  </div>
-                );
-              })}
-              {/* </SectionContainer> */}
-            </div>
+            {sections.map((section, i: number) => {
+              return (
+                <div key={i} className={cn(step !== i + 1 && "hidden")}>
+                  <section.component
+                    saveData={saveData}
+                    setStep={setStep}
+                    step={step}
+                    stepAmount={sections.length}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </DashboardLayout>

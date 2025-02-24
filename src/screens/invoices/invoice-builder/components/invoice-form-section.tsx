@@ -4,7 +4,8 @@ import IconWithTextButton from "@/components/button/icon-with-text-button";
 import { ArchiveIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
-// import { InvoiceForm } from "@/types/invoice-form";
+import { sections } from "../data/sections";
+import Stepper from "./stepper";
 
 export interface InvoiceFormSectionProps {
   children?: React.ReactNode;
@@ -16,7 +17,6 @@ export interface InvoiceFormSectionProps {
     onInvalid?: SubmitErrorHandler<any> | undefined
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   saveData: (data: any) => void;
-  // setInvoiceForm: Dispatch<SetStateAction<InvoiceForm>>;
 }
 
 export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
@@ -33,29 +33,37 @@ export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
   };
 
   return (
-    <form
-      className="rounded-xl border bg-white w-full h-full min-w-[553px] flex flex-col justify-between divide-y"
-      onSubmit={props.handleSubmit!(submit(""))}
-    >
-      {/* content */}
-      <div className="p-3">{props.children}</div>
+    <form className="space-y-4" onSubmit={props.handleSubmit!(submit(""))}>
+      {/* header-stepper */}
+      <Stepper
+        handleSubmit={props.handleSubmit!}
+        saveData={props.saveData}
+        labels={sections.map((sec) => sec.label)}
+        step={props.step}
+        setStep={props.setStep}
+      />
 
-      {/* footer */}
-      <div className="flex justify-between px-3 py-2">
-        <IconWithTextButton
-          type="button"
-          Icon={ArchiveIcon}
-          variant={"outline"}
-          className="font-normal"
-        >
-          Save as draft
-        </IconWithTextButton>
-        <PaginationButton
-          onClickPrevious={() => props.setStep(props.step - 1)}
-          onClickNext={() => submit("next")()}
-          disablePrevious={props.step <= 1}
-          disableNext={props.step === props.stepAmount}
-        />
+      <div className="rounded-xl border bg-white w-full h-full min-w-[553px] flex flex-col justify-between divide-y">
+        {/* content */}
+        <div className="p-3">{props.children}</div>
+
+        {/* footer */}
+        <div className="flex justify-between px-3 py-2">
+          <IconWithTextButton
+            type="button"
+            Icon={ArchiveIcon}
+            variant={"outline"}
+            className="font-normal"
+          >
+            Save as draft
+          </IconWithTextButton>
+          <PaginationButton
+            onClickPrevious={() => props.setStep(props.step - 1)}
+            onClickNext={() => submit("next")()}
+            disablePrevious={props.step <= 1}
+            disableNext={props.step === props.stepAmount}
+          />
+        </div>
       </div>
     </form>
   );

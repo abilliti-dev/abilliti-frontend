@@ -1,15 +1,33 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { cn } from "@/lib/utils";
 import { Dispatch, SetStateAction } from "react";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 
 interface StepperProps {
   labels: string[];
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
+  saveData: (data: any) => void;
+  handleSubmit: (
+    onValid: SubmitHandler<any>,
+    onInvalid?: SubmitErrorHandler<any> | undefined
+  ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
 }
 
 export default function Stepper(props: StepperProps) {
-  const handleStep = (x: number) => () => {
-    if (props.step !== x) props.setStep(x);
+  const handleStep = (newStep: number) => {
+    return props.handleSubmit(
+      (data) => {
+        props.saveData(data);
+        if (props.step !== newStep) props.setStep(newStep);
+      },
+      (errors) => {
+        console.log("Error:", errors);
+        if (newStep < props.step) {
+          props.setStep(newStep);
+        }
+      }
+    );
   };
 
   return (
