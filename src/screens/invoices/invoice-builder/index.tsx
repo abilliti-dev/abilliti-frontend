@@ -3,8 +3,8 @@ import { sections } from "./data/sections";
 import DashboardLayout from "@/layouts/dashboard-layout";
 import DashboardContextProvider from "@/contexts/dashboard-context";
 import { defaultInvoiceForm, InvoiceForm } from "@/types/invoice-form";
-import { cn } from "@/lib/utils";
 import InvoicePreview from "./components/invoice-preview";
+import { cn } from "@/lib/utils";
 
 export default function InvoiceBuilderPage() {
   const [step, setStep] = useState<number>(1);
@@ -12,14 +12,20 @@ export default function InvoiceBuilderPage() {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const saveData = (formData: any) => {
-    if (step === 1) {
-      setInvoiceForm((prevForm) => (prevForm["general"] = formData));
-    } else if (step === 2) {
-      setInvoiceForm((prevForm) => (prevForm["company"] = formData));
-    } else if (step === 3) {
-      setInvoiceForm((prevForm) => (prevForm["client"] = formData));
-    } else if (step === 4) {
-      setInvoiceForm((prevForm) => (prevForm["itemsAndCosts"] = formData));
+    if (formData) {
+      if (step === 1) {
+        setInvoiceForm((prevForm) => (prevForm["general"] = formData));
+      } else if (step === 2) {
+        setInvoiceForm((prevForm) => (prevForm["company"] = formData));
+      } else if (step === 3) {
+        setInvoiceForm((prevForm) => (prevForm["client"] = formData));
+      } else if (step === 4) {
+        setInvoiceForm((prevForm) => (prevForm["itemsAndCosts"] = formData));
+      } else {
+        console.log("Unhandled section");
+      }
+    } else {
+      console.log("Error: Missing form data");
     }
 
     console.log("invoice form:", invoiceForm);
@@ -42,6 +48,7 @@ export default function InvoiceBuilderPage() {
                     setStep={setStep}
                     step={step}
                     stepAmount={sections.length}
+                    invoiceForm={invoiceForm}
                   />
                 </div>
               );

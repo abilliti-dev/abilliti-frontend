@@ -8,7 +8,7 @@ interface StepperProps {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
   saveData: (data: any) => void;
-  handleSubmit: (
+  handleSubmit?: (
     onValid: SubmitHandler<any>,
     onInvalid?: SubmitErrorHandler<any> | undefined
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
@@ -16,18 +16,22 @@ interface StepperProps {
 
 export default function Stepper(props: StepperProps) {
   const handleStep = (newStep: number) => {
-    return props.handleSubmit(
-      (data) => {
-        props.saveData(data);
-        if (props.step !== newStep) props.setStep(newStep);
-      },
-      (errors) => {
-        console.log("Error:", errors);
-        if (newStep < props.step) {
-          props.setStep(newStep);
+    if (props.handleSubmit) {
+      return props.handleSubmit(
+        (data) => {
+          props.saveData(data);
+          if (props.step !== newStep) props.setStep(newStep);
+        },
+        (errors) => {
+          console.log("Error:", errors);
+          if (newStep < props.step) {
+            props.setStep(newStep);
+          }
         }
-      }
-    );
+      );
+    } else {
+      return () => props.setStep(newStep);
+    }
   };
 
   return (

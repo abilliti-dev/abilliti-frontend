@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction } from "react";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { sections } from "../data/sections";
 import Stepper from "./stepper";
+import { InvoiceForm } from "@/types/invoice-form";
 
 export interface InvoiceFormSectionProps {
   children?: React.ReactNode;
@@ -17,6 +18,7 @@ export interface InvoiceFormSectionProps {
     onInvalid?: SubmitErrorHandler<any> | undefined
   ) => (e?: React.BaseSyntheticEvent) => Promise<void>;
   saveData: (data: any) => void;
+  invoiceForm: InvoiceForm;
 }
 
 export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
@@ -33,10 +35,13 @@ export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
   };
 
   return (
-    <form className="space-y-4" onSubmit={props.handleSubmit!(submit(""))}>
+    <form
+      className="space-y-4"
+      onSubmit={props.handleSubmit ? props.handleSubmit(submit("")) : undefined}
+    >
       {/* header-stepper */}
       <Stepper
-        handleSubmit={props.handleSubmit!}
+        handleSubmit={props.handleSubmit}
         saveData={props.saveData}
         labels={sections.map((sec) => sec.label)}
         step={props.step}
