@@ -3,8 +3,20 @@ import { CheckIcon, ExternalLinkIcon, PlusCircleIcon } from "lucide-react";
 import { InvoiceFormSectionProps } from "../invoice-form-section";
 import Stepper from "../stepper";
 import { sections } from "../../data/sections";
+import { calculateSubtotal, calculateTotal } from "../../util/calculate";
+import formatMoney from "../../util/format-money";
 
 export default function Confirmation(props: InvoiceFormSectionProps) {
+  const total = calculateTotal(
+    props.invoiceForm.itemsAndCosts.taxRate,
+    props.invoiceForm.itemsAndCosts.discount,
+    calculateSubtotal(props.invoiceForm.itemsAndCosts.items)
+  );
+
+  const totalItems = props.invoiceForm.itemsAndCosts.items.length;
+  const totalCost = formatMoney(total);
+  const dueDate = new Date(props.invoiceForm.general.date.due as Date).toLocaleDateString();
+
   return (
     <div className="space-y-16">
       <Stepper
@@ -27,15 +39,15 @@ export default function Confirmation(props: InvoiceFormSectionProps) {
         </h1>
         <div className="flex justify-between px-10 font-medium">
           <div className="text-center w-40 text-green-900">
-            <h2 className="text-2xl">3 items</h2>
+            <h2 className="text-2xl">{totalItems} items</h2>
             <span>Total items</span>
           </div>
           <div className="text-center w-40 text-green-900">
-            <h2 className="text-2xl">$327.90</h2>
+            <h2 className="text-2xl">{totalCost}</h2>
             <span>Total cost</span>
           </div>
           <div className="text-center w-40 text-green-900">
-            <h2 className="text-2xl">12-21-2024</h2>
+            <h2 className="text-2xl">{dueDate}</h2>
             <span>Due date</span>
           </div>
         </div>

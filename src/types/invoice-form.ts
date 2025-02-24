@@ -65,7 +65,7 @@ export const defaultInvoiceForm: InvoiceForm = {
   itemsAndCosts: {
     items: [{ description: "", unitCost: "$0.00", quantity: 1 }],
     notes: "",
-    discount: "",
-    taxRate: "",
+    discount: "0",
+    taxRate: "0",
   },
 };

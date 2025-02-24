@@ -14,13 +14,13 @@ export default function InvoiceBuilderPage() {
   const saveData = (formData: any) => {
     if (formData) {
       if (step === 1) {
-        setInvoiceForm((prevForm) => (prevForm["general"] = formData));
+        setInvoiceForm((prevForm) => ({ ...prevForm, general: formData }));
       } else if (step === 2) {
-        setInvoiceForm((prevForm) => (prevForm["company"] = formData));
+        setInvoiceForm((prevForm) => ({ ...prevForm, company: formData }));
       } else if (step === 3) {
-        setInvoiceForm((prevForm) => (prevForm["client"] = formData));
+        setInvoiceForm((prevForm) => ({ ...prevForm, client: formData }));
       } else if (step === 4) {
-        setInvoiceForm((prevForm) => (prevForm["itemsAndCosts"] = formData));
+        setInvoiceForm((prevForm) => ({ ...prevForm, itemsAndCosts: formData }));
       } else {
         console.log("Unhandled section");
       }
@@ -30,6 +30,7 @@ export default function InvoiceBuilderPage() {
 
     console.log("invoice form:", invoiceForm);
   };
+
   return (
     <DashboardContextProvider>
       <DashboardLayout>
@@ -48,6 +49,7 @@ export default function InvoiceBuilderPage() {
                     setStep={setStep}
                     step={step}
                     stepAmount={sections.length}
+                    // invoiceForm={invoiceForm}
                     invoiceForm={invoiceForm}
                   />
                 </div>

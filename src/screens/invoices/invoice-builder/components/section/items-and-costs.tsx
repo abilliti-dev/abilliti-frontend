@@ -15,6 +15,8 @@ import { Controller, useForm } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
 import InvoiceFormSection, { InvoiceFormSectionProps } from "../invoice-form-section";
 import { useEffect, useMemo, useState } from "react";
+import formatMoney from "../../util/format-money";
+import { calculateTotal } from "../../util/calculate";
 
 export default function ItemsAndCosts(props: InvoiceFormSectionProps) {
   const {
@@ -36,28 +38,11 @@ export default function ItemsAndCosts(props: InvoiceFormSectionProps) {
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
 
-  const formatMoney = (money: number) => {
-    return "$" + (Math.round(money * 100) / 100).toFixed(2);
-  };
-
   const taxRate = watch("taxRate");
   const discount = watch("discount");
 
   useEffect(() => {
-    let numericTaxRate = 0;
-    let numericDiscount = 0;
-
-    if (taxRate) {
-      const last = taxRate.length - 1;
-      numericTaxRate =
-        taxRate[last] === "%" ? parseFloat(taxRate.slice(0, last)) : parseFloat(taxRate);
-    }
-    if (discount) {
-      numericDiscount = discount[0] === "$" ? parseFloat(discount.slice(1)) : parseFloat(discount);
-    }
-
-    const tax = subtotal * (numericTaxRate / 100);
-    setTotal(subtotal + tax - numericDiscount);
+    setTotal(calculateTotal(taxRate, discount, subtotal));
   }, [subtotal, taxRate, discount]);
 
   const taxAndDiscountGroup = useMemo(

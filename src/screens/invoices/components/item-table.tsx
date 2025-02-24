@@ -6,6 +6,7 @@ import { BoxIcon, CircleDollarSignIcon, EqualIcon, HashIcon, PlusIcon, XIcon } f
 import { Control, Controller, FieldErrors, useFieldArray, UseFormWatch } from "react-hook-form";
 import { ItemsAndCostsFormFields } from "@/types/schema/items-and-costs-schema";
 import { Dispatch, SetStateAction, useEffect } from "react";
+import { calculateSubtotal } from "../invoice-builder/util/calculate";
 
 interface ItemTableProps {
   control: Control<ItemsAndCostsFormFields>;
@@ -27,18 +28,7 @@ export default function ItemTable(props: ItemTableProps) {
   };
 
   useEffect(() => {
-    let subtotal = 0;
-
-    for (const item of items) {
-      let numericUnitCost = 0;
-      if (item.unitCost) {
-        numericUnitCost =
-          item.unitCost[0] === "$" ? parseFloat(item.unitCost.slice(1)) : parseFloat(item.unitCost);
-      }
-      subtotal += numericUnitCost * item.quantity;
-    }
-
-    props.setSubtotal(subtotal);
+    props.setSubtotal(calculateSubtotal(items));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(items)]);
 
