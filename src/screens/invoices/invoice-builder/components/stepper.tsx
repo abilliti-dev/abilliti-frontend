@@ -20,7 +20,7 @@ export default function Stepper(props: StepperProps) {
       return props.handleSubmit(
         (data) => {
           props.saveData(data);
-          if (props.step !== newStep) props.setStep(newStep);
+          if (newStep < props.step || newStep === props.step + 1) props.setStep(newStep);
         },
         (errors) => {
           console.log("Error:", errors);
@@ -54,10 +54,16 @@ export default function Stepper(props: StepperProps) {
                 : i < props.step
                 ? "bg-green-primary text-green-primary"
                 : "bg-neutral-300 text-neutral-500",
-              "cursor-pointer w-4 h-4 rounded-full relative"
+              "w-4 h-4 rounded-full relative"
             )}
+            disabled={i > props.step}
           >
-            <span className="text-sm absolute font-medium text-nowrap top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-8">
+            <span
+              className={cn(
+                i > props.step && "opacity-50",
+                "text-sm absolute font-medium text-nowrap top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-8 disabled:opacity-50"
+              )}
+            >
               {label}
             </span>
           </button>
