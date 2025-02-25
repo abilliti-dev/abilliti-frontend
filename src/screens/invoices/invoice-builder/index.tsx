@@ -34,11 +34,11 @@ export default function InvoiceBuilderPage() {
   return (
     <DashboardContextProvider>
       <DashboardLayout>
-        <div className="grid grid-cols-2">
-          <div className="col-span-1 p-10 flex justify-end place-items-start">
+        <div className="flex w-full justify-center p-8 lg:space-x-10">
+          <div className="lg:flex hidden justify-end">
             <InvoicePreview />
           </div>
-          <div className="col-span-1 p-10 flex justify-start place-items-start">
+          <div className="w-fit flex place-items-start">
             {sections.map((section, i: number) => {
               return (
                 <div key={i} className={cn(step !== i + 1 && "hidden")}>
