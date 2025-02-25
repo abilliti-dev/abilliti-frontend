@@ -34,8 +34,6 @@ export default function InvoiceBuilderPage() {
   return (
     <DashboardContextProvider>
       <DashboardLayout>
-        <button onClick={() => setStep(4)}>dev override (items-costs-section)</button>
-
         <div className="grid grid-cols-2">
           <div className="col-span-1 p-10 flex justify-end place-items-start">
             <InvoicePreview />

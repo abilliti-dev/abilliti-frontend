@@ -64,6 +64,7 @@ const ImageInput = forwardRef<CustomHTMLInputElement, ImageInputProps>((props, r
           variant={"outline"}
           size={"sm"}
           onClick={handleBrowseClick}
+          type="button"
         >
           Browse
         </Button>
