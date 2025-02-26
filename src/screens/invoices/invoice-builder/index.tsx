@@ -28,7 +28,7 @@ export default function InvoiceBuilderPage() {
       console.log("Error: Missing form data");
     }
 
-    console.log("invoice form:", invoiceForm);
+    console.log("Saved invoice:", invoiceForm);
   };
 
   return (

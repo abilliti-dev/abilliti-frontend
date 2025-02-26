@@ -24,9 +24,7 @@ export default function Stepper(props: StepperProps) {
         },
         (errors) => {
           console.log("Error:", errors);
-          if (newStep < props.step) {
-            props.setStep(newStep);
-          }
+          if (newStep < props.step) props.setStep(newStep);
         }
       );
     } else {
