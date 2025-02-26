@@ -57,6 +57,7 @@ export default function Stepper(props: StepperProps) {
               "w-4 h-4 rounded-full relative"
             )}
             disabled={i > props.step}
+            type="button"
           >
             <span
               className={cn(
