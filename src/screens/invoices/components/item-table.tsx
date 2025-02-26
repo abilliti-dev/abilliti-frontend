@@ -56,7 +56,7 @@ export default function ItemTable(props: ItemTableProps) {
 
       {/* table content */}
       <div>
-        <div className="relative border border-neutral-300 rounded-t-xl overflow-clip max-h-[22.5rem] overflow-y-scroll">
+        <div className="relative border border-neutral-300 rounded-t-xl overflow-clip max-h-[16rem] overflow-y-scroll">
           <table className="w-full">
             <tbody className="divide-y divide-neutral-300">
               {fields.map((fd, i) => (

@@ -6,7 +6,7 @@ interface TableInputErrorProps {
 
 export default function TableInputError(props: TableInputErrorProps) {
   return props.items ? (
-    <div className="p-2 bg-red-100 text-red-700 rounded-lg font-medium border-2 border-red-200">
+    <div className="p-2 bg-red-100 text-red-700 rounded-lg font-medium border-2 border-red-200 max-h-[8rem] overflow-auto">
       {props.items.map((item: any, i: number) => {
         if (item)
           return (
