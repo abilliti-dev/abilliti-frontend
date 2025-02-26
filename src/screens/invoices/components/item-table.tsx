@@ -71,8 +71,7 @@ export default function ItemTable(props: ItemTableProps) {
                       render={({ field }) => (
                         <Input
                           {...field}
-                          placeholder="Enter an item description"
-                          // className="border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12"
+                          placeholder="Item description..."
                           className={cn(
                             "border-none h-12 focus-visible:ring-0 focus-visible:ring-offset-0 pr-12",
                             !!props.errors.items?.[i]?.description &&
