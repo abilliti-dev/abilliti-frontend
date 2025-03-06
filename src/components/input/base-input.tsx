@@ -17,15 +17,16 @@ export interface BaseInputProps {
     | "rounded-tr-xl"
     | "rounded-br-xl"
     | "rounded-bl-xl"
-    | "rounded-none";
+    | "rounded-sm";
 }
 
+// Wrapper component to regulate all input types to the passed props
 export default function BaseInput(props: BaseInputProps) {
   return (
     <div className="relative">
       {props.Icon && (
         <props.Icon
-          className="text-neutral-400 absolute top-4 left-3.5 pointer-events-none"
+          className="text-neutral-400 absolute top-3 left-3 pointer-events-none"
           strokeWidth={1.5}
           size={24}
         />
@@ -33,12 +34,12 @@ export default function BaseInput(props: BaseInputProps) {
       <label
         className={cn(
           props.Icon ? "pl-12" : "pl-3",
-          "text-neutral-500 uppercase text-xs font-semibold absolute pointer-events-none top-2.5"
+          "text-neutral-500 uppercase text-xs font-semibold absolute pointer-events-none top-2"
         )}
       >
         {props.label ?? "Prompt"}
       </label>
-      <div>{props.children}</div>
+      <div className="h-12">{props.children}</div>
     </div>
   );
 }

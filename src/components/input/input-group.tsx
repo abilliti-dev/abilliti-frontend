@@ -7,7 +7,7 @@ interface InputGroupProps {
 
 export default function InputGroup(props: InputGroupProps) {
   return (
-    <div className="grid grid-flow-row divide-y rounded-xl border">
+    <div className="grid grid-flow-row divide-y rounded-xl border border-neutral-300">
       <div className="grid grid-flow-col auto-cols-fr divide-x">
         {props.row1Inputs.map((Input, i) => {
           const isSingleRow = props.row2Inputs === undefined || props.row2Inputs.length === 0;
@@ -24,8 +24,8 @@ export default function InputGroup(props: InputGroupProps) {
             ? "rounded-tl-xl"
             : isLast
             ? "rounded-tr-xl"
-            : "rounded-none";
-          return <Input rounding={rounding} hideBorder />;
+            : "rounded-sm";
+          return <Input rounding={rounding} key={i} hideBorder />;
         })}
       </div>
       {props.row2Inputs && props.row2Inputs.length > 0 && (
@@ -40,8 +40,8 @@ export default function InputGroup(props: InputGroupProps) {
               ? "rounded-bl-xl"
               : isLast
               ? "rounded-br-xl"
-              : "rounded-none";
-            return <Input rounding={rounding} hideBorder />;
+              : "rounded-sm";
+            return <Input rounding={rounding} key={i} hideBorder />;
           })}
         </div>
       )}
