@@ -32,4 +32,12 @@ const calculateTotal = (taxRate: string, discount: string, subtotal: number) => 
   return subtotal + tax - numericDiscount;
 };
 
-export { calculateSubtotal, calculateTotal };
+const calculateAmount = (unitCost: string, quantity: number) => {
+  // remove non-numeric char
+  const numericUnitCost = parseFloat(unitCost.replace(/[^0-9.-]+/g, ""));
+
+  if (isNaN(numericUnitCost)) return 0;
+  return numericUnitCost * quantity;
+};
+
+export { calculateSubtotal, calculateTotal, calculateAmount };
