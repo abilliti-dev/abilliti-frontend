@@ -36,7 +36,7 @@ export default function InvoiceBuilderPage() {
       <DashboardLayout>
         <div className="flex w-full justify-center p-8 lg:space-x-10">
           <div className="lg:flex hidden justify-end">
-            <InvoicePreview />
+            <InvoicePreview invoice={invoiceForm} />
           </div>
           <div className="w-fit flex place-items-start">
             {sections.map((section, i: number) => {
