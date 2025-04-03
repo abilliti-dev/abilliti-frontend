@@ -15,18 +15,25 @@ const calculateSubtotal = (
   return subtotal;
 };
 
+const taxRateStringToNumber = (taxRate: string) => {
+  let result = 0;
+  if (taxRate) {
+    const last = taxRate.length - 1;
+    result = taxRate[last] === "%" ? parseFloat(taxRate.slice(0, last)) : parseFloat(taxRate);
+  }
+  return result;
+};
+
+const discountStringToNumber = (discount: string) => {
+  return discount[0] === "$" ? parseFloat(discount.slice(1)) : parseFloat(discount);
+};
+
 const calculateTotal = (taxRate: string, discount: string, subtotal: number) => {
   let numericTaxRate = 0;
   let numericDiscount = 0;
 
-  if (taxRate) {
-    const last = taxRate.length - 1;
-    numericTaxRate =
-      taxRate[last] === "%" ? parseFloat(taxRate.slice(0, last)) : parseFloat(taxRate);
-  }
-  if (discount) {
-    numericDiscount = discount[0] === "$" ? parseFloat(discount.slice(1)) : parseFloat(discount);
-  }
+  if (taxRate) numericTaxRate = taxRateStringToNumber(taxRate);
+  if (discount) numericDiscount = discountStringToNumber(discount);
 
   const tax = subtotal * (numericTaxRate / 100);
   return subtotal + tax - numericDiscount;
@@ -40,4 +47,10 @@ const calculateAmount = (unitCost: string, quantity: number) => {
   return numericUnitCost * quantity;
 };
 
-export { calculateSubtotal, calculateTotal, calculateAmount };
+export {
+  calculateSubtotal,
+  taxRateStringToNumber,
+  discountStringToNumber,
+  calculateTotal,
+  calculateAmount,
+};
