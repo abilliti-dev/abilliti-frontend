@@ -1,6 +1,13 @@
 import { InvoiceForm } from "@/types/invoice-form";
 import { ImageOffIcon } from "lucide-react";
-import { calculateAmount, calculateSubtotal, calculateTotal } from "../util/calculate";
+import {
+  calculateAmount,
+  calculateSubtotal,
+  calculateTax,
+  calculateTotal,
+  taxRateStringToNumber,
+} from "../util/calculate";
+import formatMoney from "../util/format-money";
 
 interface InvoicePreviewProps {
   invoice: InvoiceForm;
@@ -10,6 +17,8 @@ export default function InvoicePreview(props: InvoicePreviewProps) {
   const { general, company, client, itemsAndCosts } = props.invoice;
   const subtotal = calculateSubtotal(itemsAndCosts.items);
   const total = calculateTotal(itemsAndCosts.taxRate, itemsAndCosts.discount, subtotal);
+  const taxRate = taxRateStringToNumber(props.invoice.itemsAndCosts.taxRate);
+  const tax = calculateTax(subtotal, taxRate);
 
   return (
     <div className="border shadow-lg bg-white w-[min(30vw,500px)] aspect-[8.5/11] shrink-0 h-fit relative">
@@ -119,7 +128,7 @@ export default function InvoicePreview(props: InvoicePreviewProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 gap-4">
             <div className="col-span-1 space-y-4">
               <div className="-space-y-0.5">
                 <p>Subtotal</p>
@@ -130,21 +139,31 @@ export default function InvoicePreview(props: InvoicePreviewProps) {
 
               <p className="font-bold">Total</p>
             </div>
+
             <div className="col-span-1 space-y-4 text-right">
               <div className="-space-y-0.5">
-                <p>{subtotal}</p>
-                <p>{itemsAndCosts.taxRate}</p>
-                <p>{itemsAndCosts.taxRate}</p>
-                <p>{itemsAndCosts.discount}</p>
+                <p>{formatMoney(subtotal)}</p>
+                <p>
+                  {itemsAndCosts.taxRate && itemsAndCosts.taxRate !== "0"
+                    ? itemsAndCosts.taxRate
+                    : "0.0%"}
+                </p>
+                <p>+{formatMoney(tax)}</p>
+                <p>
+                  -
+                  {itemsAndCosts.discount && itemsAndCosts.discount !== "0"
+                    ? itemsAndCosts.discount
+                    : "$0.00"}
+                </p>
               </div>
 
-              <p className="font-bold">{total}</p>
+              <p className="font-bold">{formatMoney(total)}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="absolute text-[7px] text-neutral-400 bottom-2 flex flex-col place-items-center w-full">
+      <div className="absolute text-[7px] text-neutral-500 bottom-2 flex flex-col place-items-center w-full">
         <p>Page 1 of 1</p>
         <p>Generated using Abilliti</p>
       </div>
