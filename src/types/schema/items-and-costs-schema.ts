@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const itemSchema = z.object({
-  description: z.string().min(1, "Item description is required"),
+  description: z.string().min(1, "Item description is required").max(40),
   unitCost: z.string(), // enforced in ui
   quantity: z.coerce
     .number({ required_error: "Quantity is required" })
