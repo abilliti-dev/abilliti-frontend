@@ -1,3 +1,5 @@
+import { Item } from "./item";
+
 export interface InvoiceForm {
   general: {
     description: string;
@@ -27,7 +29,7 @@ export interface InvoiceForm {
     };
   };
   itemsAndCosts: {
-    items: { description: string; unitCost: string; quantity: number }[];
+    items: Item[];
     notes: string;
     taxRate: string;
     discount: string;
