@@ -47,7 +47,6 @@ export default function InvoiceBuilderPage() {
                     setStep={setStep}
                     step={step}
                     stepAmount={sections.length}
-                    // invoiceForm={invoiceForm}
                     invoiceForm={invoiceForm}
                   />
                 </div>
