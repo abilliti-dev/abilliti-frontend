@@ -109,14 +109,17 @@ export default function InvoicePreview(props: InvoicePreviewProps) {
           </thead>
 
           <tbody>
-            {itemsAndCosts.items.map((item, i) => (
-              <tr key={i}>
-                <td className="text-left">{item.description}</td>
-                <td className="text-right">{item.unitCost}</td>
-                <td className="text-right">{item.quantity}</td>
-                <td className="text-right">{calculateAmount(item.unitCost, item.quantity)}</td>
-              </tr>
-            ))}
+            {itemsAndCosts.items.map((item, i) => {
+              const amt = calculateAmount(item.unitCost, item.quantity);
+              return (
+                <tr key={i}>
+                  <td className="text-left">{item.description}</td>
+                  <td className="text-right">{item.unitCost}</td>
+                  <td className="text-right">{item.quantity}</td>
+                  <td className="text-right">{amt ? formatMoney(amt) : "$0.00"}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
 
