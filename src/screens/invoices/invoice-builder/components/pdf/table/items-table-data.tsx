@@ -14,7 +14,9 @@ const ItemsTableData = (props: ItemsTableDataProps) => {
   return (
     <View style={styles.tableRow}>
       <Text style={styles.tableColumnWidthPrimary}>{props.item.description}</Text>
-      <Text style={styles.tableColumnWidthSecondary}>{props.item.unitCost}</Text>
+      <Text style={styles.tableColumnWidthSecondary}>
+        {props.item.unitCost === "0" ? "$0.00" : props.item.unitCost}
+      </Text>
       <Text style={styles.tableColumnWidthSecondary}>{props.item.quantity}</Text>
       <Text style={styles.tableColumnWidthSecondary}>{amt ? formatMoney(amt) : "$0.00"}</Text>
     </View>
