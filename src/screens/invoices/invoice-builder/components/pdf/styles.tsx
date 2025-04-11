@@ -88,4 +88,14 @@ export const styles = StyleSheet.create({
     height: 100,
     objectFit: "cover",
   },
+
+  footer: {
+    position: "absolute",
+    bottom: 30,
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    fontSize: 10,
+    color: "grey",
+  },
 });
