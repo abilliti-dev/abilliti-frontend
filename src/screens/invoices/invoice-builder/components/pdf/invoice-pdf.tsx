@@ -130,7 +130,7 @@ export default function InvoicePDF(props: InvoicePDFProps) {
             style={[
               styles.itemsAndCostsContainer,
               styles.ySpaceMedium,
-              { paddingTop: pageIndex > 0 ? 40 : 0 },
+              { marginTop: pageIndex > 0 ? 40 : 0 },
             ]}
           >
             <ItemsTable>
