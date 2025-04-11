@@ -56,13 +56,15 @@ export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
         onSubmit={props.handleSubmit ? props.handleSubmit(saveInvoice("")) : undefined}
       >
         {/* header-stepper */}
-        <Stepper
-          handleSubmit={props.handleSubmit}
-          saveData={props.saveData}
-          labels={sections.map((sec) => sec.label)}
-          step={props.step}
-          setStep={props.setStep}
-        />
+        <div className="w-[500px]">
+          <Stepper
+            handleSubmit={props.handleSubmit}
+            saveData={props.saveData}
+            labels={sections.map((sec) => sec.label)}
+            step={props.step}
+            setStep={props.setStep}
+          />
+        </div>
 
         <div className="rounded-xl border bg-white h-full w-[500px] flex flex-col justify-between divide-y">
           {/* content */}
