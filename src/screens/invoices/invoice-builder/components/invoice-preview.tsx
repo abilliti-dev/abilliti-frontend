@@ -60,7 +60,7 @@ export default function InvoicePreview(props: InvoicePreviewProps) {
   if (!imageUrl) return <p>no image...</p>;
   return (
     <div className="space-y-2">
-      <img src={imageUrl} alt="invoice-preview" className="shadow-lg max-w-[30rem]" />
+      <img src={imageUrl} alt="invoice-preview" className="shadow-lg max-w-[28rem]" />
       <div className="flex justify-center place-items-center text-neutral-500">
         <button
           disabled={pageNum - 1 < 1}
