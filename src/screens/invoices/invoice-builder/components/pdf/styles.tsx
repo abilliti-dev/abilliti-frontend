@@ -47,6 +47,10 @@ export const styles = StyleSheet.create({
     padding: "20px 50px",
   },
 
+  notes: {
+    maxWidth: "300px",
+  },
+
   ySpaceSmall: {
     rowGap: 8,
   },
