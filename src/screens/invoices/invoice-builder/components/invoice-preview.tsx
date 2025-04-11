@@ -14,15 +14,12 @@ interface InvoicePreviewProps {
 
 export default function InvoicePreview(props: InvoicePreviewProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [pageNum, setPageNum] = useState(1);
   const [pageCount, setPageCount] = useState(1);
   pdfjsLib.GlobalWorkerOptions.workerSrc = workerSrc;
 
   const renderPdfAsImage = async () => {
     try {
-      setIsLoading(true);
-
       const blob = await pdf(<InvoicePDF invoice={props.invoice} />).toBlob();
 
       const arrayBuffer = await blob.arrayBuffer();
@@ -42,8 +39,6 @@ export default function InvoicePreview(props: InvoicePreviewProps) {
       setImageUrl(canvas.toDataURL("image/png"));
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -56,8 +51,7 @@ export default function InvoicePreview(props: InvoicePreviewProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.invoice, pageNum, pageCount]);
 
-  if (isLoading) return <p>loading...</p>;
-  if (!imageUrl) return <p>no image...</p>;
+  if (!imageUrl) return <div className="bg-white shadow-lg w-full max-w-[28rem] h-[40rem]" />;
   return (
     <div className="space-y-2">
       <img src={imageUrl} alt="invoice-preview" className="shadow-lg max-w-[28rem]" />
