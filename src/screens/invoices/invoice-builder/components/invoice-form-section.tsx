@@ -12,6 +12,7 @@ import { InvoiceForm } from "@/types/invoice-form";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import ConfirmationDialog from "@/components/dialog/confirmation-dialog";
 import InvoicePDF from "./pdf/invoice-pdf";
+import { PDFViewer } from "@react-pdf/renderer";
 
 export interface InvoiceFormSectionProps {
   children?: React.ReactNode;
@@ -111,7 +112,9 @@ export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
 
       <Dialog open={previewIsOpen} onOpenChange={(open) => setPreviewIsOpen(open)}>
         <DialogContent className="p-10 max-w-3xl">
-          <InvoicePDF invoice={props.invoiceForm} />
+          <PDFViewer width="100%" height={700}>
+            <InvoicePDF invoice={props.invoiceForm} />
+          </PDFViewer>
         </DialogContent>
       </Dialog>
 

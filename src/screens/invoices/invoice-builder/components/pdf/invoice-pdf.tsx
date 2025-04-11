@@ -1,5 +1,5 @@
 import { InvoiceForm } from "@/types/invoice-form";
-import { Document, Page, PDFViewer, View, Text, Image } from "@react-pdf/renderer";
+import { Document, Page, View, Text, Image } from "@react-pdf/renderer";
 import ItemsTable from "./table/items-table";
 import ItemsTableData from "./table/items-table-data";
 import { styles } from "./styles";
@@ -22,7 +22,7 @@ export default function InvoicePDF(props: InvoicePDFProps) {
   const taxRate = taxRateStringToNumber(props.invoice.itemsAndCosts.taxRate);
   const tax = calculateTax(subtotal, taxRate);
 
-  const PDF = () => (
+  return (
     <Document>
       <Page size="A4" style={styles.ySpaceLarge}>
         <View style={[styles.invoiceDetailsContainer, styles.ySpaceLarge]}>
@@ -93,13 +93,13 @@ export default function InvoicePDF(props: InvoicePDFProps) {
             ))}
           </ItemsTable>
 
-          <View style={styles.flexRow}>
+          <View style={styles.flexRow} break>
             <View>
               <Text style={styles.fontSemibold}>Notes</Text>
               <Text>{itemsAndCosts.notes || "Enter notes, comments, or terms/conditions"}</Text>
             </View>
 
-            <View style={[styles.ySpaceMedium, styles.totalsContainer]}>
+            <View style={[styles.ySpaceMedium, styles.costsContainer]}>
               <View>
                 <View style={styles.flexRow}>
                   <Text>Subtotal</Text>
@@ -140,11 +140,5 @@ export default function InvoicePDF(props: InvoicePDFProps) {
         </View>
       </Page>
     </Document>
-  );
-
-  return (
-    <PDFViewer width="100%" height={700}>
-      <PDF />
-    </PDFViewer>
   );
 }
