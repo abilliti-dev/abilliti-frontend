@@ -72,17 +72,17 @@ export default function InvoicePDF(props: InvoicePDFProps) {
 
                   <View style={styles.ySpaceSmall}>
                     <Text style={[styles.h1, styles.fontSemibold]}>
-                      {company.name || "Company name"}
+                      {company.name || "[company name]"}
                     </Text>
 
                     <View>
-                      <Text>{company.address.street || "Street"}</Text>
+                      <Text>{company.address.street || "[street address]"}</Text>
                       <Text>
-                        {company.address.city || "City"}, {company.address.state || "State"}{" "}
-                        {company.address.zipCode || "Zip code"}
+                        {company.address.city || "[city]"}, {company.address.state || "[state]"}{" "}
+                        {company.address.zipCode || "[zip code]"}
                       </Text>
-                      <Text>{company.phone || "Phone number"}</Text>
-                      <Text>{company.email || "Email address"}</Text>
+                      <Text>{company.phone || "[phone number]"}</Text>
+                      <Text>{company.email || "[email address]"}</Text>
                     </View>
                   </View>
                 </View>
@@ -94,19 +94,19 @@ export default function InvoicePDF(props: InvoicePDFProps) {
                 <View style={styles.ySpaceMedium}>
                   <Text style={styles.h2}>BILLED TO</Text>
                   <View>
-                    <Text>{client.name || "Client name"}</Text>
+                    <Text>{client.name || "[client name]"}</Text>
                     <Text>
-                      {client.address.city || "City"}, {client.address.state || "State"}{" "}
-                      {client.address.zipCode || "Zip code"}
+                      {client.address.city || "[city]"}, {client.address.state || "[state]"}{" "}
+                      {client.address.zipCode || "[zip code]"}
                     </Text>
-                    <Text>{client.phone || "Phone number"}</Text>
-                    <Text>{client.email || "Email address"}</Text>
+                    <Text>{client.phone || "[phone number]"}</Text>
+                    <Text>{client.email || "[email address]"}</Text>
                   </View>
                 </View>
 
                 <View style={styles.ySpaceMedium}>
                   <Text style={styles.h2}>JOB DETAILS</Text>
-                  <Text>{general.description || "Job description"}</Text>
+                  <Text>{general.description || "[job details]"}</Text>
                 </View>
 
                 <View style={styles.ySpaceMedium}>
@@ -118,7 +118,9 @@ export default function InvoicePDF(props: InvoicePDFProps) {
                   <View style={styles.ySpaceMedium}>
                     <Text style={styles.h2}>PAYMENT DUE</Text>
                     <Text>
-                      {general.date.due ? new Date(general.date.due).toLocaleDateString() : "N/A"}
+                      {general.date.due
+                        ? new Date(general.date.due).toLocaleDateString()
+                        : "[mm/dd/yyyy]"}
                     </Text>
                   </View>
                 </View>
