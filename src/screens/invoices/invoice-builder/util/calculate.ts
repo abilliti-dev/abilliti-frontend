@@ -15,21 +15,47 @@ const calculateSubtotal = (
   return subtotal;
 };
 
+const taxRateStringToNumber = (taxRate: string) => {
+  let result = 0;
+  if (taxRate) {
+    const last = taxRate.length - 1;
+    result = taxRate[last] === "%" ? parseFloat(taxRate.slice(0, last)) : parseFloat(taxRate);
+  }
+  return result;
+};
+
+const discountStringToNumber = (discount: string) => {
+  return discount[0] === "$" ? parseFloat(discount.slice(1)) : parseFloat(discount);
+};
+
+const calculateTax = (subtotal: number, numericTaxRate: number) => {
+  return subtotal * (numericTaxRate / 100);
+};
+
 const calculateTotal = (taxRate: string, discount: string, subtotal: number) => {
   let numericTaxRate = 0;
   let numericDiscount = 0;
 
-  if (taxRate) {
-    const last = taxRate.length - 1;
-    numericTaxRate =
-      taxRate[last] === "%" ? parseFloat(taxRate.slice(0, last)) : parseFloat(taxRate);
-  }
-  if (discount) {
-    numericDiscount = discount[0] === "$" ? parseFloat(discount.slice(1)) : parseFloat(discount);
-  }
+  if (taxRate) numericTaxRate = taxRateStringToNumber(taxRate);
+  if (discount) numericDiscount = discountStringToNumber(discount);
 
-  const tax = subtotal * (numericTaxRate / 100);
+  const tax = calculateTax(subtotal, numericTaxRate);
   return subtotal + tax - numericDiscount;
 };
 
-export { calculateSubtotal, calculateTotal };
+const calculateAmount = (unitCost: string, quantity: number) => {
+  // remove non-numeric char
+  const numericUnitCost = parseFloat(unitCost.replace(/[^0-9.-]+/g, ""));
+
+  if (isNaN(numericUnitCost)) return 0;
+  return numericUnitCost * quantity;
+};
+
+export {
+  calculateSubtotal,
+  taxRateStringToNumber,
+  discountStringToNumber,
+  calculateTax,
+  calculateTotal,
+  calculateAmount,
+};

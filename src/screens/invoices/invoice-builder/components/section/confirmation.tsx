@@ -19,7 +19,9 @@ export default function Confirmation(props: InvoiceFormSectionProps) {
     <InvoiceFormSection {...props} handleSubmit={undefined}>
       <div className="space-y-8">
         <div className="rounded-xl space-y-8 relative">
-          <h1 className="text-center font-bold text-3xl text-neutral-700">{"You're all setup!"}</h1>
+          <h1 className="text-center font-bold text-3xl text-neutral-700">
+            {"You're all set up!"}
+          </h1>
           <div className="flex justify-between px-10 font-medium">
             <div className="text-center w-40 text-neutral-700">
               <h2 className="text-2xl">{totalItems} items</h2>

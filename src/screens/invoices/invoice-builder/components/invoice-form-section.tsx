@@ -10,8 +10,9 @@ import { sections } from "../data/sections";
 import Stepper from "./stepper";
 import { InvoiceForm } from "@/types/invoice-form";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
 import ConfirmationDialog from "@/components/dialog/confirmation-dialog";
+import InvoicePDF from "./pdf/invoice-pdf";
+import { PDFViewer } from "@react-pdf/renderer";
 
 export interface InvoiceFormSectionProps {
   children?: React.ReactNode;
@@ -55,13 +56,15 @@ export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
         onSubmit={props.handleSubmit ? props.handleSubmit(saveInvoice("")) : undefined}
       >
         {/* header-stepper */}
-        <Stepper
-          handleSubmit={props.handleSubmit}
-          saveData={props.saveData}
-          labels={sections.map((sec) => sec.label)}
-          step={props.step}
-          setStep={props.setStep}
-        />
+        <div className="w-[500px]">
+          <Stepper
+            handleSubmit={props.handleSubmit}
+            saveData={props.saveData}
+            labels={sections.map((sec) => sec.label)}
+            step={props.step}
+            setStep={props.setStep}
+          />
+        </div>
 
         <div className="rounded-xl border bg-white h-full w-[500px] flex flex-col justify-between divide-y">
           {/* content */}
@@ -89,17 +92,15 @@ export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
                   Save as draft
                 </IconWithTextButton>
               )}
-              <div className={cn(!isLastStep && "lg:hidden block")}>
-                <IconWithTextButton
-                  type="button"
-                  Icon={EyeIcon}
-                  variant="outline"
-                  className="font-normal"
-                  onClick={() => setPreviewIsOpen(true)}
-                >
-                  Open preview
-                </IconWithTextButton>
-              </div>
+              <IconWithTextButton
+                type="button"
+                Icon={EyeIcon}
+                variant="outline"
+                className="font-normal"
+                onClick={() => setPreviewIsOpen(true)}
+              >
+                Open preview
+              </IconWithTextButton>
             </div>
             <PaginationButton
               onClickPrevious={() => props.setStep(props.step - 1)}
@@ -112,8 +113,10 @@ export default function InvoiceFormSection(props: InvoiceFormSectionProps) {
       </form>
 
       <Dialog open={previewIsOpen} onOpenChange={(open) => setPreviewIsOpen(open)}>
-        <DialogContent className="p-10">
-          <div className="aspect-[8.5/11] border shadow-lg" />
+        <DialogContent className="p-10 max-w-3xl">
+          <PDFViewer width="100%" height={700}>
+            <InvoicePDF invoice={props.invoiceForm} />
+          </PDFViewer>
         </DialogContent>
       </Dialog>
 
