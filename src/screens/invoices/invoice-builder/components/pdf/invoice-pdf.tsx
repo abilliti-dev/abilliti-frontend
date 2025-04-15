@@ -91,7 +91,7 @@ export default function InvoicePDF(props: InvoicePDFProps) {
               </View>
 
               <View style={styles.flexRow}>
-                <View style={styles.ySpaceMedium}>
+                <View style={[styles.ySpaceMedium, styles.maxWidthSmall]}>
                   <Text style={styles.h2}>BILLED TO</Text>
                   <View>
                     <Text>{client.name || "[client name]"}</Text>
@@ -104,13 +104,13 @@ export default function InvoicePDF(props: InvoicePDFProps) {
                   </View>
                 </View>
 
-                <View style={styles.ySpaceMedium}>
+                <View style={[styles.ySpaceMedium, styles.maxWidthSmall]}>
                   <Text style={styles.h2}>JOB DETAILS</Text>
                   <Text>{general.description || "[job details]"}</Text>
                 </View>
 
                 <View style={styles.ySpaceMedium}>
-                  <View style={styles.ySpaceMedium}>
+                  <View style={[styles.ySpaceMedium, styles.maxWidthSmall]}>
                     <Text style={styles.h2}>INVOICE DATE</Text>
                     <Text>{new Date(general.date.issue).toLocaleDateString()}</Text>
                   </View>
@@ -143,7 +143,7 @@ export default function InvoicePDF(props: InvoicePDFProps) {
 
             {pageIndex === chunkedItems.length - 1 && (
               <View style={styles.flexRow}>
-                <View style={styles.notes}>
+                <View style={styles.maxWidthMedium}>
                   <Text style={styles.fontSemibold}>Notes</Text>
                   <Text>{itemsAndCosts.notes || "Enter notes, comments, or terms/conditions"}</Text>
                 </View>
