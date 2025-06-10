@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "@/screens/login";
-import HomePage from "@/homePage";
-import ConfirmUserPage from "@/confirmUserPage";
-import SignUpPage from "@/screens/sign-up";
-import ForgotPasswordPage from "@/screens/forgot-password";
-import Invoices from "./screens/invoices";
+import HomePage from "./homePage";
+import ConfirmUserPage from "./confirmUserPage";
+import SignUpPage from "./screens/sign-up";
+import ForgotPasswordPage from "./screens/forgot-password";
+import InvoiceBuilderPage from "./screens/invoices/invoice-builder";
 
 const App = () => {
   const isAuthenticated = () => {
@@ -29,7 +29,7 @@ const App = () => {
           path="/home"
           element={isAuthenticated() ? <HomePage /> : <Navigate replace to="/login" />}
         />
-        <Route path="/invoices" element={<Invoices />} />
+        <Route path="/invoices/invoice-builder" element={<InvoiceBuilderPage />} />
       </Routes>
     </BrowserRouter>
   );
