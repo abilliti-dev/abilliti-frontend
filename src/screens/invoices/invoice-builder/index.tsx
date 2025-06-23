@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { sections } from "./data/sections";
 import DashboardLayout from "@/layouts/dashboard-layout";
-import DashboardContextProvider from "@/contexts/dashboard-context";
 import { defaultInvoiceForm, InvoiceForm } from "@/types/invoice-form";
 import InvoicePreview from "./components/invoice-preview";
 import { cn } from "@/lib/utils";
@@ -32,29 +31,27 @@ export default function InvoiceBuilderPage() {
   };
 
   return (
-    <DashboardContextProvider>
-      <DashboardLayout>
-        <div className="flex w-full justify-center p-8 lg:space-x-6">
-          <div className="lg:flex hidden w-1/2 justify-end">
-            <InvoicePreview invoice={invoiceForm} />
-          </div>
-          <div className="lg:w-1/2">
-            {sections.map((section, i: number) => {
-              return (
-                <div key={i} className={cn(step !== i + 1 && "hidden")}>
-                  <section.component
-                    saveData={saveData}
-                    setStep={setStep}
-                    step={step}
-                    stepAmount={sections.length}
-                    invoiceForm={invoiceForm}
-                  />
-                </div>
-              );
-            })}
-          </div>
+    <DashboardLayout>
+      <div className="flex w-full justify-center p-8 lg:space-x-6">
+        <div className="lg:flex hidden w-1/2 justify-end">
+          <InvoicePreview invoice={invoiceForm} />
         </div>
-      </DashboardLayout>
-    </DashboardContextProvider>
+        <div className="lg:w-1/2">
+          {sections.map((section, i: number) => {
+            return (
+              <div key={i} className={cn(step !== i + 1 && "hidden")}>
+                <section.component
+                  saveData={saveData}
+                  setStep={setStep}
+                  step={step}
+                  stepAmount={sections.length}
+                  invoiceForm={invoiceForm}
+                />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </DashboardLayout>
   );
 }

@@ -1,3 +1,4 @@
+import DashboardLayout from "@/layouts/dashboard-layout";
 import { InvoiceTable } from "./components/invoice-table";
 import { columns } from "./utils";
 import { INVOICE_STATUS } from "@/enums";
@@ -7,7 +8,7 @@ export default function Invoices() {
   const data = [
     {
       client: "Marcos Villanueva",
-      createdDate: "1/2/3",
+      createdDate: "05/21/2025",
       dueDate: "3/4/5",
       id: "ID-123456789",
       job: "Window washing",
@@ -24,8 +25,8 @@ export default function Invoices() {
   ];
 
   return (
-    <>
+    <DashboardLayout>
       <InvoiceTable columns={columns} data={data} />
-    </>
+    </DashboardLayout>
   );
 }

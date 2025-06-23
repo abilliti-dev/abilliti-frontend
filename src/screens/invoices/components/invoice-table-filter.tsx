@@ -69,7 +69,7 @@ export default function InvoiceTableFilter({
   };
 
   return (
-    <div className="flex items-center py-4">
+    <div className="flex items-center p-4">
       <Input
         placeholder="Filter invoices..."
         value={filterValue}
