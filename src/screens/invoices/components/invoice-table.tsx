@@ -30,7 +30,8 @@ export function InvoiceTable<TData, TValue>({ columns, data }: DataTableProps<TD
   const [filteringField, setFilteringField] = useState<FilteringFields>("Invoice ID");
   const [filterValue, setFilterValue] = useState("");
   const [filteredItems, setFilteredItems] = useState(data);
-  const [date, setDate] = useState<Date | undefined>();
+  const [createdDate, setCreatedDate] = useState<Date | undefined>();
+  const [dueDate, setDueDate] = useState<Date | undefined>();
 
   const table = useReactTable({
     data: filteredItems,
@@ -52,8 +53,10 @@ export function InvoiceTable<TData, TValue>({ columns, data }: DataTableProps<TD
         filterValue={filterValue}
         setFilterValue={setFilterValue}
         setFilteredItems={setFilteredItems}
-        date={date}
-        setDate={setDate}
+        createdDate={createdDate}
+        setCreatedDate={setCreatedDate}
+        dueDate={dueDate}
+        setDueDate={setDueDate}
         data={data as Invoice[]}
       />
       <Table>

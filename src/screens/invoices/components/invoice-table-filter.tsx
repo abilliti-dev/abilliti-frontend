@@ -28,8 +28,10 @@ interface InvoiceTableFilterProps {
   filterValue: string;
   setFilterValue: any;
   setFilteredItems: any;
-  date: Date | undefined;
-  setDate: any;
+  createdDate: Date | undefined;
+  setCreatedDate: any;
+  dueDate: Date | undefined;
+  setDueDate: any;
   data: Invoice[];
 }
 
@@ -39,8 +41,10 @@ export default function InvoiceTableFilter({
   filterValue,
   setFilterValue,
   setFilteredItems,
-  date,
-  setDate,
+  createdDate,
+  setCreatedDate,
+  dueDate,
+  setDueDate,
   data,
 }: InvoiceTableFilterProps) {
   useEffect(() => {
@@ -73,10 +77,16 @@ export default function InvoiceTableFilter({
     setFilterValue(e.target.innerText);
   };
 
-  const handleSelectDate = (date: Date, filteringField: FilteringFields) => {
-    setDate(date);
+  const handleSelectCreateDate = (date: Date) => {
+    setCreatedDate(date);
     setFilterValue(date?.toLocaleDateString() ?? "");
-    setFilteringField(filteringField);
+    setFilteringField("Created date");
+  };
+
+  const handleSelectDueDate = (date: Date) => {
+    setDueDate(date);
+    setFilterValue(date?.toLocaleDateString() ?? "");
+    setFilteringField("Due date");
   };
 
   return (
@@ -116,8 +126,8 @@ export default function InvoiceTableFilter({
             <DropdownMenuSubContent>
               <Calendar
                 mode="single"
-                selected={date}
-                onSelect={(date) => handleSelectDate(date as Date, "Created date")}
+                selected={createdDate}
+                onSelect={(date) => handleSelectCreateDate(date as Date)}
                 disabled={(date) => date > new Date()}
                 className="rounded-md border-none"
               />
@@ -128,8 +138,8 @@ export default function InvoiceTableFilter({
             <DropdownMenuSubContent>
               <Calendar
                 mode="single"
-                selected={date}
-                onSelect={(date) => handleSelectDate(date as Date, "Due date")}
+                selected={dueDate}
+                onSelect={(date) => handleSelectDueDate(date as Date)}
                 className="rounded-md border-none"
               />
             </DropdownMenuSubContent>
