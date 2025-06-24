@@ -75,7 +75,7 @@ export default function InvoiceTableFilter({
 
   const handleSelectDate = (date: Date, filteringField: FilteringFields) => {
     setDate(date);
-    setFilterValue(date ? String(date.toLocaleDateString()) : "");
+    setFilterValue(date?.toLocaleDateString() ?? "");
     setFilteringField(filteringField);
   };
 
