@@ -5,7 +5,7 @@ import { TMenuPagesMapToTitle } from "@/lib/constants";
 import { LucideIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "usehooks-ts";
+import { useSessionStorage } from "usehooks-ts";
 
 export interface SideMenuAccordionItemProps {
   value: TMenuPages;
@@ -18,7 +18,7 @@ export interface SideMenuAccordionItemProps {
 
 export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps) {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useLocalStorage<TMenuPages>("currentPage", "home");
+  const [currentPage, setCurrentPage] = useSessionStorage<TMenuPages>("currentPage", "home");
 
   const handlePrimaryPageChange = () => {
     if (!props.submenu) {

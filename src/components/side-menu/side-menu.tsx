@@ -2,10 +2,10 @@ import Logo from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
 import SideMenuAccordion from "@/components/side-menu/side-menu-accordion";
-import { useLocalStorage } from "usehooks-ts";
+import { useSessionStorage } from "usehooks-ts";
 
 export default function SideMenu() {
-  const [isMenuOpen, setIsMenuOpen] = useLocalStorage<boolean>("isMenuOpen", true);
+  const [isMenuOpen, setIsMenuOpen] = useSessionStorage<boolean>("isMenuOpen", true);
 
   return (
     <div

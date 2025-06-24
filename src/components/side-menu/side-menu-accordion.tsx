@@ -4,7 +4,7 @@ import { Hammer, Home, Info, PiggyBank, ReceiptText, Settings } from "lucide-rea
 import { Dispatch, SetStateAction } from "react";
 import { Separator } from "@/components/ui/separator";
 import { TMenuPages } from "@/contexts/dashboard-context";
-import { useLocalStorage } from "usehooks-ts";
+import { useSessionStorage } from "usehooks-ts";
 
 export interface SideMenuAccordionProps {
   isMenuOpen: boolean;
@@ -12,7 +12,7 @@ export interface SideMenuAccordionProps {
 }
 
 export default function SideMenuAccordion(props: SideMenuAccordionProps) {
-  const [currentPage] = useLocalStorage<TMenuPages>("currentPage", "home");
+  const [currentPage] = useSessionStorage<TMenuPages>("currentPage", "home");
 
   return (
     <Accordion

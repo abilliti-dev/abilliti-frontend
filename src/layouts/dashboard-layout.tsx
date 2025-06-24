@@ -6,14 +6,14 @@ import { BellIcon } from "lucide-react";
 import { TMenuPagesMapToTitle } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { TMenuPages } from "@/contexts/dashboard-context";
-import { useLocalStorage } from "usehooks-ts";
+import { useSessionStorage } from "usehooks-ts";
 
 export interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
-  const [currentPage] = useLocalStorage<TMenuPages>("currentPage", "home");
+  const [currentPage] = useSessionStorage<TMenuPages>("currentPage", "home");
 
   const getUserInitials = (jwt: unknown) => {
     if (jwt === null || typeof jwt !== "object") {
