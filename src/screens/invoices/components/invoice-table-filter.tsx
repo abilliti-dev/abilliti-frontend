@@ -45,27 +45,38 @@ export default function InvoiceTableFilter({
 }: InvoiceTableFilterProps) {
   useEffect(() => {
     if (filterValue) {
-      setFilteredItems(
-        data.filter((item) =>
-          item[filteringFieldsMap.get(filteringField) as keyof Invoice]
-            .toLowerCase()
-            .includes(filterValue.toLowerCase())
-        )
-      );
+      if (filteringField?.toString().toLowerCase().includes("date")) {
+        setFilteredItems(
+          data.filter(
+            (item) =>
+              new Date(
+                item[filteringFieldsMap.get(filteringField) as keyof Invoice]
+              ).toLocaleDateString() == filterValue
+          )
+        );
+      } else {
+        setFilteredItems(
+          data.filter((item) =>
+            item[filteringFieldsMap.get(filteringField) as keyof Invoice]
+              .toLowerCase()
+              .includes(filterValue.toLowerCase())
+          )
+        );
+      }
     } else {
       setFilteredItems(data);
     }
   }, [filterValue]);
 
-  useEffect(() => {
-    if (filteringField && filteringField !== "Status") {
-      setFilterValue("");
-    }
-  }, [filteringField]);
-
   const handleStatusFilter = (e: any) => {
     setFilteringField("Status");
     setFilterValue(e.target.innerText);
+  };
+
+  const handleSelectDate = (date: Date, filteringField: FilteringFields) => {
+    setDate(date);
+    setFilterValue(date ? String(date.toLocaleDateString()) : "");
+    setFilteringField(filteringField);
   };
 
   return (
@@ -85,11 +96,17 @@ export default function InvoiceTableFilter({
             {String(filteringField)}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent onChange={() => console.log("t")}>
           {filteringFieldsArray
             .filter((field: any) => !excludeFromFilteringFieldsArray.includes(field))
             .map((item: FilteringFields, key) => (
-              <DropdownMenuItem key={key} onClick={() => setFilteringField(item)}>
+              <DropdownMenuItem
+                key={key}
+                onClick={() => {
+                  setFilterValue("");
+                  setFilteringField(item);
+                }}
+              >
                 {String(item)}
               </DropdownMenuItem>
             ))}
@@ -100,7 +117,7 @@ export default function InvoiceTableFilter({
               <Calendar
                 mode="single"
                 selected={date}
-                onSelect={setDate}
+                onSelect={(date) => handleSelectDate(date as Date, "Created date")}
                 disabled={(date) => date > new Date()}
                 className="rounded-md border-none"
               />
@@ -112,7 +129,7 @@ export default function InvoiceTableFilter({
               <Calendar
                 mode="single"
                 selected={date}
-                onSelect={setDate}
+                onSelect={(date) => handleSelectDate(date as Date, "Due date")}
                 className="rounded-md border-none"
               />
             </DropdownMenuSubContent>

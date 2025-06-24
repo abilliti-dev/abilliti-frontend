@@ -8,16 +8,16 @@ export default function Invoices() {
   const data = [
     {
       client: "Marcos Villanueva",
-      createdDate: "05/21/2025",
-      dueDate: "3/4/5",
+      createdDate: "6/21/2025",
+      dueDate: "6/22/25",
       id: "ID-123456789",
       job: "Window washing",
       status: INVOICE_STATUS.CREATED,
     },
     {
       client: "Emunch Pecson",
-      createdDate: "5/6/7",
-      dueDate: "7/8/9",
+      createdDate: "6/19/2025",
+      dueDate: "6/20/2025",
       id: "ID-987654321",
       job: "This is fifty characters.This is fifty characters.",
       status: INVOICE_STATUS.DRAFT,
