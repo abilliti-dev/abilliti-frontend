@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { TMenuPages } from "@/contexts/dashboard-context";
 import { TMenuPagesMapToTitle } from "@/lib/constants";
 import { LucideIcon } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
-import { useNavigate } from "react-router-dom";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSessionStorage } from "usehooks-ts";
 
 export interface SideMenuAccordionItemProps {
@@ -19,6 +19,11 @@ export interface SideMenuAccordionItemProps {
 export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps) {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useSessionStorage<TMenuPages>("currentPage", "home");
+  const location = useLocation();
+
+  useEffect(() => {
+    setCurrentPage(location.pathname.split("/")[1] as TMenuPages);
+  }, [location]);
 
   const handlePrimaryPageChange = () => {
     if (!props.submenu) {
@@ -34,7 +39,7 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
     }
   };
   const handleSecondaryPageChange = (item: string) => {
-    navigate(item);
+    navigate("/" + item);
   };
 
   return (
@@ -56,8 +61,7 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
             <AccordionContent className="px-4 pb-0">
               <ul className="list-disc pt-1">
                 {props.submenu.map((item, index) => {
-                  const basePage = item.split("/")[0] as TMenuPages;
-                  const isActive = currentPage === basePage;
+                  const isActive = location.pathname === "/" + item;
 
                   return (
                     <Button

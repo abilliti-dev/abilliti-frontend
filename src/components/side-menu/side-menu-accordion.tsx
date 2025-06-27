@@ -41,7 +41,7 @@ export default function SideMenuAccordion(props: SideMenuAccordionProps) {
         value="invoices"
         Icon={ReceiptText}
         title="Invoices"
-        submenu={["invoice-builder"]}
+        submenu={["invoices/invoice-builder"]}
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}
