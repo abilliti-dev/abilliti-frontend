@@ -4,7 +4,7 @@ export type TMenuPages =
   | "home"
   | "finances"
   | "invoices"
-  | "invoices-invoice-builder"
+  | "invoices/invoice-builder"
   | "jobs"
   | "settings"
   | "help";

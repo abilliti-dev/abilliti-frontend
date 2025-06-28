@@ -1,5 +1,4 @@
 // import { useNavigate } from "react-router-dom";
-import DashboardContextProvider from "@/contexts/dashboard-context";
 import Dashboard from "@/screens/dashboard";
 import { parseJwt } from "@/lib/utils";
 
@@ -22,11 +21,7 @@ const HomePage = () => {
   //   navigate("/login");
   // };
 
-  return (
-    <DashboardContextProvider>
-      <Dashboard />
-    </DashboardContextProvider>
-  );
+  return <Dashboard />;
 };
 
 export default HomePage;

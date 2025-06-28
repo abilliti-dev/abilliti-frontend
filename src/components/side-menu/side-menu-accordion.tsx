@@ -3,7 +3,8 @@ import SideMenuAccordionItem from "@/components/side-menu/side-menu-accordion-it
 import { Hammer, Home, Info, PiggyBank, ReceiptText, Settings } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { Separator } from "@/components/ui/separator";
-import useDashboardContext from "@/hooks/use-dashboard-context";
+import { TMenuPages } from "@/contexts/dashboard-context";
+import { useSessionStorage } from "usehooks-ts";
 
 export interface SideMenuAccordionProps {
   isMenuOpen: boolean;
@@ -11,7 +12,7 @@ export interface SideMenuAccordionProps {
 }
 
 export default function SideMenuAccordion(props: SideMenuAccordionProps) {
-  const { currentPage } = useDashboardContext();
+  const [currentPage] = useSessionStorage<TMenuPages>("currentPage", "home");
 
   return (
     <Accordion
@@ -40,7 +41,7 @@ export default function SideMenuAccordion(props: SideMenuAccordionProps) {
         value="invoices"
         Icon={ReceiptText}
         title="Invoices"
-        submenu={["invoices-invoice-builder"]}
+        submenu={["invoices/invoice-builder"]}
       />
       <SideMenuAccordionItem
         isMenuOpen={props.isMenuOpen}

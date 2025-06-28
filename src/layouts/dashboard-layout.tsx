@@ -3,16 +3,17 @@ import { Separator } from "@/components/ui/separator";
 import { parseJwt } from "@/lib/utils";
 import SideMenu from "@/components/side-menu/side-menu";
 import { BellIcon } from "lucide-react";
-import useDashboardContext from "@/hooks/use-dashboard-context";
 import { TMenuPagesMapToTitle } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
+import { TMenuPages } from "@/contexts/dashboard-context";
+import { useSessionStorage } from "usehooks-ts";
 
 export interface DashboardLayoutProps {
   children?: React.ReactNode;
 }
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
-  const { currentPage } = useDashboardContext();
+  const [currentPage] = useSessionStorage<TMenuPages>("currentPage", "home");
 
   const getUserInitials = (jwt: unknown) => {
     if (jwt === null || typeof jwt !== "object") {
@@ -51,7 +52,7 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
             </Avatar>
           </div>
         </nav>
-        {props.children}
+        <div className="p-5">{props.children}</div>
       </div>
     </main>
   );

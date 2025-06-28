@@ -1,10 +1,11 @@
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { TMenuPages } from "@/contexts/dashboard-context";
-import useDashboardContext from "@/hooks/use-dashboard-context";
 import { TMenuPagesMapToTitle } from "@/lib/constants";
 import { LucideIcon } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSessionStorage } from "usehooks-ts";
 
 export interface SideMenuAccordionItemProps {
   value: TMenuPages;
@@ -16,7 +17,30 @@ export interface SideMenuAccordionItemProps {
 }
 
 export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps) {
-  const { currentPage, setCurrentPage } = useDashboardContext();
+  const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useSessionStorage<TMenuPages>("currentPage", "home");
+  const location = useLocation();
+
+  useEffect(() => {
+    setCurrentPage(location.pathname.split("/")[1] as TMenuPages);
+  }, [location]);
+
+  const handlePrimaryPageChange = () => {
+    if (!props.submenu) {
+      // No submenu? Navigate immediately.
+      setCurrentPage(props.value);
+      navigate("/" + props.value);
+    } else {
+      // Has submenu? Delay navigation to let animation play.
+      setCurrentPage(props.value);
+      setTimeout(() => {
+        navigate("/" + props.value);
+      }, 200);
+    }
+  };
+  const handleSecondaryPageChange = (item: string) => {
+    navigate("/" + item);
+  };
 
   return (
     <>
@@ -26,33 +50,35 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
             className={`${
               !props.submenu ? "[&>svg]:hidden" : ""
             } [&[data-state=open]]:bg-gradient-to-r from-green-primary via-green-primary to-gradient-light-green [&[data-state=open]]:text-white px-4 rounded-lg py-2`}
-            onClick={() => setCurrentPage(props.value)}
+            onClick={handlePrimaryPageChange}
           >
             <div className="flex items-center gap-x-3">
               <props.Icon size={20} strokeWidth={1.5} />
-              {props.isMenuOpen && <p>{props.title}</p>}
+              <p>{props.title}</p>
             </div>
           </AccordionTrigger>
-          {props.isMenuOpen && props.submenu && (
+          {props.submenu && (
             <AccordionContent className="px-4 pb-0">
               <ul className="list-disc pt-1">
-                {props.submenu.map((item, index) => (
-                  <Button
-                    variant="link"
-                    size="sm"
-                    key={index}
-                    className="block"
-                    onClick={() => setCurrentPage(item)}
-                  >
-                    <li
-                      className={
-                        currentPage === item ? "text-green-primary underline" : "text-neutral-500"
-                      }
+                {props.submenu.map((item, index) => {
+                  const isActive = location.pathname === "/" + item;
+
+                  return (
+                    <Button
+                      variant="link"
+                      size="sm"
+                      key={index}
+                      className="block"
+                      onClick={() => handleSecondaryPageChange(item)}
                     >
-                      {TMenuPagesMapToTitle.get(item)}
-                    </li>
-                  </Button>
-                ))}
+                      <li
+                        className={isActive ? "text-green-primary underline" : "text-neutral-500"}
+                      >
+                        {TMenuPagesMapToTitle.get(item)}
+                      </li>
+                    </Button>
+                  );
+                })}
               </ul>
             </AccordionContent>
           )}
@@ -61,9 +87,9 @@ export default function SideMenuAccordionItem(props: SideMenuAccordionItemProps)
         <Button
           variant="secondary"
           className={`${
-            currentPage.split("-")[0] === props.value ? "bg-gradient-to-r text-white" : "text-black"
+            currentPage === props.value ? "bg-gradient-to-r text-white" : "text-black"
           } from-green-primary via-green-primary to-gradient-light-green p-2 w-full`}
-          onClick={() => setCurrentPage(props.value)}
+          onClick={handlePrimaryPageChange}
         >
           <props.Icon size={24} strokeWidth={1.5} />
         </Button>
